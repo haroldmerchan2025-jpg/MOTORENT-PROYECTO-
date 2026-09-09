@@ -16,5 +16,12 @@
     "express": "^5.2.1",
     "mysql2": "^3.24.4",
     "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.5.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^7.0.2"
   }
 }
