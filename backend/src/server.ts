@@ -10,4 +10,10 @@ if(!Number.isInteger(port) || port <= 0 || port > 65535){
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
+import app from './app';
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
