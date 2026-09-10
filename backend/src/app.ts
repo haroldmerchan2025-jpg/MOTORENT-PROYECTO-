@@ -1,3 +1,6 @@
+import express from 'express';
+
+const app = express(); 
 import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
