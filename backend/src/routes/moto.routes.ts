@@ -1,3 +1,13 @@
+import {Router} from 'express';
+import {obtenerMotos, crearMoto} from '../controllers/moto.controller';
+import {verificarToken} from '../middleware/auth.middleware';
+
+const router = Router();
+
+router.get('/motos', obtenerMotos);
+router.post('/motos', verificarToken, crearMoto);
+
+export default router;
 import { Router } from "express";
 // Se agrega la extensión .js a la ruta relativa hacia el controlador
 import { getMotos, createMoto } from "../controllers/moto.controller.js";
