@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+enum MotoStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  fullName     String
+  role         Role          @default(CLIENT)
+  reservations Reservation[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Moto {
+  id           String        @id @default(uuid())
+  brand        String
+  model        String
+  year         Int
+  licensePlate String        @unique
+  dailyRate    Float
+  status       MotoStatus    @default(AVAILABLE)
+  reservations Reservation[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Reservation {
+  id        String            @id @default(uuid())
+  userId    String
+  motoId    String
+  startDate DateTime
+  endDate   DateTime
+  total     Float
+  status    ReservationStatus @default(PENDING)
+  user      User              @relation(fields: [userId], references: [id])
+  moto      Moto              @relation(fields: [motoId], references: [id])
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
