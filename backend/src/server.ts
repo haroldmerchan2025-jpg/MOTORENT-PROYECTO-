@@ -10,7 +10,7 @@ if(!Number.isInteger(port) || port <= 0 || port > 65535){
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
-import app from './app';
+})
 
 const PORT = process.env.PORT || 5000;
 
