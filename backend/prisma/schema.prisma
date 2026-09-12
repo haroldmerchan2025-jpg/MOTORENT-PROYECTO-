@@ -11,53 +11,166 @@ enum Role {
   ADMIN
 }
 
-enum MotoStatus {
-  AVAILABLE
-  RENTED
-  MAINTENANCE
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
 }
 
-enum ReservationStatus {
+enum MotoStatus {
+  AVAILABLE
+  RESERVED
+  RENTED
+  MAINTENANCE
+  INACTIVE
+}
+
+enum RentalStatus {
   PENDING
-  CONFIRMED
-  CANCELLED
+  ACTIVE
   COMPLETED
+  CANCELLED
+}
+
+enum ContractStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum HandoverType {
+  PICKUP
+  RETURN
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  password     String
-  fullName     String
-  role         Role          @default(CLIENT)
-  reservations Reservation[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  fullName  String
+  phone     String
+  role      Role     @default(CLIENT)
+
+  client    Client?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Client {
+  id       String  @id @default(uuid())
+  userId   String  @unique
+
+  documentNumber       String   @unique
+  documentFrontUrl     String
+  documentBackUrl      String
+
+  licenseNumber        String   @unique
+  licenseCategory      String
+  licenseExpirationDate DateTime
+  licenseFrontUrl      String
+  licenseBackUrl       String
+
+  verificationStatus   VerificationStatus @default(PENDING)
+  verificationNotes    String?
+  verifiedAt           DateTime?
+
+  user     User      @relation(fields: [userId], references: [id])
+  rentals  Rental[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Moto {
-  id           String        @id @default(uuid())
-  brand        String
-  model        String
-  year         Int
-  licensePlate String        @unique
-  dailyRate    Float
-  status       MotoStatus    @default(AVAILABLE)
-  reservations Reservation[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id            String     @id @default(uuid())
+  brand         String
+  model         String
+  year          Int
+  licensePlate  String     @unique
+  displacement  Int
+  color         String
+  dailyRate     Decimal
+  status        MotoStatus @default(AVAILABLE)
+
+  document      MotoDocument?
+  rentals       Rental[]
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
 
-model Reservation {
-  id        String            @id @default(uuid())
-  userId    String
+model MotoDocument {
+  id                   String             @id @default(uuid())
+  motoId               String             @unique
+  transitLicenseNumber String             @unique
+  transitLicenseImage  String
+  verificationStatus   VerificationStatus @default(PENDING)
+  verifiedAt           DateTime?
+
+  moto       Moto     @relation(fields: [motoId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Rental {
+  id        String       @id @default(uuid())
+  clientId  String
   motoId    String
   startDate DateTime
   endDate   DateTime
-  total     Float
-  status    ReservationStatus @default(PENDING)
-  user      User              @relation(fields: [userId], references: [id])
-  moto      Moto              @relation(fields: [motoId], references: [id])
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  total     Decimal
+  status    RentalStatus @default(PENDING)
+
+  client    Client      @relation(fields: [clientId], references: [id])
+  moto      Moto        @relation(fields: [motoId], references: [id])
+
+  contract  Contract?
+  handovers VehicleHandover[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contract {
+  id             String         @id @default(uuid())
+  rentalId       String         @unique
+  contractNumber String         @unique
+  status         ContractStatus @default(ACTIVE)
+  accepted       Boolean        @default(false)
+  acceptedAt     DateTime?
+  observations   String?
+
+  rental     Rental   @relation(fields: [rentalId], references: [id])
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model VehicleHandover {
+  id           String       @id @default(uuid())
+  rentalId     String
+  type         HandoverType
+  mileage      Int
+  fuelLevel    Decimal
+  observations String?
+
+  rental      Rental              @relation(fields: [rentalId], references: [id])
+  evidences   HandoverEvidence[]
+
+  createdAt   DateTime @default(now())
+}
+
+model HandoverEvidence {
+  id          String  @id @default(uuid())
+  handoverId  String
+
+  fileUrl     String
+  description String?
+
+  handover    VehicleHandover @relation(fields: [handoverId], references: [id])
+
+  createdAt   DateTime @default(now())
 }
