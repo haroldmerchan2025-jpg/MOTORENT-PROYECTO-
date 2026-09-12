@@ -1,12 +1,11 @@
-import express, { type Application } from 'express';
+import express from 'express';
+import type { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// Se agrega la extensión .js a la ruta relativa hacia las rutas
+// Se agrega la extensión .js a la importación relativa requerida por NodeNext/ESM
 import motoRoutes from './routes/moto.routes.js';
 
-import authRoutes from './routes/auth.routes'
-import motoRoutes from './routes/moto.routes'
-
+// Cargar variables de entorno
 dotenv.config();
 
 // Inicializar la aplicación de Express
@@ -16,10 +15,8 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth, authRoutes');
-app.use('/api', motoRoutes);
-
-app.get('/', (req, res) => {
+// Ruta principal de prueba
+app.get('/', (_req, res) => {
   res.send('Servidor MotoRent con TypeScript funcionando');
 });
 
