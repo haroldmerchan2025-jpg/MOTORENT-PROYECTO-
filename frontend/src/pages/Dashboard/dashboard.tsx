@@ -1,14 +1,14 @@
 import "./Dashboard.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   function handleLogout() {
-  localStorage.removeItem("token");
-  window.history.pushState(null, "", "/login");
-  navigate("/login", { replace: true });
-}
+    localStorage.removeItem("token");
+    window.history.pushState(null, "", "/login");
+    navigate("/login", { replace: true });
+  }
 
   return (
     <div className="dashboard">
@@ -19,10 +19,10 @@ function Dashboard() {
         </div>
 
         <nav className="dashboard-nav-links">
-          <a href="/dashboard">Inicio</a>
-          <a href="#motos">Motos</a>
-          <a href="#rentas">Mis rentas</a>
-          <a href="#perfil">Mi perfil</a>
+          <Link to="/dashboard">Inicio</Link>
+          <Link to="/motos">Motos</Link>
+          <Link to="#rentas">Mis rentas</Link>
+          <Link to="#perfil">Mi perfil</Link>
         </nav>
 
         <button className="logout-button" onClick={handleLogout}>
@@ -55,26 +55,26 @@ function Dashboard() {
 
         <section className="quick-actions">
 
-          <div className="action-card">
+          <Link to="/motos" className="action-card">
             <div className="action-number">01</div>
             <h3>Ver catálogo</h3>
             <p>Explora las motos disponibles para viaje, uso diario o trabajo.</p>
-            <a href="#motos" className="action-link">Ver motos →</a>
-          </div>
+            <span className="action-link">Ver motos →</span>
+          </Link>
 
-          <div className="action-card">
+          <Link to="#rentas" className="action-card">
             <div className="action-number">02</div>
             <h3>Mis rentas</h3>
             <p>Revisa tus rentas activas, pasadas y las fechas de devolución.</p>
-            <a href="#rentas" className="action-link">Ver rentas →</a>
-          </div>
+            <span className="action-link">Ver rentas →</span>
+          </Link>
 
-          <div className="action-card">
+          <Link to="#perfil" className="action-card">
             <div className="action-number">03</div>
             <h3>Mi perfil</h3>
             <p>Actualiza tus datos, documentos y método de contacto.</p>
-            <a href="#perfil" className="action-link">Ver perfil →</a>
-          </div>
+            <span className="action-link">Ver perfil →</span>
+          </Link>
 
         </section>
 
