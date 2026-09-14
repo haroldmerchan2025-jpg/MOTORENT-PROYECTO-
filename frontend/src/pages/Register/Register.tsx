@@ -1,4 +1,6 @@
+import "./Register.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [NombreCompleto, setNombreCompleto] = useState("");
@@ -101,99 +103,108 @@ function handleSubmit(e: React.FormEvent) {
 }
 
   return (
-    <div>
-      <h1>Registro</h1>
+    <div className="auth-page">
+      <form className="auth-card" onSubmit={handleSubmit}>
 
-      <form onSubmit={handleSubmit}>
-        <div>
+        <div className="auth-brand">
+          <div className="auth-logo-placeholder"></div>
+          <span className="auth-brand-name"><span>MOTO</span>RENT</span>
+        </div>
+
+        <h1>Registro</h1>
+
+        <div className="form-field">
           <label>Nombre Completo</label>
           <input
             type="text"
             value={NombreCompleto}
             onChange={(e) => setNombreCompleto(e.target.value)}
           />
-          {errorNombreCompleto && <p>{errorNombreCompleto}</p>}
+          {errorNombreCompleto && <p className="field-error">{errorNombreCompleto}</p>}
         </div>
 
-        <div>
+        <div className="form-field">
           <label>Usuario</label>
           <input
             type="text"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
           />
-          {errorUsuario && <p>{errorUsuario}</p>}
+          {errorUsuario && <p className="field-error">{errorUsuario}</p>}
         </div>
 
-        <div>
+        <div className="form-field">
           <label>Correo</label>
           <input
             type="email"
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
           />
-          {errorCorreo && <p>{errorCorreo}</p>}
+          {errorCorreo && <p className="field-error">{errorCorreo}</p>}
         </div>
 
-        <div>
+        <div className="form-field">
           <label>Teléfono</label>
           <input
             type="text"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
           />
-          {errorTelefono && <p>{errorTelefono}</p>}
+          {errorTelefono && <p className="field-error">{errorTelefono}</p>}
         </div>
 
-        <div>
+        <div className="form-field">
           <label>Contraseña</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
- {password.length > 0 && (
-  <div>
-    <p>La contraseña debe cumplir:</p>
 
-    <p>
-      {requisitosPassword.longitud ? "✓" : "✗"} Entre 8 y 16 caracteres
-    </p>
+          {password.length > 0 && (
+            <div className="password-requirements">
+              <p className="password-requirements-title">La contraseña debe cumplir:</p>
 
-    <p>
-      {requisitosPassword.mayuscula ? "✓" : "✗"} Una letra mayúscula
-    </p>
+              <p className={requisitosPassword.longitud ? "req-ok" : "req-pending"}>
+                {requisitosPassword.longitud ? "✓" : "✗"} Entre 8 y 16 caracteres
+              </p>
 
-    <p>
-      {requisitosPassword.minuscula ? "✓" : "✗"} Una letra minúscula
-    </p>
+              <p className={requisitosPassword.mayuscula ? "req-ok" : "req-pending"}>
+                {requisitosPassword.mayuscula ? "✓" : "✗"} Una letra mayúscula
+              </p>
 
-    <p>
-      {requisitosPassword.numero ? "✓" : "✗"} Un número
-    </p>
+              <p className={requisitosPassword.minuscula ? "req-ok" : "req-pending"}>
+                {requisitosPassword.minuscula ? "✓" : "✗"} Una letra minúscula
+              </p>
 
-    <p>
-      {requisitosPassword.especial ? "✓" : "✗"} Un carácter especial
-    </p>
+              <p className={requisitosPassword.numero ? "req-ok" : "req-pending"}>
+                {requisitosPassword.numero ? "✓" : "✗"} Un número
+              </p>
 
-    
-  </div>
-)}
-            {errorPassword && <p>{errorPassword}</p>}
-
+              <p className={requisitosPassword.especial ? "req-ok" : "req-pending"}>
+                {requisitosPassword.especial ? "✓" : "✗"} Un carácter especial
+              </p>
+            </div>
+          )}
+          {errorPassword && <p className="field-error">{errorPassword}</p>}
         </div>
 
-        <div>
+        <div className="form-field">
           <label>Confirmar contraseña</label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {errorConfirmPassword && <p>{errorConfirmPassword}</p>}
+          {errorConfirmPassword && <p className="field-error">{errorConfirmPassword}</p>}
         </div>
 
-        <button type="submit">Registrarse</button>
+        <button type="submit" className="auth-button">Registrarse</button>
+
+        <p className="auth-switch">
+          ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
+        </p>
+
       </form>
     </div>
   );
