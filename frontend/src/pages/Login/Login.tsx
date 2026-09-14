@@ -1,7 +1,7 @@
 import "./Login.css";
 import logo from "../../assets/logo/logo.png";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 function Login() {
 
@@ -40,31 +40,25 @@ function Login() {
       return;
     }
 
-    try {
-      const response = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          identifier: usuario,
-          password: password,
-        }),
-      });
+  const response = await fetch("http://localhost:3000/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      identifier: usuario,
+      password: password
+    })
+  });
 
-      const data = await response.json();
+  const data = await response.json();
 
-      if (!data.ok) {
-        setApiError(data.message);
-        return;
-      }
+  localStorage.setItem("token", data.token);
 
-      localStorage.setItem("token", data.token);
-      navigate("/dashboard");
-    } catch (error) {
-  console.error(error);
-  setApiError("No se pudo conectar con el servidor. Intenta de nuevo.");
-}
+  console.log(response.status);
+  console.log(data);
+
+
   }
 
   return (

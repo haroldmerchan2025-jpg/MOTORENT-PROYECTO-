@@ -94,11 +94,26 @@ export const registerUser = async (req: Request, res: Response) => {
 
         const { password: ignorePassword, ...userWithoutPassword } = user;
 
+        const token = jwt.sign({
+            id:user.id,
+            role:user.role
+        },
+        
+            process.env.JWT_SECRET!,
+        {
+            expiresIn:"1d"
+        }
+    )
+
         res.status(201).json({
             ok: true,
             message: "Usuario creado",
-            data: { user: userWithoutPassword }
-        });
+            data: { user: userWithoutPassword },
+            token: token
+        }
+    );
+
+
 
     } catch (error) {
         console.error(error);
@@ -111,6 +126,8 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 export const loginUser = async (req: Request, res: Response) => {
+
+    try {
 
     const {identifier, password} = req.body;
 
@@ -162,4 +179,13 @@ export const loginUser = async (req: Request, res: Response) => {
             message: "Inicio de sesion exitoso",
             token: token
         })
+
+    }catch(error){
+        console.error(error);
+        res.status(500).json({
+            ok:false,
+            message:"Error interno del servidor"
+        });
+
+    }
 };
