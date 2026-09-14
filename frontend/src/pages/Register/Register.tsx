@@ -97,28 +97,29 @@ async function handleSubmit(e: React.FormEvent) {
   }
 
   const response = await fetch("http://localhost:3000/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      username: usuario,
-      email: correo,
-      password: password,
-      fullName: NombreCompleto,
-      phone: telefono
-    })
-  });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    username: usuario,
+    email: correo,
+    password: password,
+    fullName: NombreCompleto,
+    phone: telefono
+  })
+});
 
-  const data = await response.json();
+const data = await response.json();
 
-  console.log(response.status);
-  console.log(data);
 
-  if (response.ok) {
-    localStorage.setItem("token", data.token);
-    navigate("/motos");
-  }
+if (response.ok) {
+
+  localStorage.setItem("token", data.token);
+
+  navigate("/motos");
+}
+
 }
 
   return (
