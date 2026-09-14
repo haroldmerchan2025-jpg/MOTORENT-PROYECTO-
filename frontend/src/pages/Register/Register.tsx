@@ -27,7 +27,7 @@ function Register() {
 
 const passwordValida = Object.values(requisitosPassword).every(Boolean);
 
-function handleSubmit(e: React.FormEvent) {
+async function handleSubmit(e: React.FormEvent) {
   e.preventDefault();
 
   setErrorNombreCompleto("");
@@ -95,12 +95,24 @@ function handleSubmit(e: React.FormEvent) {
     return;
   }
 
-  console.log({
-    NombreCompleto,
-    usuario,
-    correo,
-    password,
+  const response = await fetch("http://localhost:3000/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: usuario,
+      email: correo,
+      password: password,
+      fullName: NombreCompleto,
+      phone: telefono
+    })
   });
+
+  const data = await response.json();
+
+  console.log(response.status);
+  console.log(data);
 }
 
   return (
