@@ -102,6 +102,7 @@
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 20px;
+  color: #1A1A1A;
 }
 
 .hero-content h1 span {
@@ -173,4 +174,172 @@
   color: #6B6B6B;
   font-size: 14px;
   line-height: 1.5;
+}
+
+/* How it works */
+
+.how-it-works {
+  padding: 60px 60px 80px;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #1A1A1A;
+}
+
+.steps {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.step {
+  flex: 1;
+  max-width: 280px;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  border-radius: 50%;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.step h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.step p {
+  color: #6B6B6B;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Footer */
+
+.footer {
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 40px 60px;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.footer-logo span {
+  color: #FF6A3D;
+}
+
+.footer-text {
+  color: #9B9B9B;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.footer-links a {
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.footer-links a:hover {
+  color: #FF6A3D;
+}
+
+/* Responsive: tablet */
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 60px 32px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .categories {
+    flex-wrap: wrap;
+    padding: 0 32px 60px;
+  }
+
+  .category-card {
+    flex: 1 1 45%;
+  }
+
+  .steps {
+    flex-wrap: wrap;
+  }
+
+  .step {
+    flex: 1 1 45%;
+    max-width: none;
+  }
+}
+
+/* Responsive: celular */
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+
+  .hero-content h1 {
+    font-size: 30px;
+  }
+
+  .categories {
+    flex-direction: column;
+    padding: 0 24px 40px;
+  }
+
+  .category-card {
+    flex: 1 1 100%;
+  }
+
+  .how-it-works {
+    padding: 40px 24px 60px;
+  }
+
+  .steps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer {
+    padding: 32px 24px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
 }

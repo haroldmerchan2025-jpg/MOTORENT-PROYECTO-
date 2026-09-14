@@ -1,4 +1,6 @@
+import "./Login.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [usuario, setUsuario] = useState("");
@@ -36,11 +38,11 @@ function Login() {
   }
 
   return (
-    <div>
-      <h1>Iniciar sesión</h1>
+    <div className="auth-page">
+      <form className="auth-card" onSubmit={handleSubmit}>
+        <h1>Iniciar sesión</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-field">
           <label>Usuario o correo</label>
 
           <input
@@ -49,10 +51,10 @@ function Login() {
             onChange={(e) => setUsuario(e.target.value)}
           />
 
-          {errorUsuario && <p>{errorUsuario}</p>}
+          {errorUsuario && <p className="field-error">{errorUsuario}</p>}
         </div>
 
-        <div>
+        <div className="form-field">
           <label>Contraseña</label>
 
           <input
@@ -61,12 +63,16 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          {errorPassword && <p>{errorPassword}</p>}
+          {errorPassword && <p className="field-error">{errorPassword}</p>}
         </div>
 
-        <button type="submit">
+        <button type="submit" className="auth-button">
           Ingresar
         </button>
+
+        <p className="auth-switch">
+          ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
+        </p>
       </form>
     </div>
   );
