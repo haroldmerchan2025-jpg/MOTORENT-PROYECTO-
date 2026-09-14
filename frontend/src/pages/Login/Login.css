@@ -143,3 +143,29 @@
     padding: 28px 24px;
   }
 }
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.auth-logo-placeholder {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: #2A2A31;
+  border: 1px dashed #4A4A52;
+}
+
+.auth-brand-name {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.auth-brand-name span {
+  color: #FF6A3D;
+}

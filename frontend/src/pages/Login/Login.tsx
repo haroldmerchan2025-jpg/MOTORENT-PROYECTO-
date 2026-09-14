@@ -40,6 +40,11 @@ function Login() {
   return (
     <div className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit}>
+        <div className="auth-brand">
+  <div className="auth-logo-placeholder"></div>
+  <span className="auth-brand-name"><span>MOTO</span>RENT</span>
+</div>
+
         <h1>Iniciar sesión</h1>
 
         <div className="form-field">
