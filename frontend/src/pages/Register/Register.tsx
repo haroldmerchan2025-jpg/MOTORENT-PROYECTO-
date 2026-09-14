@@ -161,6 +161,13 @@ async function handleSubmit(e: React.FormEvent) {
             type="text"
             value={telefono}
             onChange={(e) => setTelefono(e.target.value)}
+            onBlur={()=> {
+              if(telefono.length !== 10){
+                setErrorTelefono("El numero de telefono debe tener 10 digitos");
+            }else{
+              setErrorTelefono("")
+            }
+            }}
           />
           {errorTelefono && <p className="field-error">{errorTelefono}</p>}
         </div>
