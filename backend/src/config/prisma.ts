@@ -12,3 +12,5 @@ const adapter = new PrismaPg({
 
 // Instanciar y exportar el cliente de Prisma utilizando el adaptador
 export const prisma = new PrismaClient({ adapter });
+
+

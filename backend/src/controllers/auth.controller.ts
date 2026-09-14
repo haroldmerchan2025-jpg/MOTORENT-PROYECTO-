@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 
 export const registerUser = async (req: Request, res:Response) =>{
 
+    try{
+
     const {username, email, password, fullName, phone} = req.body
 
         if(!username || !email || !password || !fullName || !phone){
@@ -47,7 +49,7 @@ export const registerUser = async (req: Request, res:Response) =>{
         
         if(existingUser){
             return(
-                res.status(400).json({
+                res.status(409).json({
                     ok: false,
                     message: "Nombre de usuario o correo existentes"
                         })
@@ -55,13 +57,30 @@ export const registerUser = async (req: Request, res:Response) =>{
 
         const passwordHash = await bcrypt.hash(password,10)
 
-        prisma.user.create({
+        const user = await prisma.user.create({
+            data:{
             username, 
             email, 
             password: passwordHash, 
             fullName, 
-            phone
+            phone}
         })
+        const {password: ignorePassword, ...userWithoutPassword} = user;
+
+        res.status(201).json({
+            ok:true,
+            message: "Usuario creado",
+            data:{user:userWithoutPassword}
+        })
+
+    }catch(error){
+    console.error(error);
+
+        res.status(500).json({
+            ok:false,
+            message: "Error interno del servidor"
+        })
+    }
 };
 
 export const loginUser = async (req: Request, res: Response) => {
@@ -71,7 +90,7 @@ export const loginUser = async (req: Request, res: Response) => {
         if(!identifier || !password){
             return res.status(401).json({
                     ok:false,
-                    message:"Usuario o contraseña incorrectas"
+                    message:"Falta usuario o contraseña"
                 })
         };
 
