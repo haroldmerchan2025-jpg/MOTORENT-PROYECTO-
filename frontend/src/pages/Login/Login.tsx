@@ -10,7 +10,7 @@ function Login() {
   const [errorUsuario, setErrorUsuario] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     setErrorUsuario("");
@@ -31,6 +31,22 @@ function Login() {
     if (!formularioValido) {
       return;
     }
+
+  const response = await fetch("http://localhost:3000/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      identifier: usuario,
+      password: password
+    })
+  });
+
+  const data = await response.json();
+
+  console.log(response.status);
+  console.log(data);
 
     console.log({
       usuario,
