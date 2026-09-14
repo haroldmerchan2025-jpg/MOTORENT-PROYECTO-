@@ -1,6 +1,6 @@
 import "./Register.css";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [NombreCompleto, setNombreCompleto] = useState("");
@@ -15,6 +15,7 @@ function Register() {
   const [errorTelefono, setErrorTelefono] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const requisitosPassword = {
   longitud: password.length >= 8 && password.length <= 16,
@@ -112,6 +113,11 @@ async function handleSubmit(e: React.FormEvent) {
 
   console.log(response.status);
   console.log(data);
+
+  if (response.ok) {
+    localStorage.setItem("token", data.token);
+    navigate("/motos");
+  }
 }
 
   return (
