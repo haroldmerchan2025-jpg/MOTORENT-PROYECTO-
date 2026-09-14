@@ -1,16 +1,16 @@
 import { useState } from "react";
 
 function Register() {
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
+  const [NombreCompleto, setNombreCompleto] = useState("");
   const [usuario, setUsuario] = useState("");
   const [correo, setCorreo] = useState("");
+  const [telefono, setTelefono] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorNombre, setErrorNombre] = useState("");
-  const [errorApellido, setErrorApellido] = useState("");
+  const [errorNombreCompleto, setErrorNombreCompleto] = useState("");
   const [errorUsuario, setErrorUsuario] = useState("");
   const [errorCorreo, setErrorCorreo] = useState("");
+  const [errorTelefono, setErrorTelefono] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
 
@@ -27,8 +27,7 @@ const passwordValida = Object.values(requisitosPassword).every(Boolean);
 function handleSubmit(e: React.FormEvent) {
   e.preventDefault();
 
-  setErrorNombre("");
-  setErrorApellido("");
+  setErrorNombreCompleto("");
   setErrorUsuario("");
   setErrorCorreo("");
   setErrorPassword("");
@@ -36,17 +35,12 @@ function handleSubmit(e: React.FormEvent) {
 
   let formularioValido = true;
 
-  // Nombre
-  if (nombre.trim() === "") {
-    setErrorNombre("El nombre es obligatorio");
+  // Nombre Completo
+  if (NombreCompleto.trim() === "") {
+    setErrorNombreCompleto("El nombre completo es obligatorio");
     formularioValido = false;
   }
 
-  // Apellido
-  if (apellido.trim() === "") {
-    setErrorApellido("El apellido es obligatorio");
-    formularioValido = false;
-  }
 
   // Usuario
   if (usuario.trim() === "") {
@@ -60,6 +54,15 @@ function handleSubmit(e: React.FormEvent) {
     formularioValido = false;
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
     setErrorCorreo("Ingresa un correo válido");
+    formularioValido = false;
+  }
+
+  // Teléfono
+  if (telefono.trim() === "") {
+    setErrorTelefono("El teléfono es obligatorio");
+    formularioValido = false;
+  } else if (!/^\d{10,15}$/.test(telefono)) {
+    setErrorTelefono("Ingresa un numero de telefono valido entre 10 y 15 digitos");
     formularioValido = false;
   }
 
@@ -90,8 +93,7 @@ function handleSubmit(e: React.FormEvent) {
   }
 
   console.log({
-    nombre,
-    apellido,
+    NombreCompleto,
     usuario,
     correo,
     password,
@@ -104,23 +106,13 @@ function handleSubmit(e: React.FormEvent) {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Nombre</label>
+          <label>Nombre Completo</label>
           <input
             type="text"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            value={NombreCompleto}
+            onChange={(e) => setNombreCompleto(e.target.value)}
           />
-          {errorNombre && <p>{errorNombre}</p>}
-        </div>
-
-        <div>
-          <label>Apellido</label>
-          <input
-            type="text"
-            value={apellido}
-            onChange={(e) => setApellido(e.target.value)}
-          />
-          {errorApellido && <p>{errorApellido}</p>}
+          {errorNombreCompleto && <p>{errorNombreCompleto}</p>}
         </div>
 
         <div>
@@ -141,6 +133,16 @@ function handleSubmit(e: React.FormEvent) {
             onChange={(e) => setCorreo(e.target.value)}
           />
           {errorCorreo && <p>{errorCorreo}</p>}
+        </div>
+
+        <div>
+          <label>Teléfono</label>
+          <input
+            type="text"
+            value={telefono}
+            onChange={(e) => setTelefono(e.target.value)}
+          />
+          {errorTelefono && <p>{errorTelefono}</p>}
         </div>
 
         <div>

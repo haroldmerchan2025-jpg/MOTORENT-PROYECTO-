@@ -1,5 +1,5 @@
 import "./Home.css";
-import moto1 from "../../assets/motos/moto1.jpeg";
+import moto1 from "../../assets/imagenes/moto1.jpeg";
 
 function Home() {
   return (
@@ -80,6 +80,42 @@ function Home() {
           </div>
 
         </section>
+
+        <section className="how-it-works">
+  <h2>Cómo funciona</h2>
+
+  <div className="steps">
+    <div className="step">
+      <span className="step-number">1</span>
+      <h4>Buscas tu moto</h4>
+      <p>Elige entre nuestro catálogo según tu necesidad.</p>
+    </div>
+
+    <div className="step">
+      <span className="step-number">2</span>
+      <h4>Reservas</h4>
+      <p>Confirma fechas y sube tus documentos.</p>
+    </div>
+
+    <div className="step">
+      <span className="step-number">3</span>
+      <h4>Recoges y disfrutas</h4>
+      <p>Firmamos el contrato y te entregamos la moto.</p>
+    </div>
+  </div>
+</section>
+
+<footer className="footer">
+  <div className="footer-logo">
+    <span>MOTO</span>RENT
+  </div>
+  <p className="footer-text">© 2026 MotoRent. Todos los derechos reservados.</p>
+  <div className="footer-links">
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#terminos">Términos y condiciones</a>
+  </div>
+</footer>
 
       </main>
 
