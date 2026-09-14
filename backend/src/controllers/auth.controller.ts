@@ -3,83 +3,110 @@ import { prisma } from "../config/prisma.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const registerUser = async (req: Request, res:Response) =>{
+export const registerUser = async (req: Request, res: Response) => {
 
-    try{
+    try {
 
-    const {username, email, password, fullName, phone} = req.body
+        const { username, email, password, fullName, phone } = req.body;
 
-        if(!username || !email || !password || !fullName || !phone){
+        if (!username || !email || !password || !fullName || !phone) {
             return (
                 res.status(400).json({
-                ok: false,
-                message: "Es obligatorio que llene todos los datos"
+                    ok: false,
+                    message: "Es obligatorio que llene todos los datos"
                 })
             );
+        }
 
-        };
-
-        if(!email.includes("@")){
-            return(
+        if (!email.includes("@")) {
+            return (
                 res.status(400).json({
                     ok: false,
                     message: "El correo debe ser valido"
                 })
             );
-        };
+        }
 
-        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#$%&@]).{8,16}$/
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[#$%&@?¿/!¡]).{8,16}$/;
 
-        if(!passwordRegex.test(password))
-                        return(
+        if (!passwordRegex.test(password)) {
+            return (
                 res.status(400).json({
                     ok: false,
                     message: "Contraseña no cumple los parametros"
                 })
             );
+        }
 
         const existingUser = await prisma.user.findFirst({
             where: {
-                OR:[
-                    {username:username},
-                    {email:email}
+                OR: [
+                    { username: username },
+                    { email: email }
                 ]
             }
         });
-        
-        if(existingUser){
-            return(
+
+        if (existingUser) {
+            return (
                 res.status(409).json({
                     ok: false,
                     message: "Nombre de usuario o correo existentes"
-                        })
-                    )};
+                })
+            );
+        }
 
-        const passwordHash = await bcrypt.hash(password,10)
+        const numberRegex = /^([0-9]).{10,15}$/;
+
+        if (!numberRegex.test(String(phone))) {
+            return res.status(400).json({
+                ok: false,
+                message: "Numero de telefono invalido"
+            });
+        }
+
+        const existingNumber = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    { phone: phone }
+                ]
+            }
+        });
+
+        if (existingNumber) {
+            return res.status(409).json({
+                ok: false,
+                message: "Numero de telefono existente"
+            });
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.create({
-            data:{
-            username, 
-            email, 
-            password: passwordHash, 
-            fullName, 
-            phone}
-        })
-        const {password: ignorePassword, ...userWithoutPassword} = user;
+            data: {
+                username,
+                email,
+                password: passwordHash,
+                fullName,
+                phone
+            }
+        });
+
+        const { password: ignorePassword, ...userWithoutPassword } = user;
 
         res.status(201).json({
-            ok:true,
+            ok: true,
             message: "Usuario creado",
-            data:{user:userWithoutPassword}
-        })
+            data: { user: userWithoutPassword }
+        });
 
-    }catch(error){
-    console.error(error);
+    } catch (error) {
+        console.error(error);
 
         res.status(500).json({
-            ok:false,
+            ok: false,
             message: "Error interno del servidor"
-        })
+        });
     }
 };
 

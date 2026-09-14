@@ -33,7 +33,7 @@ export const verificarToken = (
   } catch (error) {
     return res.status(403).json({
       ok: false,
-      mensaje: "Token invalido o expirado. Por favor vuelve a iniciar sesion",
+      mensaje: "Token invalido o expirado. Por favor vuelva a iniciar sesion",
     });
   }
 };
