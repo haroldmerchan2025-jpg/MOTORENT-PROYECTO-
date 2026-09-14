@@ -1,4 +1,5 @@
 import "./Register.css";
+import logo from "../../assets/logo/logo.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -125,7 +126,7 @@ async function handleSubmit(e: React.FormEvent) {
       <form className="auth-card" onSubmit={handleSubmit}>
 
         <div className="auth-brand">
-          <div className="auth-logo-placeholder"></div>
+          <img src={logo} alt="MotoRent" className="auth-logo-placeholder" />
           <span className="auth-brand-name"><span>MOTO</span>RENT</span>
         </div>
 

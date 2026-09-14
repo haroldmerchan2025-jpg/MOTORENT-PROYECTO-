@@ -1,21 +1,30 @@
 import "./Login.css";
+import logo from "../../assets/logo/logo.png";
 import { useState } from "react";
 import { Link, useNavigate} from "react-router-dom";
 
 function Login() {
+
+  
+  const navigate = useNavigate();
+
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
 
   const [errorUsuario, setErrorUsuario] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+  const [apiError, setApiError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     setErrorUsuario("");
     setErrorPassword("");
+    setApiError("");
 
     let formularioValido = true;
+
+    navigate("/dashboard", { replace: true });
 
     if (usuario.trim() === "") {
       setErrorUsuario("El usuario o correo es obligatorio");
@@ -56,11 +65,13 @@ function Login() {
     <div className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit}>
         <div className="auth-brand">
-  <div className="auth-logo-placeholder"></div>
-  <span className="auth-brand-name"><span>MOTO</span>RENT</span>
-</div>
+          <img src={logo} alt="MotoRent" className="auth-logo-placeholder" />
+          <span className="auth-brand-name"><span>MOTO</span>RENT</span>
+        </div>
 
         <h1>Iniciar sesión</h1>
+
+        {apiError && <p className="auth-error">{apiError}</p>}
 
         <div className="form-field">
           <label>Usuario o correo</label>

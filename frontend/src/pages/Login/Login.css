@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+/* Fondo completo de la pantalla */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -14,6 +15,7 @@
   overflow: hidden;
 }
 
+/* Franjas decorativas de las esquinas */
 .auth-page::before,
 .auth-page::after {
   content: "";
@@ -47,12 +49,10 @@
   mask-image: linear-gradient(-45deg, #000 20%, transparent 75%);
 }
 
+/* Tarjeta del formulario */
 .auth-card {
   position: relative;
   z-index: 1;
-}
-
-.auth-card {
   width: 100%;
   max-width: 400px;
   background-color: #1F1F24;
@@ -61,6 +61,36 @@
   padding: 40px;
 }
 
+/* Bloque que agrupa el logo + nombre */
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/* Logo (tamaño y forma) */
+.auth-logo-placeholder {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+/* Texto "MOTORENT" */
+.auth-brand-name {
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.auth-brand-name span {
+  color: #FF6A3D;
+}
+
+/* Título "Iniciar sesión" */
 .auth-card h1 {
   color: #FFFFFF;
   font-size: 26px;
@@ -69,6 +99,7 @@
   text-align: center;
 }
 
+/* Grupo de label + input */
 .form-field {
   display: flex;
   flex-direction: column;
@@ -97,12 +128,14 @@
   border-color: #FF6A3D;
 }
 
+/* Mensaje de error debajo de un campo */
 .field-error {
   color: #FF8A65;
   font-size: 12px;
   margin-top: 6px;
 }
 
+/* Botón de Ingresar */
 .auth-button {
   width: 100%;
   background-color: #FF6A3D;
@@ -121,6 +154,7 @@
   background-color: #E5541F;
 }
 
+/* Texto "¿No tienes cuenta? Regístrate" */
 .auth-switch {
   text-align: center;
   color: #9B9BA3;
@@ -138,34 +172,9 @@
   text-decoration: underline;
 }
 
+/* Ajustes para celulares */
 @media (max-width: 480px) {
   .auth-card {
     padding: 28px 24px;
   }
-}
-.auth-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.auth-logo-placeholder {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  background-color: #2A2A31;
-  border: 1px dashed #4A4A52;
-}
-
-.auth-brand-name {
-  color: #FFFFFF;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.auth-brand-name span {
-  color: #FF6A3D;
 }
