@@ -1,0 +1,224 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Fondo general del panel (mismo tono claro que el Home) */
+.dashboard {
+  min-height: 100vh;
+  background-color: #FAFAF8;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1A1A1A;
+}
+
+/* Barra superior */
+.dashboard-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 60px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E5E2;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.logo span {
+  color: #FF6A3D;
+}
+
+.dashboard-nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.dashboard-nav-links a {
+  color: #1A1A1A;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dashboard-nav-links a:hover {
+  color: #FF6A3D;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 1px solid #E5E5E2;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #1A1A1A;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.logout-button:hover {
+  border-color: #FF6A3D;
+  color: #FF6A3D;
+}
+
+.dashboard-content {
+  padding: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Bloque de bienvenida */
+.welcome-banner {
+  margin-bottom: 32px;
+}
+
+.welcome-tag {
+  color: #FF6A3D;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.welcome-banner h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.welcome-description {
+  color: #6B6B6B;
+  font-size: 15px;
+}
+
+/* Aviso de verificación pendiente */
+.verification-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #FFF3EC;
+  border: 1px solid #FFD3BC;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+
+.verification-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.verification-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.verification-text {
+  font-size: 13px;
+  color: #6B6B6B;
+}
+
+.verification-button {
+  margin-left: auto;
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.verification-button:hover {
+  background-color: #E5541F;
+}
+
+/* Tarjetas de acceso rápido */
+.quick-actions {
+  display: flex;
+  gap: 24px;
+}
+
+.action-card {
+  flex: 1;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E2;
+  border-radius: 12px;
+  padding: 28px;
+  transition: border-color 0.2s ease;
+}
+
+.action-card:hover {
+  border-color: #FF6A3D;
+}
+
+.action-number {
+  color: #FF6A3D;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.action-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.action-card p {
+  color: #6B6B6B;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.action-link {
+  color: #FF6A3D;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive: celular */
+@media (max-width: 700px) {
+  .dashboard-navbar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 24px;
+  }
+
+  .dashboard-content {
+    padding: 32px 24px;
+  }
+
+  .verification-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .verification-button {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .quick-actions {
+    flex-direction: column;
+  }
+}

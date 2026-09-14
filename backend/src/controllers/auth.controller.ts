@@ -56,7 +56,7 @@ export const registerUser = async (req: Request, res: Response) => {
             );
         }
 
-        const numberRegex = /^([0-9]).{10,15}$/;
+        const numberRegex = /^([0-9]).{9,16}$/;
 
         if (!numberRegex.test(String(phone))) {
             return res.status(400).json({

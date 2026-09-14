@@ -1,22 +1,30 @@
 import "./Login.css";
 import logo from "../../assets/logo/logo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
+
+  
+  const navigate = useNavigate();
+
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
 
   const [errorUsuario, setErrorUsuario] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+  const [apiError, setApiError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     setErrorUsuario("");
     setErrorPassword("");
+    setApiError("");
 
     let formularioValido = true;
+
+    navigate("/dashboard", { replace: true });
 
     if (usuario.trim() === "") {
       setErrorUsuario("El usuario o correo es obligatorio");
@@ -32,39 +40,44 @@ function Login() {
       return;
     }
 
-  const response = await fetch("http://localhost:3000/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      identifier: usuario,
-      password: password
-    })
-  });
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: usuario,
+          password: password,
+        }),
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  console.log(response.status);
-  console.log(data);
+      if (!data.ok) {
+        setApiError(data.message);
+        return;
+      }
 
-    console.log({
-      usuario,
-      password,
-    });
+      localStorage.setItem("token", data.token);
+      navigate("/dashboard");
+    } catch (error) {
+  console.error(error);
+  setApiError("No se pudo conectar con el servidor. Intenta de nuevo.");
+}
   }
 
   return (
-
-
     <div className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit}>
         <div className="auth-brand">
-  <img src={logo} alt="MotoRent" className="auth-logo-placeholder" />
-  <span className="auth-brand-name"><span>MOTO</span>RENT</span>
-</div>
+          <img src={logo} alt="MotoRent" className="auth-logo-placeholder" />
+          <span className="auth-brand-name"><span>MOTO</span>RENT</span>
+        </div>
 
         <h1>Iniciar sesión</h1>
+
+        {apiError && <p className="auth-error">{apiError}</p>}
 
         <div className="form-field">
           <label>Usuario o correo</label>
