@@ -88,8 +88,6 @@
 
 .motos-content {
   padding: 40px 60px 80px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .motos-heading {
@@ -250,4 +248,42 @@
   .motos-content {
     padding: 32px 24px 60px;
   }
+}
+
+/* Botones de Iniciar sesión / Registrarse cuando NO hay sesión */
+.guest-nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.btn-login {
+  color: #1A1A1A;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 4px;
+  white-space: nowrap;
+}
+
+.btn-register {
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.btn-register:hover {
+  background-color: #E5541F;
+}
+
+/* El botón "Inicia sesión" que reemplaza a "Rentar" para invitados */
+.rent-button-guest {
+  text-decoration: none;
+  display: inline-block;
 }

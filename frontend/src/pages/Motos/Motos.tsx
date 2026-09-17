@@ -16,6 +16,10 @@ function Motos() {
   const [busqueda, setBusqueda] = useState("");
   const [categoria, setCategoria] = useState("Todas");
 
+  // Revisa si hay una sesión activa (mismo criterio que ProtectedRoute)
+  const token = localStorage.getItem("token");
+  const haySesion = token && token !== "undefined" && token !== "null";
+
   function handleLogout() {
     localStorage.removeItem("token");
     window.history.pushState(null, "", "/login");
@@ -47,15 +51,23 @@ function Motos() {
           />
         </div>
 
-        <nav className="motos-nav-links">
-          <Link to="/dashboard">Inicio</Link>
-          <Link to="#rentas">Mis rentas</Link>
-          <Link to="#perfil">Mi perfil</Link>
-        </nav>
-
-        <button className="logout-button" onClick={handleLogout}>
-          Cerrar sesión
-        </button>
+        {haySesion ? (
+          <>
+            <nav className="motos-nav-links">
+              <Link to="/dashboard">Inicio</Link>
+              <Link to="#rentas">Mis rentas</Link>
+              <Link to="#perfil">Mi perfil</Link>
+            </nav>
+            <button className="logout-button" onClick={handleLogout}>
+              Cerrar sesión
+            </button>
+          </>
+        ) : (
+          <div className="guest-nav-buttons">
+            <Link to="/login" className="btn-login">Iniciar sesión</Link>
+            <Link to="/register" className="btn-register">Registrarse</Link>
+          </div>
+        )}
       </header>
 
       <main className="motos-content">
@@ -91,7 +103,14 @@ function Motos() {
                   <span className="moto-price">
                     ${moto.dailyRate.toLocaleString("es-CO")} <span>/día</span>
                   </span>
-                  <button className="rent-button">Rentar</button>
+
+                  {haySesion ? (
+                    <button className="rent-button">Rentar</button>
+                  ) : (
+                    <Link to="/login" className="rent-button rent-button-guest">
+                      Inicia sesión
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
