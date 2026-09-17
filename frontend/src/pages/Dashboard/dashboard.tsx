@@ -1,6 +1,19 @@
 import "./Dashboard.css";
 import { useNavigate, Link } from "react-router-dom";
 
+// Datos de ejemplo — luego los conectamos a tu backend real (Rental)
+const rentaActiva = {
+  moto: "Yamaha MT-03",
+  fechaDevolucion: "22 de septiembre de 2026",
+  diasRestantes: 6,
+};
+
+const estadisticas = {
+  rentasTotales: 4,
+  motoFavorita: "Yamaha MT-03",
+  proximaDevolucion: "22 sep",
+};
+
 function Dashboard() {
   const navigate = useNavigate();
 
@@ -22,7 +35,7 @@ function Dashboard() {
           <Link to="/dashboard">Inicio</Link>
           <Link to="/motos">Motos</Link>
           <Link to="#rentas">Mis rentas</Link>
-          <Link to="#perfil">Mi perfil</Link>
+          <Link to="/perfil">Mi perfil</Link>
         </nav>
 
         <button className="logout-button" onClick={handleLogout}>
@@ -39,6 +52,35 @@ function Dashboard() {
             <p className="welcome-description">
               Aquí puedes ver el catálogo de motos, tus rentas activas y el estado de tu cuenta.
             </p>
+          </div>
+        </section>
+
+        {rentaActiva && (
+          <section className="active-rental-banner">
+            <div className="active-rental-icon">🏍</div>
+            <div className="active-rental-info">
+              <p className="active-rental-title">Tienes una moto rentada</p>
+              <p className="active-rental-text">
+                {rentaActiva.moto} · devolución el {rentaActiva.fechaDevolucion}
+                {" "}({rentaActiva.diasRestantes} días restantes)
+              </p>
+            </div>
+            <Link to="#rentas" className="active-rental-button">Ver detalles</Link>
+          </section>
+        )}
+
+        <section className="stats-row">
+          <div className="stat-card">
+            <p className="stat-number">{estadisticas.rentasTotales}</p>
+            <p className="stat-label">Rentas totales</p>
+          </div>
+          <div className="stat-card">
+            <p className="stat-number">{estadisticas.motoFavorita}</p>
+            <p className="stat-label">Moto favorita</p>
+          </div>
+          <div className="stat-card">
+            <p className="stat-number">{estadisticas.proximaDevolucion}</p>
+            <p className="stat-label">Próxima devolución</p>
           </div>
         </section>
 
@@ -69,7 +111,7 @@ function Dashboard() {
             <span className="action-link">Ver rentas →</span>
           </Link>
 
-          <Link to="#perfil" className="action-card">
+          <Link to="/perfil" className="action-card">
             <div className="action-number">03</div>
             <h3>Mi perfil</h3>
             <p>Actualiza tus datos, documentos y método de contacto.</p>

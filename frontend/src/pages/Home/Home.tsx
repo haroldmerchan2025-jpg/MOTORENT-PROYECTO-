@@ -1,5 +1,6 @@
 import "./Home.css";
 import moto1 from "../../assets/imagenes/moto1.jpeg";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -13,7 +14,7 @@ function Home() {
 
         <nav className="nav-links">
           <a href="/">Inicio</a>
-          <a href="#motos">Motos</a>
+          <Link to="/motos">Motos</Link>
           <a href="#nosotros">Nosotros</a>
         </nav>
 
