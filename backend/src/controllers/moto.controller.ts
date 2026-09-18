@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import { prisma } from "../config/prisma.js";
 
-// Obtener todas las motocicletas registradas
 export const getMotos = async (_req: Request, res: Response) => {
   try {
     const motos = await prisma.moto.findMany();
@@ -11,17 +10,16 @@ export const getMotos = async (_req: Request, res: Response) => {
   }
 };
 
-// Registrar una nueva motocicleta
+
 export const createMoto = async (req: Request, res: Response) => {
   try {
-    const { brand, model, year, licensePlate, dailyRate } = req.body;
+    const { brand, model, year, licensePlate, dailyRate, displacement, color } = req.body;
 
-    // Validar campos obligatorios
-    if (!brand || !model || !licensePlate || dailyRate === undefined) {
+    if (!brand || !year || !model || !licensePlate || dailyRate ! || !displacement || !color) {
       return res.status(400).json({ error: "Todos los campos obligatorios deben estar presentes" });
-    }
+    };
 
-    // Crear el registro en la base de datos
+
     const newMoto = await prisma.moto.create({
       data: {
         brand,
@@ -29,6 +27,8 @@ export const createMoto = async (req: Request, res: Response) => {
         year: Number(year),
         licensePlate,
         dailyRate: Number(dailyRate),
+        displacement: Number(displacement),
+        color,
       },
     });
 
