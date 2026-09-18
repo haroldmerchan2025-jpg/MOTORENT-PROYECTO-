@@ -1,11 +1,11 @@
 import "./Login.css";
 import logo from "../../assets/logo/logo.png";
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
 
-  
+
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState("");
@@ -24,7 +24,7 @@ function Login() {
 
     let formularioValido = true;
 
-    navigate("/dashboard", { replace: true });
+
 
     if (usuario.trim() === "") {
       setErrorUsuario("El usuario o correo es obligatorio");
@@ -40,26 +40,40 @@ function Login() {
       return;
     }
 
-  const response = await fetch("http://localhost:3000/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      identifier: usuario,
-      password: password
-    })
-  });
+    try {
 
-  const data = await response.json();
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          identifier: usuario,
+          password: password
+        })
+      });
 
-  localStorage.setItem("token", data.token);
+      const data = await response.json();
 
-  console.log(response.status);
-  console.log(data);
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard", { replace: true });
+      } else {
+        setApiError(data.message);
+      }
+
+      console.log(response.status);
+      console.log(data);
+
+    }catch (error) {
+  console.error(error);
+  setApiError("Error interno del servidor")
+  };
+}
 
 
-  }
+
+
 
   return (
     <div className="auth-page">
@@ -108,5 +122,6 @@ function Login() {
     </div>
   );
 }
+
 
 export default Login;
