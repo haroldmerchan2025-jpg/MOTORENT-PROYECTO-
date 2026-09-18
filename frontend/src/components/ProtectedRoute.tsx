@@ -3,6 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 function ProtectedRoute() {
   const token = localStorage.getItem("token");
+  const tieneSesionValida = token && token !== "undefined" && token !== "null";
 
   useEffect(() => {
     function bloquearRetroceso() {
@@ -16,7 +17,7 @@ function ProtectedRoute() {
     return () => window.removeEventListener("popstate", bloquearRetroceso);
   }, []);
 
-  if (!token) {
+  if (!tieneSesionValida) {
     return <Navigate to="/login" replace />;
   }
 

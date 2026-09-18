@@ -5,6 +5,9 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/dashboard";
 import Motos from "./pages/Motos/Motos";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Perfil from "./pages/perfil/perfil";
+import Rentas from "./pages/Rentas/rentas";
 
 function App() {
   return (

@@ -1,0 +1,264 @@
+* {
+  box-sizing: border-box;
+}
+
+.perfil-page {
+  min-height: 100vh;
+  background-color: #FAFAF8;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1A1A1A;
+  color-scheme: light; /* evita que el navegador oscurezca los inputs automáticamente */
+}
+
+.perfil-navbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 60px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E5E2;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: #FF6A3D;
+}
+
+.perfil-nav-links {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+}
+
+.perfil-nav-links a {
+  color: #1A1A1A;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.perfil-nav-links a:hover {
+  color: #FF6A3D;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 1px solid #E5E5E2;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #1A1A1A;
+}
+
+.logout-button:hover {
+  border-color: #FF6A3D;
+  color: #FF6A3D;
+}
+
+.perfil-content {
+  padding: 48px 24px 80px;
+}
+
+.perfil-content h1 {
+  color: #1A1A1A;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.perfil-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E2;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.perfil-card h2 {
+  color: #1A1A1A;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.perfil-card-subtitle {
+  color: #6B6B6B;
+  font-size: 13px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* Grilla de datos de solo lectura */
+.perfil-datos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.perfil-dato {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px 16px;
+  background-color: #FAFAF8;
+  border-radius: 10px;
+}
+
+.perfil-dato-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B6B6B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.perfil-dato-valor {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+/* Insignia de estado de verificación */
+.verification-status {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.verification-status.pending {
+  background-color: #FFF3EC;
+  color: #E5541F;
+}
+
+.verification-status.verified {
+  background-color: #E7F9EE;
+  color: #1E9E5A;
+}
+
+.perfil-subsection {
+  color: #1A1A1A;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 28px 0 16px;
+  padding-top: 20px;
+  border-top: 1px solid #E5E5E2;
+}
+
+.perfil-form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.perfil-form-field label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 7px;
+  color: #1A1A1A;
+}
+
+.perfil-form-field input {
+  padding: 11px 14px;
+  background-color: #FFFFFF;
+  border: 1px solid #DCDCD8;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1A1A1A;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.perfil-form-field input:focus {
+  border-color: #FF6A3D;
+}
+
+.perfil-upload-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.perfil-upload-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 14px;
+  background-color: #FAFAF8;
+  border: 1px dashed #DCDCD8;
+  border-radius: 10px;
+}
+
+.perfil-upload-field label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #1A1A1A;
+}
+
+.perfil-upload-field input[type="file"] {
+  font-size: 12px;
+  color: #6B6B6B;
+}
+
+.perfil-file-name {
+  font-size: 11px;
+  color: #FF6A3D;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.perfil-submit-button {
+  width: 100%;
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.perfil-submit-button:hover {
+  background-color: #E5541F;
+}
+
+.perfil-success-message {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #1E9E5A;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .perfil-content {
+    padding: 32px 20px 60px;
+  }
+
+  .perfil-card {
+    padding: 24px 20px;
+  }
+
+  .perfil-datos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-upload-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
