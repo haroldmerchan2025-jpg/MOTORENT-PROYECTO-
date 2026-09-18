@@ -1,0 +1,224 @@
+* {
+  box-sizing: border-box;
+}
+
+.rentas-page {
+  min-height: 100vh;
+  background-color: #FAFAF8;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1A1A1A;
+  color-scheme: light;
+}
+
+.rentas-navbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 60px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E5E2;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: #FF6A3D;
+}
+
+.rentas-nav-links {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+}
+
+.rentas-nav-links a {
+  color: #1A1A1A;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.rentas-nav-links a:hover {
+  color: #FF6A3D;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 1px solid #E5E5E2;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #1A1A1A;
+}
+
+.logout-button:hover {
+  border-color: #FF6A3D;
+  color: #FF6A3D;
+}
+
+.rentas-content {
+  padding: 48px 60px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.rentas-content h1 {
+  color: #1A1A1A;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Tarjeta de la renta activa */
+.rentas-card.active-card {
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 40px;
+}
+
+.rentas-card h2 {
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 12px 0 20px;
+}
+
+.rentas-dates {
+  display: flex;
+  gap: 32px;
+}
+
+.rentas-date-label {
+  display: block;
+  font-size: 11px;
+  color: #9B9BA3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.rentas-date-value {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* Insignias de estado */
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.status-pending {
+  background-color: #FFF3EC;
+  color: #E5541F;
+}
+
+.status-active {
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+}
+
+.status-completed {
+  background-color: #E7F9EE;
+  color: #1E9E5A;
+}
+
+.status-cancelled {
+  background-color: #F0F0EC;
+  color: #6B6B6B;
+}
+
+.rentas-subtitle {
+  color: #1A1A1A;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.rentas-empty {
+  color: #6B6B6B;
+  font-size: 14px;
+}
+
+.rentas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rentas-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5E2;
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.rentas-row-main {
+  flex: 1;
+}
+
+.rentas-row-moto {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 3px;
+}
+
+.rentas-row-fechas {
+  font-size: 12px;
+  color: #6B6B6B;
+}
+
+.rentas-row-total {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .rentas-navbar {
+    flex-wrap: wrap;
+    padding: 16px 24px;
+  }
+
+  .rentas-nav-links {
+    display: none;
+  }
+
+  .rentas-content {
+    padding: 32px 24px 60px;
+  }
+
+  .rentas-dates {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .rentas-row {
+    flex-wrap: wrap;
+  }
+
+  .rentas-row-total {
+    width: 100%;
+    text-align: right;
+  }
+}

@@ -1,11 +1,9 @@
-import "./Login.css";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
-import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import "./Login.css";
 
 function Login() {
-
-  
   const navigate = useNavigate();
 
   const [usuario, setUsuario] = useState("");
@@ -24,8 +22,6 @@ function Login() {
 
     let formularioValido = true;
 
-    navigate("/dashboard", { replace: true });
-
     if (usuario.trim() === "") {
       setErrorUsuario("El usuario o correo es obligatorio");
       formularioValido = false;
@@ -36,29 +32,33 @@ function Login() {
       formularioValido = false;
     }
 
-    if (!formularioValido) {
-      return;
+    if (!formularioValido) return;
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: usuario,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setApiError(data.message || data.error || "Credenciales incorrectas");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      navigate("/dashboard", { replace: true });
+      
+    } catch {
+      setApiError("No se pudo conectar con el servidor backend.");
     }
-
-  const response = await fetch("http://localhost:3000/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      identifier: usuario,
-      password: password
-    })
-  });
-
-  const data = await response.json();
-
-  localStorage.setItem("token", data.token);
-
-  console.log(response.status);
-  console.log(data);
-
-
   }
 
   return (
@@ -66,7 +66,9 @@ function Login() {
       <form className="auth-card" onSubmit={handleSubmit}>
         <div className="auth-brand">
           <img src={logo} alt="MotoRent" className="auth-logo-placeholder" />
-          <span className="auth-brand-name"><span>MOTO</span>RENT</span>
+          <span className="auth-brand-name">
+            <span>MOTO</span>RENT
+          </span>
         </div>
 
         <h1>Iniciar sesión</h1>
@@ -75,25 +77,21 @@ function Login() {
 
         <div className="form-field">
           <label>Usuario o correo</label>
-
           <input
             type="text"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
           />
-
           {errorUsuario && <p className="field-error">{errorUsuario}</p>}
         </div>
 
         <div className="form-field">
           <label>Contraseña</label>
-
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           {errorPassword && <p className="field-error">{errorPassword}</p>}
         </div>
 

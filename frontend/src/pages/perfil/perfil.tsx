@@ -61,7 +61,7 @@ function Perfil() {
         <nav className="perfil-nav-links">
           <Link to="/dashboard">Inicio</Link>
           <Link to="/motos">Motos</Link>
-          <Link to="#rentas">Mis rentas</Link>
+          <Link to="/rentas">Mis rentas</Link>
           <Link to="/perfil">Mi perfil</Link>
         </nav>
 

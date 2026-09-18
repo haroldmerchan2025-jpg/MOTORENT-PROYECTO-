@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard/dashboard";
 import Motos from "./pages/Motos/Motos";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Perfil from "./pages/perfil/perfil";
+import Rentas from "./pages/Rentas/rentas";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/motos" element={<Motos />} />
         <Route path="/perfil" element={<Perfil />} />
+        <Route path="/rentas" element={<Rentas />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />

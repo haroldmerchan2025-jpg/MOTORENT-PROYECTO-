@@ -55,8 +55,8 @@ function Motos() {
           <>
             <nav className="motos-nav-links">
               <Link to="/dashboard">Inicio</Link>
-              <Link to="#rentas">Mis rentas</Link>
-              <Link to="#perfil">Mi perfil</Link>
+              <Link to="/rentas">Mis rentas</Link>
+              <Link to="/perfil">Mi perfil</Link>
             </nav>
             <button className="logout-button" onClick={handleLogout}>
               Cerrar sesión
