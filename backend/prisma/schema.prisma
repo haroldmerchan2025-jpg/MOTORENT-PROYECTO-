@@ -6,9 +6,14 @@ datasource db {
   provider = "postgresql"
 }
 
+// ----------------------------------------------------
+// ENUMS
+// ----------------------------------------------------
+
 enum Role {
   USER
   CLIENT
+  OWNER
   ADMIN
 }
 
@@ -19,11 +24,13 @@ enum VerificationStatus {
 }
 
 enum MotoStatus {
-  AVAILABLE
-  RESERVED
-  RENTED
-  MAINTENANCE
-  INACTIVE
+  PENDING_APPROVAL // Recién subida por un propietario (en revisión por Admin)
+  AVAILABLE        // Aprobada y lista para alquilar
+  RESERVED         // En proceso de reserva
+  RENTED           // Alquilada en curso
+  MAINTENANCE      // En taller
+  INACTIVE         // Desactivada temporalmente
+  REJECTED         // Rechazada por documentos inválidos
 }
 
 enum RentalStatus {
@@ -44,6 +51,10 @@ enum HandoverType {
   RETURN
 }
 
+// ----------------------------------------------------
+// MODELOS DE USUARIO Y PERFILES
+// ----------------------------------------------------
+
 model User {
   id        String   @id @default(uuid())
   username  String   @unique
@@ -53,7 +64,9 @@ model User {
   phone     String
   role      Role     @default(USER)
 
+  // Un usuario puede ser Cliente (rentar para manejar), Dueño (publicar motos), o ambos
   client    Client?
+  owner     Owner?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -76,7 +89,7 @@ model Client {
   licenseBackUrl        String
 
   verificationStatus    VerificationStatus @default(PENDING)
-  verificationNotes    String?
+  verificationNotes     String?
   verifiedAt            DateTime?
 
   user     User     @relation(fields: [userId], references: [id])
@@ -86,22 +99,57 @@ model Client {
   updatedAt DateTime @updatedAt
 }
 
+model Owner {
+  id                 String             @id @default(uuid())
+  userId             String             @unique
+
+  // Datos bancarios donde MotoRent le consignará sus ganancias
+  bankName           String             // Ej: Bancolombia, Nequi, Davivienda
+  accountType        String             // Ahorros / Corriente
+  accountNumber      String
+  accountHolderName  String?            // Nombre del titular
+  accountHolderDoc   String?            // Cédula del titular
+
+  // Estado de aprobación del dueño por parte del Admin
+  verificationStatus VerificationStatus @default(PENDING)
+  verificationNotes  String?
+  verifiedAt         DateTime?
+
+  // Relaciones
+  user               User               @relation(fields: [userId], references: [id])
+  motos              Moto[]             // Las motos que este dueño ha publicado
+
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+// ----------------------------------------------------
+// MODELOS DE VEHÍCULOS
+// ----------------------------------------------------
+
 model Moto {
-  id            String     @id @default(uuid())
+  id            String      @id @default(uuid())
+  
+  // Si ownerId es null -> Es moto de la empresa MotoRent (Admin)
+  // Si ownerId tiene valor -> Es moto de un particular (Owner)
+  ownerId       String?
+  owner         Owner?      @relation(fields: [ownerId], references: [id])
+
   brand         String
   model         String
   year          Int
-  licensePlate  String     @unique
-  displacement  Int
+  licensePlate  String      @unique
+  displacement  String
+  KM            Int
   color         String
   dailyRate     Decimal
-  status        MotoStatus @default(AVAILABLE)
+  status        MotoStatus  @default(AVAILABLE)
 
   document      MotoDocument?
   rentals       Rental[]
 
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model MotoDocument {
@@ -118,23 +166,33 @@ model MotoDocument {
   updatedAt  DateTime @updatedAt
 }
 
+// ----------------------------------------------------
+// MODELOS DE ALQUILER, CONTRATOS Y ENTREGAS
+// ----------------------------------------------------
+
 model Rental {
-  id        String       @id @default(uuid())
-  clientId  String
-  motoId    String
-  startDate DateTime
-  endDate   DateTime
-  total     Decimal
-  status    RentalStatus @default(PENDING)
+  id            String       @id @default(uuid())
+  clientId      String
+  motoId        String
+  startDate     DateTime
+  endDate       DateTime
 
-  client    Client      @relation(fields: [clientId], references: [id])
-  moto      Moto        @relation(fields: [motoId], references: [id])
+  // Desglose de pagos y comisiones:
+  subtotal      Decimal      // Días * Tarifa diaria
+  platformFee   Decimal      @default(0) // Comisión retenida por MotoRent (ej. 15%)
+  ownerEarnings Decimal      @default(0) // Ganancia que se le transfiere al dueño (85%)
+  total         Decimal      // Lo que paga el cliente en total
 
-  contract  Contract?
-  handovers VehicleHandover[]
+  status        RentalStatus @default(PENDING)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  client        Client       @relation(fields: [clientId], references: [id])
+  moto          Moto         @relation(fields: [motoId], references: [id])
+
+  contract      Contract?
+  handovers     VehicleHandover[]
+
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 model Contract {
@@ -153,21 +211,21 @@ model Contract {
 }
 
 model VehicleHandover {
-  id           String       @id @default(uuid())
+  id           String             @id @default(uuid())
   rentalId     String
   type         HandoverType
   mileage      Int
   fuelLevel    Decimal
   observations String?
 
-  rental      Rental              @relation(fields: [rentalId], references: [id])
+  rental      Rental             @relation(fields: [rentalId], references: [id])
   evidences   HandoverEvidence[]
 
-  createdAt   DateTime @default(now())
+  createdAt   DateTime           @default(now())
 }
 
 model HandoverEvidence {
-  id          String  @id @default(uuid())
+  id          String          @id @default(uuid())
   handoverId  String
 
   fileUrl     String
@@ -175,5 +233,5 @@ model HandoverEvidence {
 
   handover    VehicleHandover @relation(fields: [handoverId], references: [id])
 
-  createdAt   DateTime @default(now())
+  createdAt   DateTime        @default(now())
 }
