@@ -34,7 +34,7 @@ function Dashboard() {
         <nav className="dashboard-nav-links">
           <Link to="/dashboard">Inicio</Link>
           <Link to="/motos">Motos</Link>
-          <Link to="#rentas">Mis rentas</Link>
+          <Link to="/rentas">Mis rentas</Link>
           <Link to="/perfil">Mi perfil</Link>
         </nav>
 
@@ -104,14 +104,14 @@ function Dashboard() {
             <span className="action-link">Ver motos →</span>
           </Link>
 
-          <Link to="#rentas" className="action-card">
+          <Link to="/rentas" className="active-rental-button">Ver detalles
             <div className="action-number">02</div>
             <h3>Mis rentas</h3>
             <p>Revisa tus rentas activas, pasadas y las fechas de devolución.</p>
             <span className="action-link">Ver rentas →</span>
           </Link>
 
-          <Link to="/perfil" className="action-card">
+          <Link to="/perfil" className="action-card"> 
             <div className="action-number">03</div>
             <h3>Mi perfil</h3>
             <p>Actualiza tus datos, documentos y método de contacto.</p>
