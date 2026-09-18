@@ -22,6 +22,8 @@ function Login() {
 
     let formularioValido = true;
 
+
+
     if (usuario.trim() === "") {
       setErrorUsuario("El usuario o correo es obligatorio");
       formularioValido = false;
@@ -59,7 +61,41 @@ function Login() {
     } catch {
       setApiError("No se pudo conectar con el servidor backend.");
     }
-  }
+
+    try {
+
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          identifier: usuario,
+          password: password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard", { replace: true });
+      } else {
+        setApiError(data.message);
+      }
+
+      console.log(response.status);
+      console.log(data);
+
+    }catch (error) {
+  console.error(error);
+  setApiError("Error interno del servidor")
+  };
+}
+
+
+
+
 
   return (
     <div className="auth-page">
@@ -106,5 +142,6 @@ function Login() {
     </div>
   );
 }
+
 
 export default Login;
