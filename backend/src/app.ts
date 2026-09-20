@@ -23,6 +23,6 @@ app.get('/', (_req, res) => {
 app.use('/auth', authroutes)
 
 // Rutas de la API
-app.use('/api/motos', motoRoutes);
+app.use('/api', motoRoutes);
 
 export default app;
