@@ -4,7 +4,7 @@ import { verificarToken } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.get("/", getMotos);
-router.post("/", verificarToken, createMoto);
+router.get("/motos", getMotos);
+router.post("/create/moto", verificarToken, createMoto);
 
 export default router;

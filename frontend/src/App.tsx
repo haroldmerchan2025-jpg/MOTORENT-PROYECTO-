@@ -5,7 +5,6 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Dashboard from "./pages/Dashboard/dashboard";
 import Motos from "./pages/Motos/Motos";
-import ProtectedRoute from "./components/ProtectedRoute";
 import Perfil from "./pages/perfil/perfil";
 import Rentas from "./pages/Rentas/rentas";
 
@@ -17,10 +16,15 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route element={<ProtectedRoute />}>
         <Route path="/motos" element={<Motos />} />
-      </Route>
+
+
+        <Route element={<ProtectedRoute />}>
+        <Route path="/perfil" element={<Perfil/>}/>
+        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/rentas" element={<Rentas />} />
+        </Route>
+
       </Routes>
     </BrowserRouter>
   );
