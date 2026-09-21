@@ -3,6 +3,8 @@ import { type AuthRequest } from "../middleware/auth.middleware.js";
 import { prisma } from "../config/prisma.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "node:crypto";
+import { sendVerificationEmail } from "../services/email.service.js";
 
 export const registerUser = async (req: Request, res: Response) => {
 
@@ -81,7 +83,11 @@ export const registerUser = async (req: Request, res: Response) => {
             });
         }
 
-        const passwordHash = await bcrypt.hash(password, 10);
+                const passwordHash = await bcrypt.hash(password, 10);
+
+        // Generamos un token criptográfico seguro de 32 bytes y expiración de 24 horas
+        const verificationToken = crypto.randomBytes(32).toString("hex");
+        const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
         const user = await prisma.user.create({
             data: {
@@ -89,9 +95,15 @@ export const registerUser = async (req: Request, res: Response) => {
                 email,
                 password: passwordHash,
                 fullName,
-                phone
+                phone,
+                emailVerificationToken: verificationToken,
+                emailVerificationExpires: verificationExpires,
+                isEmailVerified: false
             }
         });
+
+        // Enviamos el correo de verificación (o se imprime en la terminal en modo simulador)
+        await sendVerificationEmail(user.email, user.fullName, verificationToken);
 
         const { password: ignorePassword, ...userWithoutPassword } = user;
 
@@ -225,4 +237,3 @@ export const getMe = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ ok: false, message: "Error al obtener perfil" });
     }
 };
-
