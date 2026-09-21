@@ -1,7 +1,42 @@
+/* frontend/src/index.css */
+:root {
+  /* Marca Principal */
+  --primary: #0F2537;          /* Azul Petróleo para cabeceras y botones serios */
+  --primary-hover: #163752;
+  --accent: #FF6A3D;           /* Naranja eléctrico para botones de acción (CTA) */
+  --accent-hover: #E5541F;
+
+  /* Categorías de motos */
+  --tag-travel: #2E7D32;       /* Verde para Viaje */
+  --tag-daily: #0288D1;        /* Azul para Uso Diario */
+  --tag-work: #455A64;         /* Gris para Trabajo */
+
+  /* Superficies y Fondos */
+  --bg-main: #F4F7F6;          /* Fondo suave de la app */
+  --bg-surface: #FFFFFF;       /* Fondo de tarjetas y modales */
+  --border-color: #E2E8F0;     /* Bordes sutiles */
+
+  /* Textos */
+  --text-main: #1A202C;        /* Texto principal */
+  --text-muted: #718096;       /* Subtítulos y detalles */
+
+  /* Sombras y radios */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
