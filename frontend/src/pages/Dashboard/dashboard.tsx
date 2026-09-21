@@ -1,13 +1,6 @@
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
 
-const savedUser = localStorage.getItem("user");
-const usuario = savedUser ? JSON.parse(savedUser) : null;
-const nombre = usuario?.fullName ? usuario.fullName.split(" ")[0] : "";
-
-<h1>¡Hola de nuevo{nombre ? `, ${nombre}` : ""}! 👋</h1>
-
-
 // Simulación de una moto que el usuario tiene alquilada actualmente
 const rentaActiva = {
   moto: "Yamaha MT-03",
@@ -18,13 +11,17 @@ const rentaActiva = {
 
 // Resumen de estadísticas del usuario (Cliente + Dueño)
 const estadisticas = {
-  rentasComoCliente: 3,        // Veces que ha alquilado motos para viajar
-  motosPublicadas: 1,          // Motos que tiene puestas en renta
-  gananciasDelMes: 340000,     // Dinero que ha ganado con su moto este mes (85% neto)
-  proximaDevolucion: "22 sep", // Próxima fecha importante
+  rentasComoCliente: 3,
+  motosPublicadas: 1,
+  gananciasDelMes: 340000,
+  proximaDevolucion: "22 sep",
 };
 
 function Dashboard() {
+  // Leer el nombre del usuario desde localStorage
+  const savedUser = localStorage.getItem("user");
+  const usuario = savedUser ? JSON.parse(savedUser) : null;
+  const nombre = usuario?.fullName ? usuario.fullName.split(" ")[0] : "";
 
   return (
     <div className="dashboard">
@@ -38,7 +35,7 @@ function Dashboard() {
         <section className="welcome-banner">
           <div>
             <span className="welcome-tag">PANEL DE CONTROL</span>
-            <h1>¡Hola de nuevo! 👋</h1>
+            <h1>¡Hola de nuevo{nombre ? `, ${nombre}` : ""}! 👋</h1>
             <p className="welcome-description">
               Revisa tus alquileres activos, tus ganancias como propietario y el estado de tu cuenta.
             </p>
