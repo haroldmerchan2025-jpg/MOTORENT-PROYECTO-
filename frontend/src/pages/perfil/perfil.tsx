@@ -52,7 +52,7 @@ function Perfil() {
         console.error("Error al cargar perfil:", err);
         setUsuario((prev) => ({ ...prev, fullName: "Error de conexión" }));
       });
-  }, []);
+    }, [navigate]);
 
   // ----------------------------------------------------------------------
   // 2. CONTROL DE PESTAÑAS (TABS)
