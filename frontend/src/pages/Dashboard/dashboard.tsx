@@ -58,7 +58,7 @@ function Dashboard() {
                 Devolución programada: <strong>{rentaActiva.fechaDevolucion}</strong> ({rentaActiva.diasRestantes} días restantes).
               </p>
             </div>
-            <Link to="/perfil" className="active-rental-button">
+            <Link to="/contrato" className="active-rental-button">
               Ver contrato y acta digital →
             </Link>
           </section>
