@@ -1,4 +1,5 @@
 import { type Request, type Response } from "express";
+import { type AuthRequest } from "../middleware/auth.middleware.js";
 import { prisma } from "../config/prisma.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -173,11 +174,14 @@ export const loginUser = async (req: Request, res: Response) => {
         expiresIn:"1d"
     })
 
+        // Quitar la contraseña antes de responder
+    const { password: _, ...userWithoutPassword } = findUser;
 
         res.status(200).json({
             ok:true,
             message: "Inicio de sesion exitoso",
-            token: token
+            token: token,
+            user: userWithoutPassword
         })
 
     }catch(error){
@@ -189,3 +193,36 @@ export const loginUser = async (req: Request, res: Response) => {
 
     }
 };
+
+// Obtener los datos del usuario que tiene la sesión activa
+export const getMe = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.usuario?.id;
+        if (!userId) {
+            return res.status(401).json({ ok: false, message: "No autorizado" });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                client: true,
+                owner: true
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ ok: false, message: "Usuario no encontrado" });
+        }
+
+        const { password: _, ...userWithoutPassword } = user;
+
+        res.status(200).json({
+            ok: true,
+            user: userWithoutPassword
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ ok: false, message: "Error al obtener perfil" });
+    }
+};
+

@@ -1,0 +1,338 @@
+/* frontend/src/components/Navbar.css */
+
+/* ====================================================================== */
+/* CONTENEDOR GLOBAL DE LA BARRA (ALTURA FIJA PARA QUE NUNCA SE MUEVA)     */
+/* ====================================================================== */
+.global-navbar {
+  height: 70px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+/* LOGO */
+.navbar-logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: #0F2537;
+  white-space: nowrap;
+}
+
+.navbar-logo span {
+  color: #FF6A3D;
+}
+
+/* ENLACES DEL CENTRO */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navbar-links a {
+  color: #4A5568;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: #FF6A3D;
+}
+
+/* Botón especial para publicar moto */
+.nav-btn-publish {
+  background-color: rgba(255, 106, 61, 0.12);
+  color: #FF6A3D !important;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+.nav-btn-publish:hover {
+  background-color: #FF6A3D;
+  color: #FFFFFF !important;
+}
+
+/* LADO DERECHO */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ====================================================================== */
+/* BOTONES DE NOTIFICACIÓN Y AVATAR                                       */
+/* ====================================================================== */
+.dropdown-container {
+  position: relative;
+}
+
+.icon-button {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  background-color: #EDF2F7;
+  border-color: #CBD5E0;
+}
+
+/* Punto rojo de notificaciones no leídas */
+.notif-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #EF4444;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FFFFFF;
+}
+
+/* Avatar con la letra del usuario */
+.avatar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  border: 2px solid #E2E8F0;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.avatar-button:hover {
+  border-color: #FF6A3D;
+  transform: scale(1.05);
+}
+
+/* ====================================================================== */
+/* MENÚS DESPLEGABLES (DROPDOWNS)                                         */
+/* ====================================================================== */
+.dropdown-menu {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  animation: slideDown 0.15s ease-out;
+  z-index: 1001;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Menú de Notificaciones */
+.notif-dropdown {
+  width: 320px;
+  padding: 12px 0;
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 10px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.dropdown-header h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0F2537;
+}
+
+.btn-mark-read {
+  background: none;
+  border: none;
+  color: #FF6A3D;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notif-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #F8FAFC;
+  transition: background 0.15s;
+}
+
+.notif-item:hover {
+  background-color: #F8FAFC;
+}
+
+.notif-item.unread {
+  background-color: #FFF7ED;
+}
+
+.notif-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F2537;
+  margin-bottom: 2px;
+}
+
+.notif-desc {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.notif-time {
+  font-size: 10px;
+  color: #94A3B8;
+}
+
+/* Menú de Perfil */
+.profile-dropdown {
+  width: 240px;
+  padding: 12px 0;
+}
+
+.profile-dropdown-user {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 4px 16px 12px;
+}
+
+.avatar-small {
+  width: 36px;
+  height: 36px;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.profile-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F2537;
+}
+
+.profile-role {
+  font-size: 11px;
+  color: #718096;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #F1F5F9;
+  margin: 6px 0;
+}
+
+.dropdown-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2D3748;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dropdown-link:hover {
+  background-color: #F8FAFC;
+  color: #FF6A3D;
+}
+
+.logout-link {
+  color: #DC2626 !important;
+}
+
+.logout-link:hover {
+  background-color: #FEF2F2 !important;
+}
+
+/* BOTONES PARA INVITADOS (GUEST) */
+.guest-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-nav-login {
+  color: #0F2537;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 14px;
+}
+
+.btn-nav-register {
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn-nav-register:hover {
+  background-color: #E5541F;
+}
+
+/* ====================================================================== */
+/* RESPONSIVE                                                             */
+/* ====================================================================== */
+@media (max-width: 768px) {
+  .global-navbar {
+    padding: 0 20px;
+  }
+  .navbar-links {
+    display: none; /* En móvil se puede desplegar menú hamburguesa */
+  }
+}

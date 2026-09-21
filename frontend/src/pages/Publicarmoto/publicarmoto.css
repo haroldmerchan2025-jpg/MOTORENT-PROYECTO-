@@ -1,0 +1,302 @@
+/* frontend/src/pages/PublicarMoto/PublicarMoto.css */
+
+.publish-page {
+  background-color: var(--bg-main, #F4F7F6);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR SUPERIOR */
+.publish-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 60px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.publish-navbar .logo {
+  font-size: 22px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #0F2537;
+}
+
+.publish-navbar .logo span {
+  color: #FF6A3D;
+}
+
+.btn-back {
+  text-decoration: none;
+  color: #4A5568;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.btn-back:hover {
+  color: #FF6A3D;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.publish-container {
+  max-width: 800px;
+  margin: 40px auto 80px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.publish-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.publish-header {
+  margin-bottom: 36px;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 24px;
+}
+
+.badge-owner {
+  display: inline-block;
+  background-color: rgba(255, 106, 61, 0.12);
+  color: #FF6A3D;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.publish-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0F2537;
+  margin-bottom: 8px;
+}
+
+.publish-header p {
+  color: #718096;
+  font-size: 15px;
+}
+
+/* SECCIONES DEL FORMULARIO */
+.form-section {
+  margin-bottom: 36px;
+}
+
+.form-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F2537;
+  margin-bottom: 8px;
+}
+
+.section-note {
+  font-size: 13px;
+  color: #718096;
+  margin-bottom: 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 11px 14px;
+  border: 1.5px solid #CBD5E0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+  background-color: #F8FAFC;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #FF6A3D;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.15);
+}
+
+.file-input {
+  padding: 8px !important;
+  background-color: #FFFFFF !important;
+  cursor: pointer;
+}
+
+.input-hint {
+  font-size: 12px;
+  color: #A0AEC0;
+  margin-top: 6px;
+}
+
+/* CAJA DE CÁLCULO DE GANANCIAS EN VIVO */
+.earnings-preview {
+  background-color: #F0FDF4;
+  border: 1.5px solid #86EFAC;
+  padding: 20px;
+  border-radius: 14px;
+  margin-top: 16px;
+}
+
+.earnings-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.earnings-row.fee {
+  color: #DC2626;
+}
+
+.earnings-divider {
+  height: 1px;
+  background-color: #BBF7D0;
+  margin: 12px 0;
+}
+
+.earnings-row.net {
+  font-size: 16px;
+  color: #14532D;
+  margin-bottom: 0;
+}
+
+.net-amount {
+  font-size: 20px;
+  color: #16A34A;
+}
+
+/* BOTÓN DE ENVÍO */
+.form-actions {
+  margin-top: 30px;
+}
+
+.btn-submit-moto {
+  width: 100%;
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 106, 61, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-submit-moto:hover {
+  background-color: #E5541F;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(255, 106, 61, 0.4);
+}
+
+/* PANTALLA DE ÉXITO */
+.success-card {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  padding: 50px 40px;
+  text-align: center;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.success-icon {
+  font-size: 54px;
+  margin-bottom: 16px;
+}
+
+.success-card h2 {
+  font-size: 26px;
+  color: #0F2537;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.review-badge {
+  display: inline-block;
+  background-color: #FEF3C7;
+  color: #92400E;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.review-info {
+  color: #64748B;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto 30px;
+}
+
+.success-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.btn-secondary {
+  background-color: #EDF2F7;
+  color: #2D3748;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .publish-navbar {
+    padding: 14px 20px;
+  }
+  .publish-card {
+    padding: 24px 20px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

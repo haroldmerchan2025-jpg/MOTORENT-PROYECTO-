@@ -1,264 +1,430 @@
-* {
-  box-sizing: border-box;
-}
+/* frontend/src/pages/perfil/perfil.css */
 
+/* ====================================================================== */
+/* CONTENEDOR PRINCIPAL DE LA PÁGINA DE PERFIL                           */
+/* ====================================================================== */
 .perfil-page {
+  background-color: var(--bg-main, #F4F7F6);
   min-height: 100vh;
-  background-color: #FAFAF8;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: #1A1A1A;
-  color-scheme: light; /* evita que el navegador oscurezca los inputs automáticamente */
-}
-
-.perfil-navbar {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 16px 60px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E5E5E2;
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.logo span {
-  color: #FF6A3D;
-}
-
-.perfil-nav-links {
-  display: flex;
-  gap: 24px;
-  margin-left: auto;
-}
-
-.perfil-nav-links a {
-  color: #1A1A1A;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.perfil-nav-links a:hover {
-  color: #FF6A3D;
-}
-
-.logout-button {
-  background-color: transparent;
-  border: 1px solid #E5E5E2;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  cursor: pointer;
-  color: #1A1A1A;
-}
-
-.logout-button:hover {
-  border-color: #FF6A3D;
-  color: #FF6A3D;
+  padding-bottom: 80px;
 }
 
 .perfil-content {
-  padding: 48px 24px 80px;
+  max-width: 920px;
+  margin: 40px auto 0;
+  padding: 0 24px;
 }
 
-.perfil-content h1 {
-  color: #1A1A1A;
-  font-size: 28px;
-  font-weight: 700;
+/* ====================================================================== */
+/* CABECERA CON AVATAR Y DATOS PRINCIPALES                                */
+/* ====================================================================== */
+.perfil-header-box {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   margin-bottom: 28px;
-  text-align: center;
 }
 
+.avatar-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0F2537 0%, #1A3E5C 100%);
+  color: #FF6A3D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(15, 37, 55, 0.2);
+  flex-shrink: 0;
+}
+
+.perfil-header-box h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0F2537;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.user-email {
+  font-size: 14px;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* ====================================================================== */
+/* NAVEGACIÓN ENTRE PESTAÑAS (TABS)                                       */
+/* ====================================================================== */
+.perfil-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tab-btn {
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4A5568;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  border-color: #CBD5E0;
+  color: #0F2537;
+  background-color: #F8FAFC;
+}
+
+.tab-btn.active {
+  background-color: #0F2537;
+  border-color: #0F2537;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(15, 37, 55, 0.15);
+}
+
+/* ====================================================================== */
+/* TARJETA PRINCIPAL DEL CONTENIDO DE LA PESTAÑA                          */
+/* ====================================================================== */
 .perfil-card {
   background-color: #FFFFFF;
-  border: 1px solid #E5E5E2;
-  border-radius: 16px;
-  padding: 32px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
 }
 
 .perfil-card h2 {
-  color: #1A1A1A;
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0F2537;
 }
 
 .perfil-card-subtitle {
-  color: #6B6B6B;
-  font-size: 13px;
+  font-size: 14px;
+  color: #718096;
   margin-bottom: 28px;
   line-height: 1.5;
 }
 
-/* Grilla de datos de solo lectura */
+/* ====================================================================== */
+/* INSIGNIAS DE ESTADO (STATUS BADGES)                                    */
+/* ====================================================================== */
+.status-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status-badge.pendiente {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.status-badge.verificado {
+  background-color: #DCFCE7;
+  color: #166534;
+  border: 1px solid #BBF7D0;
+}
+
+.status-badge.rechazado {
+  background-color: #FEE2E2;
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+
+/* ====================================================================== */
+/* PESTAÑA 1: GRID DE DATOS PERSONALES                                    */
+/* ====================================================================== */
 .perfil-datos-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
 .perfil-dato {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 14px 16px;
-  background-color: #FAFAF8;
-  border-radius: 10px;
+  gap: 6px;
+  transition: border-color 0.2s ease;
+}
+
+.perfil-dato:hover {
+  border-color: #CBD5E0;
 }
 
 .perfil-dato-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #6B6B6B;
+  font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
+  color: #718096;
 }
 
 .perfil-dato-valor {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1A1A1A;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F2537;
 }
 
-/* Insignia de estado de verificación */
-.verification-status {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 14px;
-  border-radius: 20px;
-  margin-bottom: 14px;
-}
-
-.verification-status.pending {
-  background-color: #FFF3EC;
-  color: #E5541F;
-}
-
-.verification-status.verified {
-  background-color: #E7F9EE;
-  color: #1E9E5A;
-}
-
+/* ====================================================================== */
+/* FORMULARIOS, CAMPOS E INPUTS                                           */
+/* ====================================================================== */
 .perfil-subsection {
-  color: #1A1A1A;
-  font-size: 14px;
-  font-weight: 600;
-  margin: 28px 0 16px;
-  padding-top: 20px;
-  border-top: 1px solid #E5E5E2;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0F2537;
+  margin: 32px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #EDF2F7;
 }
 
 .perfil-form-field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 18px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
 
 .perfil-form-field label {
   font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 7px;
-  color: #1A1A1A;
+  font-weight: 600;
+  color: #2D3748;
 }
 
-.perfil-form-field input {
-  padding: 11px 14px;
-  background-color: #FFFFFF;
-  border: 1px solid #DCDCD8;
-  border-radius: 8px;
+.perfil-form-field input[type="text"],
+.perfil-form-field input[type="date"],
+.perfil-form-field select {
+  padding: 12px 14px;
+  border: 1.5px solid #CBD5E0;
+  border-radius: 10px;
   font-size: 14px;
-  color: #1A1A1A;
+  background-color: #F8FAFC;
+  color: #1A202C;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.perfil-form-field input:focus {
+.perfil-form-field input[type="text"]:focus,
+.perfil-form-field input[type="date"]:focus,
+.perfil-form-field select:focus {
   border-color: #FF6A3D;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.15);
 }
 
+.form-two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ====================================================================== */
+/* CARGA DE ARCHIVOS (SUBIDAS DE DOCUMENTOS / FOTOS)                     */
+/* ====================================================================== */
 .perfil-upload-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 .perfil-upload-field {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 14px;
-  background-color: #FAFAF8;
-  border: 1px dashed #DCDCD8;
-  border-radius: 10px;
+  gap: 8px;
 }
 
 .perfil-upload-field label {
   font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: #1A1A1A;
+  font-weight: 600;
+  color: #2D3748;
 }
 
 .perfil-upload-field input[type="file"] {
+  padding: 10px 14px;
+  border: 1.5px dashed #CBD5E0;
+  border-radius: 10px;
+  background-color: #F8FAFC;
+  cursor: pointer;
+  font-size: 13px;
+  color: #4A5568;
+  transition: all 0.2s ease;
+}
+
+.perfil-upload-field input[type="file"]:hover {
+  border-color: #FF6A3D;
+  background-color: #FFF7ED;
+}
+
+.file-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
-  color: #6B6B6B;
-}
-
-.perfil-file-name {
-  font-size: 11px;
-  color: #FF6A3D;
   font-weight: 600;
-  margin-top: 6px;
+  color: #16A34A;
+  background-color: #DCFCE7;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-top: 4px;
+  width: fit-content;
 }
 
+/* ====================================================================== */
+/* PESTAÑA PROPIETARIO: CTA Y CAJA INFORMATIVA DE PAGOS                   */
+/* ====================================================================== */
+.btn-small-cta {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(255, 106, 61, 0.12);
+  color: #FF6A3D;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-small-cta:hover {
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+}
+
+.info-box-payout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 24px 0;
+  font-size: 14px;
+  color: #1E40AF;
+  line-height: 1.5;
+}
+
+.info-box-payout span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* ====================================================================== */
+/* BOTONES DE ENVÍO Y MENSAJES DE CONFIRMACIÓN                           */
+/* ====================================================================== */
 .perfil-submit-button {
-  width: 100%;
   background-color: #FF6A3D;
   color: #FFFFFF;
   border: none;
-  border-radius: 8px;
-  padding: 14px;
+  padding: 14px 28px;
+  border-radius: 10px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  margin-top: 8px;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 10px rgba(255, 106, 61, 0.25);
+  transition: all 0.2s ease;
+  margin-top: 10px;
 }
 
 .perfil-submit-button:hover {
   background-color: #E5541F;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(255, 106, 61, 0.35);
 }
 
 .perfil-success-message {
-  margin-top: 14px;
-  font-size: 13px;
-  color: #1E9E5A;
-  text-align: center;
+  margin-top: 18px;
+  padding: 14px 18px;
+  background-color: #DCFCE7;
+  border: 1px solid #86EFAC;
+  border-radius: 10px;
+  color: #166534;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-@media (max-width: 600px) {
+/* ====================================================================== */
+/* ADAPTABILIDAD RESPONSIVE (MÓVIL Y TABLET)                               */
+/* ====================================================================== */
+@media (max-width: 768px) {
   .perfil-content {
-    padding: 32px 20px 60px;
+    padding: 0 16px;
+    margin-top: 24px;
+  }
+
+  .perfil-header-box {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+    gap: 16px;
   }
 
   .perfil-card {
-    padding: 24px 20px;
+    padding: 24px 18px;
   }
 
-  .perfil-datos-grid {
-    grid-template-columns: 1fr;
+  .perfil-tabs {
+    flex-wrap: wrap;
   }
 
+  .tab-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .form-two-cols,
   .perfil-upload-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .card-top-row {
     flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
+  }
+
+  .perfil-submit-button {
+    width: 100%;
   }
 }
