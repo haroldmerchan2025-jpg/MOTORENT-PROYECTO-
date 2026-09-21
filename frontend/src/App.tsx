@@ -13,6 +13,9 @@ import Perfil from "./pages/perfil/perfil";
 import Rentas from "./pages/Rentas/rentas";
 import Contrato from "./pages/Contrato/Contrato";
 import PublicarMoto from "./pages/Publicarmoto/publicarmoto";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import VerificarCorreo from "./pages/VerificarCorreo/VerificarCorreo";
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/motos" element={<Motos />} />
+        <Route path="/recuperar-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/verificar-correo/:token" element={<VerificarCorreo />} />
 
 
         <Route element={<ProtectedRoute />}>
