@@ -16,7 +16,7 @@ export const createMoto = async (req: Request, res: Response) => {
   try {
     const { brand, model, year, licensePlate, dailyRate, displacement, color, KM } = req.body;
 
-    if (!brand || !year || !model || !licensePlate || dailyRate ! || !displacement || !color || !KM) {
+    if (!brand || !year || !model || !licensePlate || !dailyRate || !displacement || !color || !KM) {
       return res.status(400).json({ error: "Todos los campos deben estar llenos" });
     };
 
@@ -69,7 +69,7 @@ export const createMoto = async (req: Request, res: Response) => {
         year: Number(year),
         licensePlate,
         dailyRate: Number(dailyRate),
-        displacement: Number(displacement),
+        displacement,
         color,
         KM
       },
