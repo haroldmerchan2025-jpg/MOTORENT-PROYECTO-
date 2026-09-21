@@ -1,27 +1,61 @@
+import { useState, useEffect } from "react";
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
-
-// Simulación de una moto que el usuario tiene alquilada actualmente
-const rentaActiva = {
-  moto: "Yamaha MT-03",
-  fechaDevolucion: "22 de septiembre de 2026",
-  diasRestantes: 4,
-  tarifaDiaria: 85000,
-};
-
-// Resumen de estadísticas del usuario (Cliente + Dueño)
-const estadisticas = {
-  rentasComoCliente: 3,
-  motosPublicadas: 1,
-  gananciasDelMes: 340000,
-  proximaDevolucion: "22 sep",
-};
 
 function Dashboard() {
   // Leer el nombre del usuario desde localStorage
   const savedUser = localStorage.getItem("user");
   const usuario = savedUser ? JSON.parse(savedUser) : null;
   const nombre = usuario?.fullName ? usuario.fullName.split(" ")[0] : "";
+  const token = localStorage.getItem("token");
+
+  const [estadisticas, setEstadisticas] = useState({
+    rentasComoCliente: 0,
+    motosPublicadas: 0,
+    gananciasDelMes: 0,
+    proximaDevolucion: "--",
+  });
+  const [rentaActiva, setRentaActiva] = useState<any>(null);
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (!token) {
+        setCargando(false);
+        return;
+      }
+      try {
+        const url = import.meta.env.VITE_API_URL || "http://localhost:3000";
+        const response = await fetch(`${url}/dashboard`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.ok) {
+            setEstadisticas(data.estadisticas);
+            setRentaActiva(data.rentaActiva);
+          }
+        }
+      } catch (error) {
+        console.error("Error al obtener las estadísticas del dashboard:", error);
+      } finally {
+        setCargando(false);
+      }
+    };
+    fetchStats();
+  }, [token]);
+
+  if (cargando) {
+    return (
+      <div className="dashboard">
+        <main className="dashboard-content" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+          <h2>Cargando tu panel...</h2>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard">

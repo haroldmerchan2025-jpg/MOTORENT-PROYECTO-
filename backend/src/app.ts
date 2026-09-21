@@ -3,7 +3,8 @@ import type { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import motoRoutes from './routes/moto.routes.js';
-import authroutes from './routes/auth.routes.js'
+import authroutes from './routes/auth.routes.js';
+import dashboardRoutes from './routes/dashboard.routes.js';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -20,7 +21,8 @@ app.get('/', (_req, res) => {
   res.send('Servidor MotoRent con TypeScript funcionando');
 });
 
-app.use('/auth', authroutes)
+app.use('/auth', authroutes);
+app.use('/dashboard', dashboardRoutes);
 
 // Rutas de la API
 app.use('/api', motoRoutes);

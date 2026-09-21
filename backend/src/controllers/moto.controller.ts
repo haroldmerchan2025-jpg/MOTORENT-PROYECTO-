@@ -1,6 +1,6 @@
-// backend/src/controllers/moto.controller.ts
 import type { Request, Response } from "express";
 import { prisma } from "../config/prisma.js";
+import type { AuthRequest } from "../middleware/auth.middleware.js";
 
 export const getMotos = async (_req: Request, res: Response) => {
   try {
@@ -11,8 +11,13 @@ export const getMotos = async (_req: Request, res: Response) => {
   }
 };
 
-export const createMoto = async (req: Request, res: Response) => {
+export const createMoto = async (req: AuthRequest, res: Response) => {
   try {
+    const userId = req.usuario?.id;
+    if (!userId) {
+      return res.status(401).json({ ok: false, message: "No autenticado" });
+    }
+
     const { brand, model, year, licensePlate, dailyRate, displacement, color, KM } = req.body;
 
     // Validación de campos vacíos (permite KM = 0)
@@ -71,6 +76,22 @@ export const createMoto = async (req: Request, res: Response) => {
       });
     }
 
+    // Buscar o crear el perfil de Owner para este usuario
+    let owner = await prisma.owner.findUnique({
+      where: { userId }
+    });
+
+    if (!owner) {
+      owner = await prisma.owner.create({
+        data: {
+          userId,
+          bankName: "Pendiente",
+          accountType: "Pendiente",
+          accountNumber: "Pendiente"
+        }
+      });
+    }
+
     const newMoto = await prisma.moto.create({
       data: {
         brand: String(brand).trim(),
@@ -80,7 +101,8 @@ export const createMoto = async (req: Request, res: Response) => {
         dailyRate: Number(dailyRate),
         displacement: String(displacement).trim(),
         color: String(color).trim(),
-        KM: Math.round(kmNumero), // Obligatorio entero para Prisma
+        KM: Math.round(kmNumero),
+        ownerId: owner.id, // VINCULAR LA MOTO AL USUARIO
       },
     });
 
