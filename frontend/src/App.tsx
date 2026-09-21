@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard/dashboard";
 import Motos from "./pages/Motos/Motos";
 import Perfil from "./pages/perfil/perfil";
 import Rentas from "./pages/Rentas/rentas";
+import Contrato from "./pages/Contrato/Contrato";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/perfil" element={<Perfil/>}/>
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/rentas" element={<Rentas />} />
+        <Route path="/contrato" element={<Contrato />} />
         </Route>
 
       </Routes>

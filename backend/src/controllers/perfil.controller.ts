@@ -11,12 +11,12 @@ export const verPerfil = async (req: AuthRequest, res: Response)=>{
             ok:false,
             message: "usuario no existe"
         })
-    }
+    };
 
     const getUser = await prisma.user.findFirst({
         where: {
             id : req.usuario.id
-        };
+        }
     });
 
     if(!getUser){

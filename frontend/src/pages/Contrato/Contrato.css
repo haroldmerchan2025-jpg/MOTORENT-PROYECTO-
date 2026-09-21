@@ -1,0 +1,195 @@
+.contrato-page {
+  min-height: calc(100vh - 70px);
+  background-color: var(--bg-main);
+  padding: 30px 20px 60px;
+}
+.contrato-container {
+  max-width: 950px;
+  margin: 0 auto;
+}
+/* Barra superior */
+.contrato-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+.btn-back:hover {
+  color: var(--accent);
+}
+.badge-status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  background-color: #FEF08A;
+  color: #854D0E;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+/* Tarjeta resumen de las dos partes */
+.contrato-summary-bar {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 24px;
+}
+.summary-col h5 {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.summary-col p {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0;
+}
+/* ======================================================= */
+/* CONTENEDOR PRINCIPAL: ESPACIO PARA INSERTAR EL CONTRATO */
+/* ======================================================= */
+.contrato-viewer-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.contrato-viewer-header {
+  padding: 16px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contrato-viewer-header h3 {
+  font-size: 16px;
+  color: var(--primary);
+  font-weight: 700;
+  margin: 0;
+}
+/* Ranura / Espacio donde se insertará el documento */
+.contrato-document-slot {
+  min-height: 520px;
+  padding: 24px;
+  background-color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Placeholder visual mientras se inserta el contrato */
+.contrato-placeholder {
+  border: 2px dashed #cbd5e1;
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 650px;
+  padding: 60px 30px;
+  text-align: center;
+}
+.placeholder-icon {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+.contrato-placeholder h4 {
+  font-size: 18px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.contrato-placeholder p {
+  font-size: 14px;
+  color: var(--text-muted);
+  max-width: 440px;
+  margin: 0 auto 16px;
+  line-height: 1.5;
+}
+.contrato-placeholder code {
+  background-color: #f1f5f9;
+  color: var(--accent);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+/* Barra inferior de acciones y envío a ambas partes */
+.contrato-footer-actions {
+  padding: 20px 24px;
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+  gap: 16px;
+}
+.delivery-notice {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.delivery-notice span {
+  font-size: 16px;
+}
+.actions-buttons {
+  display: flex;
+  gap: 12px;
+}
+.btn-action-secondary {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--primary);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-action-secondary:hover {
+  background-color: #f1f5f9;
+}
+.btn-action-primary {
+  background-color: var(--accent);
+  color: #ffffff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-action-primary:hover {
+  background-color: var(--accent-hover);
+}
+@media (max-width: 768px) {
+  .contrato-footer-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions-buttons {
+    flex-direction: column;
+  }
+}
