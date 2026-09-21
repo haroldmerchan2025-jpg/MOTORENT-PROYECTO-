@@ -53,10 +53,14 @@ export const createMoto = async (req: Request, res: Response) => {
       });
     };
 
+    const cc = Number(displacement)
 
-    
-
-
+    if (cc < 100 || cc > 1500){
+      return res.status(401).json({
+        ok: false,
+        message: "El cilindraje de la moto debe ser mayor o igual a 100 y menor o igual a 1500"
+      });
+    };
 
     const newMoto = await prisma.moto.create({
       data: {
@@ -70,8 +74,8 @@ export const createMoto = async (req: Request, res: Response) => {
         KM
       },
     });
-
     res.status(201).json(newMoto);
+
   } catch (error) {
     res.status(400).json(
       { error: "Error al registrar la motocicleta" });
