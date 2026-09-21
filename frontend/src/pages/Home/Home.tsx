@@ -3,123 +3,220 @@ import moto1 from "../../assets/imagenes/moto1.jpeg";
 import { Link } from "react-router-dom";
 
 function Home() {
+  const token = localStorage.getItem("token");
+  const isAuthenticated = token && token !== "undefined" && token !== "null";
+
   return (
     <div className="home">
-
+      {/* NAVBAR */}
       <header className="navbar">
-
-        <div className="logo">
+        <Link to="/" className="logo">
           <span>MOTO</span>RENT
-        </div>
+        </Link>
 
         <nav className="nav-links">
-          <a href="/">Inicio</a>
-          <Link to="/motos">Motos</Link>
-          <a href="#nosotros">Nosotros</a>
+          <Link to="/">Inicio</Link>
+          <Link to="/motos">Catálogo</Link>
+          <a href="#propietarios">Dueños</a>
+          <a href="#como-funciona">Cómo funciona</a>
         </nav>
 
         <div className="nav-buttons">
-          <a href="/login" className="btn-login">
-            Iniciar sesión
-          </a>
-
-          <a href="/register" className="btn-register">
-            Registrarse
-          </a>
+          {isAuthenticated ? (
+            <Link to="/dashboard" className="btn-dashboard">
+              Mi Panel
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" className="btn-login">
+                Iniciar sesión
+              </Link>
+              <Link to="/register" className="btn-register">
+                Registrarse
+              </Link>
+            </>
+          )}
         </div>
-
       </header>
 
       <main>
-
+        {/* HERO SECTION */}
         <section className="hero">
-
           <div className="hero-content">
-
-            <p className="hero-tag">
-              ALQUILER DE MOTOCICLETAS
-            </p>
-
+            <span className="hero-badge">RENTING INTELIGENTE EN COLOMBIA</span>
             <h1>
               Alquila tu moto.
               <br />
               <span>Comienza el viaje.</span>
             </h1>
-
             <p className="hero-description">
-              Encuentra la motocicleta perfecta para moverte
-              de forma rápida, cómoda y segura.
+              Muévete por la ciudad o sal de ruta sin ataduras. Alquila motocicletas
+              verificadas por días o semanas, o publica la tuya y genera ingresos extra.
             </p>
 
-            <a href="#motos" className="hero-button">
-              Ver motocicletas
-            </a>
+            <div className="hero-cta-group">
+              <Link to="/motos" className="btn-primary-cta">
+                Ver motocicletas disponibles
+              </Link>
+              <a href="#propietarios" className="btn-secondary-cta">
+                Quiero rentar mi moto
+              </a>
+            </div>
 
+            <div className="hero-stats">
+              <div className="stat-item">
+                <strong>+100%</strong>
+                <span>Motos verificadas</span>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <strong>Sin papeleo</strong>
+                <span>Proceso 100% digital</span>
+              </div>
+              <div className="stat-divider"></div>
+              <div className="stat-item">
+                <strong>Tarifas claras</strong>
+                <span>Sin costos ocultos</span>
+              </div>
+            </div>
           </div>
 
           <div className="hero-image">
-            <img src={moto1} alt="Motocicleta MOTORENT" />
+            <img src={moto1} alt="Motocicleta MotoRent" />
           </div>
-
         </section>
 
-        <section className="categories">
-
-          <div className="category-card">
-            <h3>Viaje</h3>
-            <p>Motos de aventura por días o semanas.</p>
+        {/* CATEGORÍAS */}
+        <section className="section-categories">
+          <div className="section-header">
+            <h2>Motos para cada momento</h2>
+            <p>Elige el tipo de vehículo según tu necesidad</p>
           </div>
 
-          <div className="category-card">
-            <h3>Uso diario</h3>
-            <p>Movilidad flexible para el día a día.</p>
-          </div>
+          <div className="categories-grid">
+            <Link to="/motos" className="category-card travel">
+              <div className="category-tag">Aventura</div>
+              <h3>Viaje y Turismo</h3>
+              <p>Altas cilindradas con maleteros listas para devorar carretera con total comodidad.</p>
+              <span className="card-link">Explorar categoría →</span>
+            </Link>
 
-          <div className="category-card">
-            <h3>Trabajo</h3>
-            <p>Ideal para domicilios y mensajería.</p>
-          </div>
+            <Link to="/motos" className="category-card daily">
+              <div className="category-tag">Ciudad</div>
+              <h3>Uso Diario</h3>
+              <p>Scooters y motos livianas, ideales para esquivar el tráfico diario y ahorrar gasolina.</p>
+              <span className="card-link">Explorar categoría →</span>
+            </Link>
 
+            <Link to="/motos" className="category-card work">
+              <div className="category-tag">Productividad</div>
+              <h3>Trabajo</h3>
+              <p>Motos resistentes, económicas y listas para mensajería o jornadas exigentes.</p>
+              <span className="card-link">Explorar categoría →</span>
+            </Link>
+          </div>
         </section>
 
-        <section className="how-it-works">
-  <h2>Cómo funciona</h2>
+        {/* SECCIÓN PROPIETARIOS / DUEÑOS (NUEVO ROL) */}
+        <section id="propietarios" className="section-owner-banner">
+          <div className="owner-banner-inner">
+            <div className="owner-text">
+              <span className="badge-highlight">GANA DINERO CON MOTORENT</span>
+              <h2>¿Tienes una moto parada? Ponla a generar ingresos</h2>
+              <p>
+                Conviértete en anfitrión en nuestra plataforma. Tú decides el precio por día
+                y qué días prestarla. Nosotros nos encargamos de verificar a los conductores y transferirte tus pagos.
+              </p>
 
-  <div className="steps">
-    <div className="step">
-      <span className="step-number">1</span>
-      <h4>Buscas tu moto</h4>
-      <p>Elige entre nuestro catálogo según tu necesidad.</p>
-    </div>
+              <div className="owner-perks">
+                <div className="perk">
+                  <span className="perk-icon">🛡️</span>
+                  <div>
+                    <h4>Conductores verificados</h4>
+                    <p>Revisamos antecedentes, cédula y licencia de cada cliente.</p>
+                  </div>
+                </div>
 
-    <div className="step">
-      <span className="step-number">2</span>
-      <h4>Reservas</h4>
-      <p>Confirma fechas y sube tus documentos.</p>
-    </div>
+                <div className="perk">
+                  <span className="perk-icon">💳</span>
+                  <div>
+                    <h4>Pagos seguros a tu cuenta</h4>
+                    <p>Recibe tus ganancias directamente en Bancolombia, Nequi o Daviplata.</p>
+                  </div>
+                </div>
 
-    <div className="step">
-      <span className="step-number">3</span>
-      <h4>Recoges y disfrutas</h4>
-      <p>Firmamos el contrato y te entregamos la moto.</p>
-    </div>
-  </div>
-</section>
+                <div className="perk">
+                  <span className="perk-icon">⏱️</span>
+                  <div>
+                    <h4>Control total de calendario</h4>
+                    <p>Bloquea fechas cuando tú quieras usar tu propia moto.</p>
+                  </div>
+                </div>
+              </div>
 
-<footer className="footer">
-  <div className="footer-logo">
-    <span>MOTO</span>RENT
-  </div>
-  <p className="footer-text">© 2026 MotoRent. Todos los derechos reservados.</p>
-  <div className="footer-links">
-    <a href="#nosotros">Nosotros</a>
-    <a href="#contacto">Contacto</a>
-    <a href="#terminos">Términos y condiciones</a>
-  </div>
-</footer>
+              <Link to="/register" className="btn-owner-cta">
+                Publicar mi moto gratis
+              </Link>
+            </div>
+          </div>
+        </section>
 
+        {/* CÓMO FUNCIONA */}
+        <section id="como-funciona" className="how-it-works">
+          <h2>Alquilar en MotoRent es así de fácil</h2>
+          <div className="steps">
+            <div className="step">
+              <div className="step-number">1</div>
+              <h4>Elige tu moto</h4>
+              <p>Explora nuestro catálogo, filtra por cilindraje o precio y elige la que más te guste.</p>
+            </div>
+
+            <div className="step">
+              <div className="step-number">2</div>
+              <h4>Valida tu perfil</h4>
+              <p>Sube tu documento y licencia de conducción en minutos desde tu celular o PC.</p>
+            </div>
+
+            <div className="step">
+              <div className="step-number">3</div>
+              <h4>Recoge y rueda</h4>
+              <p>Firma el acta digital, recibe la moto con tanque listo y disfruta del camino.</p>
+            </div>
+          </div>
+        </section>
       </main>
 
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-brand">
+            <div className="footer-logo">
+              <span>MOTO</span>RENT
+            </div>
+            <p className="footer-text">
+              La plataforma líder de alquiler y renting de motocicletas en Colombia.
+            </p>
+          </div>
+
+          <div className="footer-links-group">
+            <h4>Para Clientes</h4>
+            <Link to="/motos">Catálogo de motos</Link>
+            <Link to="/login">Iniciar sesión</Link>
+            <Link to="/register">Crear cuenta</Link>
+          </div>
+
+          <div className="footer-links-group">
+            <h4>Para Propietarios</h4>
+            <a href="#propietarios">Poner moto en renta</a>
+            <Link to="/register">Registrarme como Dueño</Link>
+            <a href="#como-funciona">Comisiones y pagos</a>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} MotoRent Colombia. Todos los derechos reservados.</p>
+        </div>
+      </footer>
     </div>
   );
 }

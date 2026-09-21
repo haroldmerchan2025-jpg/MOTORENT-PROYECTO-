@@ -1,127 +1,147 @@
 import "./Dashboard.css";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-// Datos de ejemplo — luego los conectamos a tu backend real (Rental)
+// ----------------------------------------------------------------------
+// 1. DATOS DE EJEMPLO (MOCK DATA)
+// Más adelante vendrán de tus endpoints en Express (Rental y Owner)
+// ----------------------------------------------------------------------
+
+// Simulación de una moto que el usuario tiene alquilada actualmente
 const rentaActiva = {
   moto: "Yamaha MT-03",
   fechaDevolucion: "22 de septiembre de 2026",
-  diasRestantes: 6,
+  diasRestantes: 4,
+  tarifaDiaria: 85000,
 };
 
+// Resumen de estadísticas del usuario (Cliente + Dueño)
 const estadisticas = {
-  rentasTotales: 4,
-  motoFavorita: "Yamaha MT-03",
-  proximaDevolucion: "22 sep",
+  rentasComoCliente: 3,        // Veces que ha alquilado motos para viajar
+  motosPublicadas: 1,          // Motos que tiene puestas en renta
+  gananciasDelMes: 340000,     // Dinero que ha ganado con su moto este mes (85% neto)
+  proximaDevolucion: "22 sep", // Próxima fecha importante
 };
 
 function Dashboard() {
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    localStorage.removeItem("token");
-    window.history.pushState(null, "", "/login");
-    navigate("/login", { replace: true });
-  }
 
   return (
     <div className="dashboard">
 
-      <header className="dashboard-navbar">
-        <div className="logo">
-          <span>MOTO</span>RENT
-        </div>
-
-        <nav className="dashboard-nav-links">
-          <Link to="/dashboard">Inicio</Link>
-          <Link to="/motos">Motos</Link>
-          <Link to="/rentas">Mis rentas</Link>
-          <Link to="/perfil">Mi perfil</Link>
-        </nav>
-
-        <button className="logout-button" onClick={handleLogout}>
-          Cerrar sesión
-        </button>
-      </header>
-
+      {/* ================================================================ */}
+      {/* 3. CONTENIDO PRINCIPAL                                           */}
+      {/* ================================================================ */}
       <main className="dashboard-content">
-
+        
+        {/* BANNER DE BIENVENIDA */}
         <section className="welcome-banner">
           <div>
-            <p className="welcome-tag">PANEL DE USUARIO</p>
-            <h1>Bienvenido de nuevo</h1>
+            <span className="welcome-tag">PANEL DE CONTROL</span>
+            <h1>¡Hola de nuevo! 👋</h1>
             <p className="welcome-description">
-              Aquí puedes ver el catálogo de motos, tus rentas activas y el estado de tu cuenta.
+              Revisa tus alquileres activos, tus ganancias como propietario y el estado de tu cuenta.
             </p>
           </div>
         </section>
 
+        {/* ================================================================ */}
+        {/* 4. BANNER DE RENTA ACTIVA (SI EL USUARIO TIENE UNA MOTO RENTADA) */}
+        {/* ================================================================ */}
         {rentaActiva && (
           <section className="active-rental-banner">
-            <div className="active-rental-icon">🏍</div>
+            <div className="active-rental-icon">🏍️</div>
             <div className="active-rental-info">
-              <p className="active-rental-title">Tienes una moto rentada</p>
+              <div className="active-rental-badge">EN CURSO</div>
+              <p className="active-rental-title">Tienes una {rentaActiva.moto} rentada</p>
               <p className="active-rental-text">
-                {rentaActiva.moto} · devolución el {rentaActiva.fechaDevolucion}
-                {" "}({rentaActiva.diasRestantes} días restantes)
+                Devolución programada: <strong>{rentaActiva.fechaDevolucion}</strong> ({rentaActiva.diasRestantes} días restantes).
               </p>
             </div>
-            <Link to="#rentas" className="active-rental-button">Ver detalles</Link>
+            <Link to="/perfil" className="active-rental-button">
+              Ver contrato y acta digital →
+            </Link>
           </section>
         )}
 
+        {/* ================================================================ */}
+        {/* 5. TARJETAS DE ESTADÍSTICAS (MÉTRICAS DEL USUARIO)               */}
+        {/* ================================================================ */}
         <section className="stats-row">
+          {/* Métrica 1: Alquileres hechos como cliente */}
           <div className="stat-card">
-            <p className="stat-number">{estadisticas.rentasTotales}</p>
-            <p className="stat-label">Rentas totales</p>
+            <span className="stat-icon">🛵</span>
+            <p className="stat-number">{estadisticas.rentasComoCliente}</p>
+            <p className="stat-label">Viajes realizados</p>
           </div>
+
+          {/* Métrica 2: Motos que el usuario tiene publicadas (Dueño) */}
           <div className="stat-card">
-            <p className="stat-number">{estadisticas.motoFavorita}</p>
-            <p className="stat-label">Moto favorita</p>
+            <span className="stat-icon">🔑</span>
+            <p className="stat-number">{estadisticas.motosPublicadas}</p>
+            <p className="stat-label">Motos publicadas</p>
           </div>
+
+          {/* Métrica 3: Ganancias generadas en el mes (Dueño) */}
+          <div className="stat-card highlight">
+            <span className="stat-icon">💰</span>
+            <p className="stat-number">${estadisticas.gananciasDelMes.toLocaleString("es-CO")}</p>
+            <p className="stat-label">Ganancias este mes (COP)</p>
+          </div>
+
+          {/* Métrica 4: Próxima devolución */}
           <div className="stat-card">
+            <span className="stat-icon">📅</span>
             <p className="stat-number">{estadisticas.proximaDevolucion}</p>
-            <p className="stat-label">Próxima devolución</p>
+            <p className="stat-label">Próxima entrega</p>
           </div>
         </section>
 
-        <section className="verification-banner">
-          <div className="verification-icon">!</div>
-          <div>
-            <p className="verification-title">Verificación pendiente</p>
-            <p className="verification-text">
-              Sube tu documento y licencia para poder rentar una moto.
-            </p>
+        {/* ================================================================ */}
+        {/* 6. BANNER DE PROPIETARIOS: INVITACIÓN A PUBLICAR MOTOS           */}
+        {/* ================================================================ */}
+        <section className="owner-promo-card">
+          <div className="owner-promo-text">
+            <h3>¿Quieres generar ingresos pasivos?</h3>
+            <p>Pon tu moto en renta los días que no la uses. La plataforma te garantiza conductores verificados y pagos puntuales.</p>
           </div>
-          <button className="verification-button">Verificar ahora</button>
+          <Link to="/publicarmoto" className="btn-promo-publish">
+            Publicar mi moto gratis
+          </Link>
         </section>
+
+        {/* ================================================================ */}
+        {/* 7. ACCIONES RÁPIDAS (ATRIBUTOS DE NAVEGACIÓN)                     */}
+        {/* ================================================================ */}
+        <div className="section-title-box">
+          <h2>Acciones rápidas</h2>
+          <p>Todo lo que puedes hacer en MotoRent</p>
+        </div>
 
         <section className="quick-actions">
-
+          {/* Acción 1: Ir al catálogo */}
           <Link to="/motos" className="action-card">
             <div className="action-number">01</div>
-            <h3>Ver catálogo</h3>
-            <p>Explora las motos disponibles para viaje, uso diario o trabajo.</p>
-            <span className="action-link">Ver motos →</span>
+            <h3>Explorar catálogo</h3>
+            <p>Descubre motocicletas de viaje, uso urbano o trabajo disponibles para hoy.</p>
+            <span className="action-link">Ver catálogo →</span>
           </Link>
 
-          <Link to="/rentas" className="active-rental-button">Ver detalles
+          {/* Acción 2: Publicar moto */}
+          <Link to="/publicarmoto" className="action-card">
             <div className="action-number">02</div>
-            <h3>Mis rentas</h3>
-            <p>Revisa tus rentas activas, pasadas y las fechas de devolución.</p>
-            <span className="action-link">Ver rentas →</span>
+            <h3>Publicar mi moto</h3>
+            <p>Sube tu moto con placa, fotos y define tu tarifa diaria para empezar a ganar.</p>
+            <span className="action-link">Publicar moto →</span>
           </Link>
 
-          <Link to="/perfil" className="action-card"> 
+          {/* Acción 3: Ir a perfil */}
+          <Link to="/perfil" className="action-card">
             <div className="action-number">03</div>
-            <h3>Mi perfil</h3>
-            <p>Actualiza tus datos, documentos y método de contacto.</p>
-            <span className="action-link">Ver perfil →</span>
+            <h3>Mi perfil y documentos</h3>
+            <p>Verifica tu cédula, licencia de conducción y configura tu cuenta bancaria.</p>
+            <span className="action-link">Administrar perfil →</span>
           </Link>
-
         </section>
-
       </main>
-
     </div>
   );
 }

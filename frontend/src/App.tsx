@@ -1,4 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+
+
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -7,10 +11,15 @@ import Dashboard from "./pages/Dashboard/dashboard";
 import Motos from "./pages/Motos/Motos";
 import Perfil from "./pages/perfil/perfil";
 import Rentas from "./pages/Rentas/rentas";
+import PublicarMoto from "./pages/Publicarmoto/publicarmoto";
 
 function App() {
   return (
     <BrowserRouter>
+
+     <Navbar />
+
+     
       <Routes>
         <Route/>
         <Route path="/" element={<Home />} />
