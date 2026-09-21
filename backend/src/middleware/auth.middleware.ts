@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 export interface AuthRequest extends Request {
   usuario?: { id: string; role: string };
-}
+};
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -20,7 +20,7 @@ export const verificarToken = (
       ok: false,
       mensaje: "Acceso denegado, no tiene token de sesion activo",
     });
-  }
+  };
 
   try {
     const decodificado = jwt.verify(token, JWT_SECRET) as {
@@ -35,6 +35,5 @@ export const verificarToken = (
       ok: false,
       mensaje: "Token invalido o expirado. Por favor vuelva a iniciar sesion",
     });
-  }
+  };
 };
-

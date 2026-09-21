@@ -21,16 +21,19 @@ function App() {
 
      
       <Routes>
+        <Route/>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/motos" element={<Motos />} />
+
+
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/rentas" element={<Rentas />} />
-          <Route path="/publicarmoto" element={<PublicarMoto />} />
+        <Route path="/perfil" element={<Perfil/>}/>
+        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/rentas" element={<Rentas />} />
         </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/motos" element={<Motos />} />
+
       </Routes>
     </BrowserRouter>
   );
