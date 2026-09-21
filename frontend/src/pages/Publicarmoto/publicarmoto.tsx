@@ -57,15 +57,6 @@ function PublicarMoto() {
 
   return (
     <div className="publish-page">
-      {/* NAVBAR SIMPLE CON BOTÓN PARA REGRESAR */}
-      <header className="publish-navbar">
-        <Link to="/" className="logo">
-          <span>MOTO</span>RENT
-        </Link>
-        <Link to="/motos" className="btn-back">
-          ← Volver al catálogo
-        </Link>
-      </header>
 
       <main className="publish-container">
         {publicadoExitoso ? (

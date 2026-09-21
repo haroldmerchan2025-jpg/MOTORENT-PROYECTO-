@@ -16,7 +16,7 @@ export const verPerfil = async (req: AuthRequest, res: Response)=>{
     const getUser = await prisma.user.findFirst({
         where: {
             id : req.usuario.id
-        };
+        }
     });
 
     if(!getUser){

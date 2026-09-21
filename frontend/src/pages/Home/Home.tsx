@@ -3,41 +3,9 @@ import moto1 from "../../assets/imagenes/moto1.jpeg";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const token = localStorage.getItem("token");
-  const isAuthenticated = token && token !== "undefined" && token !== "null";
 
   return (
     <div className="home">
-      {/* NAVBAR */}
-      <header className="navbar">
-        <Link to="/" className="logo">
-          <span>MOTO</span>RENT
-        </Link>
-
-        <nav className="nav-links">
-          <Link to="/">Inicio</Link>
-          <Link to="/motos">Catálogo</Link>
-          <a href="#propietarios">Dueños</a>
-          <a href="#como-funciona">Cómo funciona</a>
-        </nav>
-
-        <div className="nav-buttons">
-          {isAuthenticated ? (
-            <Link to="/dashboard" className="btn-dashboard">
-              Mi Panel
-            </Link>
-          ) : (
-            <>
-              <Link to="/login" className="btn-login">
-                Iniciar sesión
-              </Link>
-              <Link to="/register" className="btn-register">
-                Registrarse
-              </Link>
-            </>
-          )}
-        </div>
-      </header>
 
       <main>
         {/* HERO SECTION */}

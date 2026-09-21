@@ -70,6 +70,10 @@ function Navbar() {
     setNotificaciones(notificaciones.map((n) => ({ ...n, leida: true })));
   }
 
+  if (location.pathname === "/login" || location.pathname === "/register") {
+    return null;
+  }
+
   return (
     <header className="global-navbar">
       {/* ------------------------------------------------------------- */}

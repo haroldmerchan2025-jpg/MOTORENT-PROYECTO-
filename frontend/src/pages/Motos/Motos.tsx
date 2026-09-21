@@ -1,6 +1,6 @@
 import "./Motos.css";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 // 1. DEFINICIÓN DEL TIPO DE DATO (TYPESCRIPT INTERFACE)
@@ -113,7 +113,6 @@ const motosEjemplo: Moto[] = [
 ];
 
 function Motos() {
-  const navigate = useNavigate();
 
   // ----------------------------------------------------------------------
   // 3. ESTADOS DE BÚSQUEDA Y FILTROS
@@ -135,13 +134,7 @@ function Motos() {
 
   // Revisar si el usuario está autenticado
   const token = localStorage.getItem("token");
-  const haySesion = token && token !== "undefined" && token !== "null";
-
-  // Función para cerrar sesión
-  function handleLogout() {
-    localStorage.removeItem("token");
-    navigate("/login", { replace: true });
-  }
+  const haySesion = token && token !== "undefined" && token !== "null"; 
 
   // ----------------------------------------------------------------------
   // 5. CÁLCULO DE DÍAS Y PRECIO TOTAL EN TIEMPO REAL
@@ -171,49 +164,9 @@ function Motos() {
 
   return (
     <div className="motos-page">
-      {/* ================================================================ */}
-      {/* NAVBAR SUPERIOR                                                  */}
-      {/* ================================================================ */}
-      <header className="motos-navbar">
-        <Link to="/" className="logo">
-          <span>MOTO</span>RENT
-        </Link>
-
-        {/* Barra de búsqueda interactiva */}
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Buscar por marca o modelo (ej. Yamaha, Pulsar)..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
-        </div>
-
-        {/* Menú según sesión */}
-        {haySesion ? (
-          <div className="user-nav">
-            <nav className="motos-nav-links">
-              <Link to="/dashboard">Mi Panel</Link>
-              <Link to="/perfil">Mi Perfil</Link>
-            </nav>
-            <button className="logout-button" onClick={handleLogout}>
-              Cerrar sesión
-            </button>
-          </div>
-        ) : (
-          <div className="guest-nav-buttons">
-            <Link to="/login" className="btn-login-nav">
-              Iniciar sesión
-            </Link>
-            <Link to="/register" className="btn-register-nav">
-              Registrarse
-            </Link>
-          </div>
-        )}
-      </header>
 
       {/* ================================================================ */}
-      {/* CONTENIDO PRINCIPAL DEL CATÁLOGO                                */}
+      {/* CONTENIDO PRINCIPAL DEL CATÁLOGO                                 */}
       {/* ================================================================ */}
       <main className="motos-content">
         <div className="motos-heading">

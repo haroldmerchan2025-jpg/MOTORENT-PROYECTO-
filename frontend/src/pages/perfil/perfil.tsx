@@ -1,6 +1,6 @@
 import "./perfil.css";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 // 1. DATOS DE EJEMPLO DEL USUARIO (Luego vendrán de tu API /auth/me)
@@ -13,7 +13,6 @@ const usuarioEjemplo = {
 };
 
 function Perfil() {
-  const navigate = useNavigate();
 
   // ----------------------------------------------------------------------
   // 2. CONTROL DE PESTAÑAS (TABS)
@@ -49,14 +48,6 @@ function Perfil() {
   const [accountHolderDoc, setAccountHolderDoc] = useState("");
   const [propietarioGuardado, setPropietarioGuardado] = useState(false);
 
-  // ----------------------------------------------------------------------
-  // 5. CERRAR SESIÓN
-  // ----------------------------------------------------------------------
-  function handleLogout() {
-    localStorage.removeItem("token");
-    navigate("/login", { replace: true });
-  }
-
   // Guardar datos de conductor
   function handleGuardarConductor(e: React.FormEvent) {
     e.preventDefault();
@@ -73,26 +64,6 @@ function Perfil() {
 
   return (
     <div className="perfil-page">
-      {/* ================================================================ */}
-      {/* NAVBAR SUPERIOR                                                  */}
-      {/* ================================================================ */}
-      <header className="perfil-navbar">
-        <Link to="/" className="logo">
-          <span>MOTO</span>RENT
-        </Link>
-
-        <nav className="perfil-nav-links">
-          <Link to="/dashboard">Mi Panel</Link>
-          <Link to="/motos">Catálogo</Link>
-          <Link to="/publicarmoto" className="link-publicar">
-            + Publicar moto
-          </Link>
-        </nav>
-
-        <button className="logout-button" onClick={handleLogout}>
-          Cerrar sesión
-        </button>
-      </header>
 
       {/* ================================================================ */}
       {/* CONTENIDO DEL PERFIL                                             */}
