@@ -13,7 +13,7 @@ function VerificarCorreo() {
     if (!token || peticionEnviada.current) return;
     peticionEnviada.current = true;
 
-    // Llamamos al endpoint GET /auth/verify-email/:token una sola vez
+    // Una sola llamada limpia al backend
     fetch(`${import.meta.env.VITE_API_URL}/auth/verify-email/${token}`)
       .then(async (res) => {
         const data = await res.json();

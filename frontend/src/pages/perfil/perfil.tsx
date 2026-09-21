@@ -1,20 +1,35 @@
+// frontend/src/pages/perfil/perfil.tsx
 import "./perfil.css";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+// Si no existe variable de entorno, usa el puerto 3000 del backend
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+interface UsuarioData {
+  id?: string;
+  fullName: string;
+  username: string;
+  email: string;
+  phone: string;
+  role?: string;
+  client?: any;
+  owner?: any;
+}
+
 function Perfil() {
   const navigate = useNavigate();
 
-  // ----------------------------------------------------------------------
-  // 1. ESTADO DEL USUARIO (Datos que vienen de la BD)
-  // ----------------------------------------------------------------------
-  const [usuario, setUsuario] = useState({
-    fullName: "Cargando...",
+  // 1. ESTADO DEL USUARIO
+  const [usuario, setUsuario] = useState<UsuarioData>({
+    fullName: "Cargando datos...",
     username: "",
     email: "",
     phone: "",
   });
 
+  const [_cargando, setCargando] = useState(true);
+  const [errorCarga, setErrorCarga] = useState("");
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -54,46 +69,93 @@ function Perfil() {
       });
     }, [navigate]);
 
-  // ----------------------------------------------------------------------
   // 2. CONTROL DE PESTAÑAS (TABS)
-  // 'datos' | 'conductor' | 'propietario'
-  // ----------------------------------------------------------------------
   const [tabActiva, setTabActiva] = useState<"datos" | "conductor" | "propietario">("datos");
 
-  // ----------------------------------------------------------------------
   // 3. ESTADOS DEL PERFIL DE CONDUCTOR (CLIENT)
-  // ----------------------------------------------------------------------
   const [documentNumber, setDocumentNumber] = useState("");
   const [documentFront, setDocumentFront] = useState<File | null>(null);
   const [documentBack, setDocumentBack] = useState<File | null>(null);
-
   const [licenseNumber, setLicenseNumber] = useState("");
   const [licenseCategory, setLicenseCategory] = useState("A2");
   const [licenseExpiration, setLicenseExpiration] = useState("");
   const [licenseFront, setLicenseFront] = useState<File | null>(null);
   const [licenseBack, setLicenseBack] = useState<File | null>(null);
-
-  // Estados de verificación simulados
   const [estadoConductor] = useState("PENDIENTE");
   const [conductorGuardado, setConductorGuardado] = useState(false);
 
-  // ----------------------------------------------------------------------
   // 4. ESTADOS DEL PERFIL DE PROPIETARIO (OWNER)
-  // ----------------------------------------------------------------------
   const [bankName, setBankName] = useState("Bancolombia");
   const [accountType, setAccountType] = useState("Ahorros");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountHolderDoc, setAccountHolderDoc] = useState("");
   const [propietarioGuardado, setPropietarioGuardado] = useState(false);
 
-  // Guardar datos de conductor
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch(`${API_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          // Si el token es inválido o expiró
+          if (res.status === 401 || res.status === 403) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            navigate("/login");
+            return;
+          }
+          throw new Error(data.mensaje || data.message || "Error al obtener perfil");
+        }
+        return data;
+      })
+      .then((data) => {
+        if (data && (data.user || data.ok)) {
+          const userRecibido = data.user || data;
+          setUsuario(userRecibido);
+          localStorage.setItem("user", JSON.stringify(userRecibido));
+
+          // Si ya tiene datos bancarios guardados, precargarlos
+          if (userRecibido.owner) {
+            if (userRecibido.owner.bankName) setBankName(userRecibido.owner.bankName);
+            if (userRecibido.owner.accountType) setAccountType(userRecibido.owner.accountType);
+            if (userRecibido.owner.accountNumber) setAccountNumber(userRecibido.owner.accountNumber);
+            if (userRecibido.owner.accountHolderDoc) setAccountHolderDoc(userRecibido.owner.accountHolderDoc);
+          }
+
+          // Si ya tiene datos de conductor, precargarlos
+          if (userRecibido.client) {
+            if (userRecibido.client.documentNumber) setDocumentNumber(userRecibido.client.documentNumber);
+            if (userRecibido.client.licenseNumber) setLicenseNumber(userRecibido.client.licenseNumber);
+            if (userRecibido.client.licenseCategory) setLicenseCategory(userRecibido.client.licenseCategory);
+          }
+        }
+        setCargando(false);
+      })
+      .catch((err) => {
+        console.error("Error al cargar perfil:", err);
+        setErrorCarga("No se pudo conectar con el servidor backend.");
+        setCargando(false);
+      });
+  }, [navigate]);
+
   function handleGuardarConductor(e: React.FormEvent) {
     e.preventDefault();
     setConductorGuardado(true);
     setTimeout(() => setConductorGuardado(false), 4000);
   }
 
-  // Guardar datos de propietario
   function handleGuardarPropietario(e: React.FormEvent) {
     e.preventDefault();
     setPropietarioGuardado(true);
@@ -105,15 +167,34 @@ function Perfil() {
       <main className="perfil-content">
         <div className="perfil-header-box">
           <div className="avatar-circle">
-            {usuario.fullName ? usuario.fullName.charAt(0).toUpperCase() : "U"}
+            {usuario.fullName && usuario.fullName !== "Cargando datos..."
+              ? usuario.fullName.charAt(0).toUpperCase()
+              : "U"}
           </div>
           <div>
             <h1>{usuario.fullName}</h1>
-            <p className="user-email">{usuario.email} {usuario.username ? `• @${usuario.username}` : ""}</p>
+            <p className="user-email">
+              {usuario.email} {usuario.username ? `• @${usuario.username}` : ""}
+            </p>
           </div>
         </div>
 
-        {/* NAVEGACIÓN ENTRE PESTAÑAS (TABS) */}
+        {errorCarga && (
+          <div
+            style={{
+              backgroundColor: "#FEE2E2",
+              color: "#B91C1C",
+              padding: "12px 16px",
+              borderRadius: "8px",
+              marginBottom: "16px",
+              fontWeight: 600,
+            }}
+          >
+            ⚠️ {errorCarga}
+          </div>
+        )}
+
+        {/* NAVEGACIÓN ENTRE PESTAÑAS */}
         <div className="perfil-tabs">
           <button
             className={tabActiva === "datos" ? "tab-btn active" : "tab-btn"}
@@ -135,9 +216,7 @@ function Perfil() {
           </button>
         </div>
 
-        {/* ================================================================ */}
-        {/* PESTAÑA 1: DATOS PERSONALES DE LA CUENTA                         */}
-        {/* ================================================================ */}
+        {/* PESTAÑA 1: DATOS PERSONALES */}
         {tabActiva === "datos" && (
           <section className="perfil-card">
             <h2>Información de tu cuenta</h2>
@@ -156,19 +235,19 @@ function Perfil() {
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Correo electrónico</span>
-                <span className="perfil-dato-valor">{usuario.email}</span>
+                <span className="perfil-dato-valor">{usuario.email || "No definido"}</span>
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Número de celular</span>
-                <span className="perfil-dato-valor">{usuario.phone ? `+57 ${usuario.phone}` : "No definido"}</span>
+                <span className="perfil-dato-valor">
+                  {usuario.phone ? `+57 ${usuario.phone}` : "No definido"}
+                </span>
               </div>
             </div>
           </section>
         )}
 
-        {/* ================================================================ */}
-        {/* PESTAÑA 2: VERIFICACIÓN DE CONDUCTOR (CLIENTE)                    */}
-        {/* ================================================================ */}
+        {/* PESTAÑA 2: CONDUCTOR */}
         {tabActiva === "conductor" && (
           <section className="perfil-card">
             <div className="card-top-row">
@@ -182,7 +261,6 @@ function Perfil() {
             </p>
 
             <form onSubmit={handleGuardarConductor}>
-              {/* DOCUMENTO DE IDENTIDAD */}
               <h3 className="perfil-subsection">1. Cédula de Ciudadanía</h3>
               <div className="perfil-form-field">
                 <label>Número de documento *</label>
@@ -203,7 +281,9 @@ function Perfil() {
                     accept="image/*"
                     onChange={(e) => setDocumentFront(e.target.files?.[0] ?? null)}
                   />
-                  {documentFront && <span className="file-indicator">✓ {documentFront.name}</span>}
+                  {documentFront && (
+                    <span className="file-indicator">✓ {documentFront.name}</span>
+                  )}
                 </div>
 
                 <div className="perfil-upload-field">
@@ -213,11 +293,12 @@ function Perfil() {
                     accept="image/*"
                     onChange={(e) => setDocumentBack(e.target.files?.[0] ?? null)}
                   />
-                  {documentBack && <span className="file-indicator">✓ {documentBack.name}</span>}
+                  {documentBack && (
+                    <span className="file-indicator">✓ {documentBack.name}</span>
+                  )}
                 </div>
               </div>
 
-              {/* LICENCIA DE CONDUCCIÓN */}
               <h3 className="perfil-subsection">2. Licencia de Conducción</h3>
               <div className="form-two-cols">
                 <div className="perfil-form-field">
@@ -233,7 +314,10 @@ function Perfil() {
 
                 <div className="perfil-form-field">
                   <label>Categoría *</label>
-                  <select value={licenseCategory} onChange={(e) => setLicenseCategory(e.target.value)}>
+                  <select
+                    value={licenseCategory}
+                    onChange={(e) => setLicenseCategory(e.target.value)}
+                  >
                     <option value="A1">A1 (Hasta 125cc)</option>
                     <option value="A2">A2 (Cualquier cilindraje - Recomendada)</option>
                   </select>
@@ -258,7 +342,9 @@ function Perfil() {
                     accept="image/*"
                     onChange={(e) => setLicenseFront(e.target.files?.[0] ?? null)}
                   />
-                  {licenseFront && <span className="file-indicator">✓ {licenseFront.name}</span>}
+                  {licenseFront && (
+                    <span className="file-indicator">✓ {licenseFront.name}</span>
+                  )}
                 </div>
 
                 <div className="perfil-upload-field">
@@ -268,7 +354,9 @@ function Perfil() {
                     accept="image/*"
                     onChange={(e) => setLicenseBack(e.target.files?.[0] ?? null)}
                   />
-                  {licenseBack && <span className="file-indicator">✓ {licenseBack.name}</span>}
+                  {licenseBack && (
+                    <span className="file-indicator">✓ {licenseBack.name}</span>
+                  )}
                 </div>
               </div>
 
@@ -277,17 +365,15 @@ function Perfil() {
               </button>
 
               {conductorGuardado && (
-               <p className="perfil-success-message">
-                 ✓ Documentos guardados exitosamente. El administrador los revisará en breve.
-               </p>
+                <p className="perfil-success-message">
+                  ✓ Documentos guardados exitosamente. El administrador los revisará en breve.
+                </p>
               )}
             </form>
           </section>
         )}
 
-        {/* ================================================================ */}
-        {/* PESTAÑA 3: PERFIL DE PROPIETARIO (DATOS BANCARIOS)                */}
-        {/* ================================================================ */}
+        {/* PESTAÑA 3: PROPIETARIO */}
         {tabActiva === "propietario" && (
           <section className="perfil-card">
             <div className="card-top-row">

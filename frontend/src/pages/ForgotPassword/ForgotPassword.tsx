@@ -88,7 +88,7 @@ function ForgotPassword() {
               {mensajeExito}
             </div>
             <p style={{ color: "#7A8E9F", fontSize: "13px", marginBottom: "24px" }}>
-              💡 Revisa tu bandeja de entrada o carpeta de spam. (Si estás en desarrollo, mira la terminal del backend).
+              💡 Revisa tu bandeja de entrada o carpeta de spam. (Si estás probando en desarrollo, mira la terminal del backend).
             </p>
             <Link to="/login" className="auth-button" style={{ display: "block", textDecoration: "none", textAlign: "center" }}>
               Volver a Iniciar Sesión
