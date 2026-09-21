@@ -82,7 +82,13 @@ function Navbar() {
     setNotificaciones(notificaciones.map((n) => ({ ...n, leida: true })));
   }
 
-  if (location.pathname === "/login" || location.pathname === "/register") {
+    if (
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/recuperar-password" ||
+    location.pathname.startsWith("/reset-password") ||
+    location.pathname.startsWith("/verificar-correo")
+  ) {
     return null;
   }
 

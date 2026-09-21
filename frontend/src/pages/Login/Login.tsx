@@ -134,6 +134,16 @@ function Login() {
           {errorPassword && <p className="field-error">{errorPassword}</p>}
         </div>
 
+                {/* ENLACE PARA RECUPERAR CONTRASEÑA */}
+        <div style={{ textAlign: "right", marginTop: "-10px", marginBottom: "20px" }}>
+          <Link 
+            to="/recuperar-password" 
+            style={{ color: "#FF6A3D", fontSize: "13px", textDecoration: "none", fontWeight: "600" }}
+          >
+            ¿Olvidaste tu contraseña?
+          </Link>
+        </div>
+
         <button type="submit" className="auth-button" disabled={cargando}>
           {cargando ? "Iniciando sesión..." : "Ingresar"}
         </button>
