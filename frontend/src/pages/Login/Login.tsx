@@ -9,6 +9,7 @@ function Login() {
   // Estados de los campos
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
+  const [mostrarPassword, setMostrarPassword] = useState(false);
 
   // Estados de errores
   const [errorUsuario, setErrorUsuario] = useState("");
@@ -62,6 +63,7 @@ function Login() {
 
       // Si todo está bien, guardamos el token y vamos al dashboard
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/dashboard", { replace: true });
     } catch (error) {
       console.error(error);
@@ -104,12 +106,31 @@ function Login() {
 
         <div className="form-field">
           <label>Contraseña</label>
-          <input
-            type="password"
-            placeholder="Ingresa tu contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div style={{ position: "relative" }}> {/* Div contenedor */}
+            <input
+              type={mostrarPassword ? "text" : "password"}
+              placeholder="Ingresa tu contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "100%", paddingRight: "40px" }}
+            />
+            <button
+              type="button"
+              onClick={() => setMostrarPassword(!mostrarPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                fontSize: "18px"
+              }}
+            >
+              {mostrarPassword ? "👁️" : "🙈"} 
+            </button>
+          </div>
           {errorPassword && <p className="field-error">{errorPassword}</p>}
         </div>
 

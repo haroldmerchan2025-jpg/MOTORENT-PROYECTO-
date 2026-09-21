@@ -1,10 +1,12 @@
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
 
-// ----------------------------------------------------------------------
-// 1. DATOS DE EJEMPLO (MOCK DATA)
-// Más adelante vendrán de tus endpoints en Express (Rental y Owner)
-// ----------------------------------------------------------------------
+const savedUser = localStorage.getItem("user");
+const usuario = savedUser ? JSON.parse(savedUser) : null;
+const nombre = usuario?.fullName ? usuario.fullName.split(" ")[0] : "";
+
+<h1>¡Hola de nuevo{nombre ? `, ${nombre}` : ""}! 👋</h1>
+
 
 // Simulación de una moto que el usuario tiene alquilada actualmente
 const rentaActiva = {

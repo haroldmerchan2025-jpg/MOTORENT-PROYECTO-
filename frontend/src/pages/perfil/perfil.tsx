@@ -1,18 +1,58 @@
 import "./perfil.css";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-// ----------------------------------------------------------------------
-// 1. DATOS DE EJEMPLO DEL USUARIO (Luego vendrán de tu API /auth/me)
-// ----------------------------------------------------------------------
-const usuarioEjemplo = {
-  fullName: "Harold Merchán",
-  username: "haroldm",
-  email: "harold@correo.com",
-  phone: "3001234567",
-};
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Perfil() {
+  const navigate = useNavigate();
+
+  // ----------------------------------------------------------------------
+  // 1. ESTADO DEL USUARIO (Datos que vienen de la BD)
+  // ----------------------------------------------------------------------
+  const [usuario, setUsuario] = useState({
+    fullName: "Cargando...",
+    username: "",
+    email: "",
+    phone: "",
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch("http://localhost:3000/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log("Respuesta de /auth/me, status:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Datos recibidos de /auth/me:", data);
+        if (data.ok && data.user) {
+          setUsuario(data.user);
+          localStorage.setItem("user", JSON.stringify(data.user));
+        } else {
+          console.error("El backend dijo que ok es falso o no mandó usuario:", data);
+          if (data.mensaje === "Token invalido o expirado. Por favor vuelva a iniciar sesion") {
+             // Si el token falló, limpiar e ir al login
+             localStorage.removeItem("token");
+             localStorage.removeItem("user");
+             navigate("/login");
+          } else {
+             setUsuario((prev) => ({ ...prev, fullName: "Error al cargar perfil" }));
+          }
+        }
+      })
+      .catch((err) => {
+        console.error("Error al cargar perfil:", err);
+        setUsuario((prev) => ({ ...prev, fullName: "Error de conexión" }));
+      });
+  }, []);
 
   // ----------------------------------------------------------------------
   // 2. CONTROL DE PESTAÑAS (TABS)
@@ -22,7 +62,6 @@ function Perfil() {
 
   // ----------------------------------------------------------------------
   // 3. ESTADOS DEL PERFIL DE CONDUCTOR (CLIENT)
-  // Documentos necesarios para poder manejar y rentar motos en la app
   // ----------------------------------------------------------------------
   const [documentNumber, setDocumentNumber] = useState("");
   const [documentFront, setDocumentFront] = useState<File | null>(null);
@@ -34,13 +73,12 @@ function Perfil() {
   const [licenseFront, setLicenseFront] = useState<File | null>(null);
   const [licenseBack, setLicenseBack] = useState<File | null>(null);
 
-  // Estados de verificación simulados (PENDIENTE, VERIFICADO, RECHAZADO)
+  // Estados de verificación simulados
   const [estadoConductor] = useState("PENDIENTE");
   const [conductorGuardado, setConductorGuardado] = useState(false);
 
   // ----------------------------------------------------------------------
   // 4. ESTADOS DEL PERFIL DE PROPIETARIO (OWNER)
-  // Datos bancarios donde MotoRent le transferirá el dinero de los alquileres
   // ----------------------------------------------------------------------
   const [bankName, setBankName] = useState("Bancolombia");
   const [accountType, setAccountType] = useState("Ahorros");
@@ -64,18 +102,14 @@ function Perfil() {
 
   return (
     <div className="perfil-page">
-
-      {/* ================================================================ */}
-      {/* CONTENIDO DEL PERFIL                                             */}
-      {/* ================================================================ */}
       <main className="perfil-content">
         <div className="perfil-header-box">
           <div className="avatar-circle">
-            {usuarioEjemplo.fullName.charAt(0)}
+            {usuario.fullName ? usuario.fullName.charAt(0).toUpperCase() : "U"}
           </div>
           <div>
-            <h1>{usuarioEjemplo.fullName}</h1>
-            <p className="user-email">{usuarioEjemplo.email} • @{usuarioEjemplo.username}</p>
+            <h1>{usuario.fullName}</h1>
+            <p className="user-email">{usuario.email} {usuario.username ? `• @${usuario.username}` : ""}</p>
           </div>
         </div>
 
@@ -114,19 +148,19 @@ function Perfil() {
             <div className="perfil-datos-grid">
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Nombre completo</span>
-                <span className="perfil-dato-valor">{usuarioEjemplo.fullName}</span>
+                <span className="perfil-dato-valor">{usuario.fullName}</span>
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Nombre de usuario</span>
-                <span className="perfil-dato-valor">@{usuarioEjemplo.username}</span>
+                <span className="perfil-dato-valor">@{usuario.username || "No definido"}</span>
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Correo electrónico</span>
-                <span className="perfil-dato-valor">{usuarioEjemplo.email}</span>
+                <span className="perfil-dato-valor">{usuario.email}</span>
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Número de celular</span>
-                <span className="perfil-dato-valor">+57 {usuarioEjemplo.phone}</span>
+                <span className="perfil-dato-valor">{usuario.phone ? `+57 ${usuario.phone}` : "No definido"}</span>
               </div>
             </div>
           </section>
@@ -243,9 +277,9 @@ function Perfil() {
               </button>
 
               {conductorGuardado && (
-                <p className="perfil-success-message">
-                  ✓ Documentos guardados exitosamente. El administrador los revisará en breve.
-                </p>
+               <p className="perfil-success-message">
+                 ✓ Documentos guardados exitosamente. El administrador los revisará en breve.
+               </p>
               )}
             </form>
           </section>

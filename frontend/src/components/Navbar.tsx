@@ -13,6 +13,11 @@ function Navbar() {
   const token = localStorage.getItem("token");
   const haySesion = token && token !== "undefined" && token !== "null";
 
+    // Obtener datos del usuario logueado desde localStorage
+  const savedUser = localStorage.getItem("user");
+  const usuarioActual = savedUser ? JSON.parse(savedUser) : null;
+  const inicial = usuarioActual?.fullName ? usuarioActual.fullName.charAt(0).toUpperCase() : "U";
+
   // ----------------------------------------------------------------------
   // 2. ESTADOS PARA LOS MENÚS DESPLEGABLES (DROPDOWNS)
   // ----------------------------------------------------------------------
@@ -162,17 +167,17 @@ function Navbar() {
                   setMenuNotificaciones(false);
                 }}
               >
-                H
+                {inicial}
               </button>
 
               {/* MENÚ DESPLEGABLE DE PERFIL */}
               {menuPerfil && (
                 <div className="dropdown-menu profile-dropdown">
                   <div className="profile-dropdown-user">
-                    <div className="avatar-small">H</div>
+                    <div className="avatar-small">{inicial}</div>
                     <div>
-                      <p className="profile-name">Harold Merchán</p>
-                      <p className="profile-role">Cliente & Propietario</p>
+                      <p className="profile-name">{usuarioActual?.fullName || "Mi cuenta"}</p>
+                      <p className="profile-role">{usuarioActual?.email || "usuario" }</p>
                     </div>
                   </div>
                   <div className="dropdown-divider"></div>

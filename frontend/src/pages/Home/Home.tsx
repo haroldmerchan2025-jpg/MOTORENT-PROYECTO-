@@ -38,7 +38,7 @@ function Home() {
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <strong>Sin papeleo</strong>
+                <strong>Sin complicaciones</strong>
                 <span>Proceso 100% digital</span>
               </div>
               <div className="stat-divider"></div>

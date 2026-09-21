@@ -118,6 +118,7 @@ function Register() {
       }
 
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       navigate("/motos", { replace: true });
     } catch (error) {
       console.error(error);
