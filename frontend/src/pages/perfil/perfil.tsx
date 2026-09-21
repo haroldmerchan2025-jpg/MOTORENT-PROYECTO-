@@ -30,6 +30,44 @@ function Perfil() {
 
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState("");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log("Respuesta de /auth/me, status:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Datos recibidos de /auth/me:", data);
+        if (data.ok && data.user) {
+          setUsuario(data.user);
+          localStorage.setItem("user", JSON.stringify(data.user));
+        } else {
+          console.error("El backend dijo que ok es falso o no mandó usuario:", data);
+          if (data.mensaje === "Token invalido o expirado. Por favor vuelva a iniciar sesion") {
+             // Si el token falló, limpiar e ir al login
+             localStorage.removeItem("token");
+             localStorage.removeItem("user");
+             navigate("/login");
+          } else {
+             setUsuario((prev) => ({ ...prev, fullName: "Error al cargar perfil" }));
+          }
+        }
+      })
+      .catch((err) => {
+        console.error("Error al cargar perfil:", err);
+        setUsuario((prev) => ({ ...prev, fullName: "Error de conexión" }));
+      });
+    }, [navigate]);
 
   // 2. CONTROL DE PESTAÑAS (TABS)
   const [tabActiva, setTabActiva] = useState<"datos" | "conductor" | "propietario">("datos");

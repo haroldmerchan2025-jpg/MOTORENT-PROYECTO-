@@ -64,6 +64,15 @@ model User {
   phone     String
   role      Role     @default(USER)
 
+   // Verificación de correo
+  isEmailVerified          Boolean   @default(false)
+  emailVerificationToken   String?
+  emailVerificationExpires DateTime?
+
+   // NUEVOS CAMPOS: Recuperación de contraseña
+  resetPasswordToken       String?
+  resetPasswordExpires     DateTime?
+
   // Un usuario puede ser Cliente (rentar para manejar), Dueño (publicar motos), o ambos
   client    Client?
   owner     Owner?
@@ -142,7 +151,7 @@ model Moto {
   displacement  String
   KM            Int
   color         String
-  dailyRate     Decimal
+  dailyRate     Decimal     @db.Decimal(10, 2)
   status        MotoStatus  @default(AVAILABLE)
 
   document      MotoDocument?

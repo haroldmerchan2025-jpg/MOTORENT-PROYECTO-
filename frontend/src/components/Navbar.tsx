@@ -15,7 +15,14 @@ function Navbar() {
 
     // Obtener datos del usuario logueado desde localStorage
   const savedUser = localStorage.getItem("user");
-  const usuarioActual = savedUser ? JSON.parse(savedUser) : null;
+  let usuarioActual: { fullName?: string; email?: string } | null = null;
+  try {
+    if (savedUser && savedUser !== "undefined") {
+      usuarioActual = JSON.parse(savedUser);
+    }
+  } catch {
+    usuarioActual = null;
+  }
   const inicial = usuarioActual?.fullName ? usuarioActual.fullName.charAt(0).toUpperCase() : "U";
 
   // ----------------------------------------------------------------------
@@ -75,7 +82,13 @@ function Navbar() {
     setNotificaciones(notificaciones.map((n) => ({ ...n, leida: true })));
   }
 
-  if (location.pathname === "/login" || location.pathname === "/register") {
+    if (
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/recuperar-password" ||
+    location.pathname.startsWith("/reset-password") ||
+    location.pathname.startsWith("/verificar-correo")
+  ) {
     return null;
   }
 
