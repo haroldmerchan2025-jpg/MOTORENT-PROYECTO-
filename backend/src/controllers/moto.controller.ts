@@ -78,7 +78,7 @@ export const createMoto = async (req: Request, res: Response) => {
         year: año,
         licensePlate: placaLimpia,
         dailyRate: Number(dailyRate),
-        displacement: Number(displacement),
+        displacement: String(displacement).trim(),
         color: String(color).trim(),
         KM: Math.round(kmNumero), // Obligatorio entero para Prisma
       },
