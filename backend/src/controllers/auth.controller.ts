@@ -1,4 +1,5 @@
 import { type Request, type Response } from "express";
+import {NewUser} from "../services/auth.service.js";
 import { type AuthRequest } from "../middleware/auth.middleware.js";
 import { prisma } from "../config/prisma.js";
 import bcrypt from "bcryptjs";
