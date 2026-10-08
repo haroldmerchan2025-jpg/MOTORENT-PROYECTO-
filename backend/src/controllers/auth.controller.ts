@@ -95,7 +95,7 @@ export const registerUser = async (req: Request, res: Response) => {
                 email,
                 password: passwordHash,
                 fullName,
-                phone,
+                phone,  
                 emailVerificationToken: verificationToken,
                 emailVerificationExpires: verificationExpires,
                 isEmailVerified: false

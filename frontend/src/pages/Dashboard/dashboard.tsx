@@ -15,7 +15,15 @@ function Dashboard() {
     gananciasDelMes: 0,
     proximaDevolucion: "--",
   });
-  const [rentaActiva, setRentaActiva] = useState<any>(null);
+  
+  interface RentaActiva {
+    moto: string;
+    fechaDevolucion: string;
+    diasRestantes: number;
+    tarifaDiaria: number;
+  }
+  
+  const [rentaActiva, setRentaActiva] = useState<RentaActiva | null>(null);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {

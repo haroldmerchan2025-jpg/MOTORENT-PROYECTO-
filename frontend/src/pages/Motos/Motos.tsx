@@ -64,11 +64,11 @@ function Motos() {
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           // Asignamos una categoría por defecto si en la DB no viene
-          const motosFormateadas = data.map((m: any) => ({
+          const motosFormateadas = data.map((m: Partial<Moto>) => ({
             ...m,
             category: m.category || (Number(m.displacement) >= 250 ? "Viaje" : "Uso diario"),
             description: m.description || `Moto ${m.brand} ${m.model} año ${m.year} en excelente estado mecánico.`,
-          }));
+          })) as Moto[];
           setMotos(motosFormateadas);
         } else {
           // Si la DB está vacía, mostramos las de respaldo

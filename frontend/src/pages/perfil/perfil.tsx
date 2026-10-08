@@ -13,8 +13,17 @@ interface UsuarioData {
   email: string;
   phone: string;
   role?: string;
-  client?: any;
-  owner?: any;
+  client?: {
+    documentNumber?: string;
+    licenseNumber?: string;
+    licenseCategory?: string;
+  };
+  owner?: {
+    bankName?: string;
+    accountType?: string;
+    accountNumber?: string;
+    accountHolderDoc?: string;
+  };
 }
 
 function Perfil() {
@@ -28,7 +37,7 @@ function Perfil() {
     phone: "",
   });
 
-  const [_cargando, setCargando] = useState(true);
+  const [, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState("");
   useEffect(() => {
     const token = localStorage.getItem("token");
