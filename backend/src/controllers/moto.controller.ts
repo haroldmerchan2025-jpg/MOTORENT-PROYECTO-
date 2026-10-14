@@ -26,7 +26,7 @@ export const createMoto = async (req: AuthRequest, res: Response) => {
   } catch (error) {
     console.error("Error al registrar moto:", error);
     
-    // Devolvemos el mensaje del error que lanzó el servicio (ej. "Esta placa ya esta registrada")
+    // Devolvemos el mensaje del error que lanzó el servicio
     const mensajeError = error instanceof Error ? error.message : "Error desconocido";
     
     return responseError(res, mensajeError, null, 400);

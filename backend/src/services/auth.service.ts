@@ -10,7 +10,5 @@ interface createUserData {
 
 export const NewUser = async (userData: createUserData) => {
 
-  
 
-  return await prisma.user.create({ data: userData });
 };
