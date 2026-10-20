@@ -7,3 +7,4 @@ const router = Router();
 router.get("/", verificarToken, getDashboardStats);
 
 export default router;
+    

@@ -4,6 +4,13 @@ import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
 import { sendPasswordResetEmail } from "../services/email.service.js";
 
+
+// ----------------------------------------------------------------------
+// No lo vamos a usar aun, pero lo dejamos por si acaso
+// ----------------------------------------------------------------------
+
+
+
 // ----------------------------------------------------------------------
 // 1. SOLICITAR RECUPERACIÓN DE CONTRASEÑA (POST /auth/forgot-password)
 // ----------------------------------------------------------------------

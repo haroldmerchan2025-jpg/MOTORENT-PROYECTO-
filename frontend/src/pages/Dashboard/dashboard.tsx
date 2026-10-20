@@ -41,9 +41,10 @@ function Dashboard() {
         });
         if (response.ok) {
           const data = await response.json();
-          if (data.ok) {
-            setEstadisticas(data.estadisticas);
-            setRentaActiva(data.rentaActiva);
+          if (data.ok || data.status === 'success') {
+            const payload = data.data || data;
+            setEstadisticas(payload.estadisticas);
+            setRentaActiva(payload.rentaActiva);
           }
         }
       } catch (error) {
