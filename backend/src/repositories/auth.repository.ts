@@ -26,7 +26,3 @@ import {prisma} from "../config/prisma.js";
 
     return await prisma.user.findFirst
  };
-
- 
-
-

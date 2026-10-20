@@ -1,7 +1,9 @@
-import { type Request, type Response } from "express";
-import { prisma } from "../config/prisma.js";
-import crypto from "node:crypto";
-import { sendVerificationEmail } from "../services/email.service.js";
+import type { Request, Response } from "express";
+import {
+  verificarCorreoConToken,
+  reenviarCorreoVerificacion,
+} from "../services/verification.service.js";
+import { responseSuccess, responseError } from "../utils/response.util.js";
 
 // ----------------------------------------------------------------------
 // 1. VERIFICAR CORREO ELECTRÓNICO (GET /auth/verify-email/:token)
@@ -9,43 +11,11 @@ import { sendVerificationEmail } from "../services/email.service.js";
 export const verifyEmail = async (req: Request, res: Response) => {
   try {
     const { token } = req.params;
-
-    if (!token) {
-      return res.status(400).json({ ok: false, message: "Token de verificación no proporcionado" });
-    }
-
-    const user = await prisma.user.findFirst({
-      where: {
-        emailVerificationToken: String(token),
-        emailVerificationExpires: {
-          gt: new Date()
-        }
-      }
-    });
-
-    if (!user) {
-      return res.status(400).json({
-        ok: false,
-        message: "El enlace de verificación es inválido o ha expirado"
-      });
-    }
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        isEmailVerified: true,
-        emailVerificationToken: null,
-        emailVerificationExpires: null
-      }
-    });
-
-    res.status(200).json({
-      ok: true,
-      message: "¡Correo electrónico verificado exitosamente!"
-    });
+    const resultado = await verificarCorreoConToken(String(token));
+    return responseSuccess(res, resultado.mensaje, null, 200);
   } catch (error) {
-    console.error("Error al verificar correo:", error);
-    res.status(500).json({ ok: false, message: "Error interno del servidor al verificar correo" });
+    const mensaje = error instanceof Error ? error.message : "Error desconocido";
+    return responseError(res, mensaje, null, 400);
   }
 };
 
@@ -55,48 +25,10 @@ export const verifyEmail = async (req: Request, res: Response) => {
 export const resendVerificationEmail = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ ok: false, message: "El correo es obligatorio" });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { email }
-    });
-
-    if (!user) {
-      return res.status(200).json({
-        ok: true,
-        message: "Si el correo está registrado, recibirás un nuevo enlace de verificación."
-      });
-    }
-
-    if (user.isEmailVerified) {
-      return res.status(400).json({
-        ok: false,
-        message: "Tu correo electrónico ya se encuentra verificado."
-      });
-    }
-
-    const newToken = crypto.randomBytes(32).toString("hex");
-    const newExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        emailVerificationToken: newToken,
-        emailVerificationExpires: newExpires
-      }
-    });
-
-    await sendVerificationEmail(user.email, user.fullName, newToken);
-
-    res.status(200).json({
-      ok: true,
-      message: "Enlace de verificación reenviado exitosamente."
-    });
+    const resultado = await reenviarCorreoVerificacion(email);
+    return responseSuccess(res, resultado.mensaje, null, 200);
   } catch (error) {
-    console.error("Error al reenviar correo:", error);
-    res.status(500).json({ ok: false, message: "Error interno al reenviar correo" });
+    const mensaje = error instanceof Error ? error.message : "Error desconocido";
+    return responseError(res, mensaje, null, 400);
   }
 };
