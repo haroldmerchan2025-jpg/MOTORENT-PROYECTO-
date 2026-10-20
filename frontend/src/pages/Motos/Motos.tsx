@@ -17,7 +17,12 @@ interface Moto {
   description?: string;
 }
 
-// Motos de muestra en caso de que el backend esté apagado
+
+import motoDefaultImg from "../../assets/imagenes/moto1.jpeg";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+// Motos de muestra en caso de que el backend esté apagado o sin conexión
 const motosRespaldo: Moto[] = [
   {
     id: "ejemplo-1",
@@ -59,12 +64,19 @@ function Motos() {
 
   // 1. CARGAR MOTOS REALES DESDE EL BACKEND
   useEffect(() => {
-    fetch("http://localhost:3000/api/motos")
+    fetch(`${API_URL}/api/motos`)
       .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
+      .then((resJson) => {
+        // El backend devuelve { status: "success", mensaje: "...", data: [...] }
+        const lista = Array.isArray(resJson)
+          ? resJson
+          : Array.isArray(resJson?.data)
+          ? resJson.data
+          : [];
+
+        if (lista.length > 0) {
           // Asignamos una categoría por defecto si en la DB no viene
-          const motosFormateadas = data.map((m: Partial<Moto>) => ({
+          const motosFormateadas = lista.map((m: any) => ({
             ...m,
             category: m.category || (Number(m.displacement) >= 250 ? "Viaje" : "Uso diario"),
             description: m.description || `Moto ${m.brand} ${m.model} año ${m.year} en excelente estado mecánico.`,
@@ -168,20 +180,18 @@ function Motos() {
                     className="moto-image-placeholder"
                     style={{ position: "relative", overflow: "hidden" }}
                   >
-                    {fotoLocal ? (
-                      <img
-                        src={fotoLocal}
-                        alt={`${moto.brand} ${moto.model}`}
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    ) : null}
+                    <img
+                      src={fotoLocal || motoDefaultImg}
+                      alt={`${moto.brand} ${moto.model}`}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
 
                     <span
                       className="category-badge"
