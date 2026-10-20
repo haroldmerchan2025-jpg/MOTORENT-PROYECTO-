@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 // 1. Controladores del Núcleo de Sesión
-import { loginUser, registerUser, getMe } from "../controllers/auth.controller.js";
+import { loginUser, newUser, getMe } from "../controllers/auth.controller.js";
 
 // 2. Controladores de Verificación de Correo
 import { verifyEmail, resendVerificationEmail } from "../controllers/verification.controller.js";
@@ -11,12 +11,13 @@ import { forgotPassword, resetPassword } from "../controllers/password.controlle
 
 // 4. Middleware para proteger rutas que requieren inicio de sesión
 import { verificarToken } from "../middleware/auth.middleware.js";
+import { validateData } from "../middleware/newUser.middleware.js";
 
 const router = Router();
 
 // RUTAS DE SESIÓN Y PERFIL
 
-router.post("/register", registerUser);
+router.post("/register", validateData,newUser);
 router.post("/login", loginUser);
 router.get("/me", verificarToken, getMe);
 
