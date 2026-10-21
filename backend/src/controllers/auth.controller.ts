@@ -1,6 +1,6 @@
 
 import { type Request, type Response } from "express";
-import { registerUser } from "../services/auth.service.js";
+import { registerUser } from "../services/auth-register.service.js";
 import { AppError } from "../utils/response.util.js";
 
 export const newUser = async (req: Request, res: Response) => {
