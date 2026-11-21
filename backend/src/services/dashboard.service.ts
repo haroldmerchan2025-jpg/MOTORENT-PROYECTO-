@@ -1,16 +1,19 @@
 import * as dashboardRepo from "../repositories/dashboard.repository.js";
+
 export const calcularEstadisticasDashboard = async (userId: string) => {
   // 1. Le pide al Repositorio el usuario
   const user = await dashboardRepo.obtenerUsuarioConPerfiles(userId);
   if (!user) throw new Error("Usuario no encontrado");
+
   let rentasComoCliente = 0;
   let rentaActiva = null;
   let proximaDevolucion = "--";
-  // 2. Lógica si es Cliente (Cálculos de días restantes y fechas)
-  if (user.client) {
-    rentasComoCliente = await dashboardRepo.obtenerRentasCliente(user.client.id);
-    
-    const activeRental = await dashboardRepo.obtenerRentaActivaCliente(user.client.id);
+
+  // 2. Lógica si es Arrendatario / Cliente (Cálculos de días restantes y fechas)
+  if (user.renter) {
+    rentasComoCliente = await dashboardRepo.obtenerRentasCliente(user.renter.id);
+
+    const activeRental = await dashboardRepo.obtenerRentaActivaCliente(user.renter.id);
     if (activeRental) {
       const endDate = new Date(activeRental.endDate);
       const hoy = new Date();
@@ -25,6 +28,7 @@ export const calcularEstadisticasDashboard = async (userId: string) => {
       };
     }
   }
+
   // 3. Lógica si es Dueño (Cálculo de ganancias del mes)
   let motosPublicadas = 0;
   let gananciasDelMes = 0;
@@ -34,10 +38,9 @@ export const calcularEstadisticasDashboard = async (userId: string) => {
     startOfMonth.setDate(1);
     startOfMonth.setHours(0, 0, 0, 0);
     const rentasDelMes = await dashboardRepo.obtenerRentasDelMesPropietario(user.owner.id, startOfMonth);
-    // El Chef hace la suma matemática:
     gananciasDelMes = rentasDelMes.reduce((acc, curr) => acc + Number(curr.ownerEarnings), 0);
   }
-  // Devuelve el objeto procesado y limpio
+
   return {
     estadisticas: {
       rentasComoCliente,

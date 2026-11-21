@@ -19,12 +19,6 @@ export const firmarContrato = ejecutar(async (req, res) => {
   return responseSuccess(res, "Contrato firmado", data, 201);
 });
 
-export const pagarRenta = ejecutar(async (req, res) => {
-  const u = exigirUsuario(req);
-  const data = await service.pagarRenta(u.id, String(req.params.id), req.body);
-  return responseSuccess(res, "Pago registrado", data, 201);
-});
-
 export const reportarIncidente = ejecutar(async (req, res) => {
   const u = exigirUsuario(req);
   const data = await service.reportarIncidente(u, String(req.params.id), req.body);

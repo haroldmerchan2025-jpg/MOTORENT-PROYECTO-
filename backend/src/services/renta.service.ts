@@ -20,7 +20,7 @@ const MAPA_INCIDENTE = {
 const obtenerRentaDelCliente = async (userId: string, rentalId: string) => {
   const renta = await repo.buscarRentaConRelaciones(rentalId);
   if (!renta) throw new AppError("Renta no encontrada", 404);
-  if (renta.client.userId !== userId) throw new AppError("Esta renta no es tuya", 403);
+  if (renta.renter.idUser !== userId) throw new AppError("Esta renta no es tuya", 403);
   return renta;
 };
 
@@ -45,7 +45,7 @@ export const crearRenta = async (userId: string, body: any) => {
   if (!cliente) {
     throw new AppError("Primero debes registrar tu documento y licencia", 403);
   }
-  if (cliente.licenseExpirationDate <= fin) {
+  if (cliente.licenseExpirationDate && cliente.licenseExpirationDate <= fin) {
     throw new Error("Tu licencia vence antes de que termine el alquiler");
   }
 
@@ -67,7 +67,7 @@ export const crearRenta = async (userId: string, body: any) => {
   const platformFee = Math.round(subtotal * COMISION_PLATAFORMA);
 
   return repo.crearRenta({
-    clientId: cliente.id,
+    renterId: cliente.id,
     motoId: moto.id,
     startDate: inicio,
     endDate: fin,
@@ -93,12 +93,16 @@ export const firmarContrato = async (userId: string, rentalId: string, body: any
   const documentHash = sha256(
     JSON.stringify({
       rentalId,
-      clientId: renta.clientId,
+      renterId: renta.renterId,
       motoId: renta.motoId,
       startDate: renta.startDate,
       endDate: renta.endDate,
       total: String(renta.total),
-      clausulas: clausulas.map((c) => ({ id: c.id, version: c.version, body: c.body })),
+      clausulas: clausulas.map((c: { id: string; version: number; body: string }) => ({
+        id: c.id,
+        version: c.version,
+        body: c.body,
+      })),
       firmaSha256: sha256(firma.buffer),
       firmadoEn: firmadoEn.toISOString(),
     })
@@ -117,7 +121,7 @@ export const firmarContrato = async (userId: string, rentalId: string, body: any
       signedIp: ip ?? null,
       documentHash,
     },
-    clausulas.map((c) => ({
+    clausulas.map((c: { id: string; version: number; body: string }) => ({
       rentalId,
       clauseId: c.id,
       clauseVersion: c.version,
@@ -126,37 +130,18 @@ export const firmarContrato = async (userId: string, rentalId: string, body: any
   );
 };
 
-export const pagarRenta = async (userId: string, rentalId: string, body: any) => {
-  const renta = await obtenerRentaDelCliente(userId, rentalId);
-  if (renta.status !== "PENDING") throw new Error("Esta renta no está pendiente de pago");
-  if (!renta.contract) throw new Error("Debes firmar el contrato antes de pagar");
-
-  const metodo = String(body?.method ?? "").trim();
-  if (!metodo) throw new Error("Indica el método de pago");
-
-  // SIMULACIÓN: aquí va la llamada a la pasarela (Wompi, ePayco, etc.).
-  // Mientras tanto el pago se aprueba directamente.
-  return repo.registrarPago(rentalId, {
-    amount: renta.total,
-    method: metodo,
-    reference: `SIM-${crypto.randomUUID()}`,
-    status: "APPROVED",
-    paidAt: new Date(),
-  });
-};
-
 export const reportarIncidente = async (requester: Requester, rentalId: string, body: any) => {
   const renta = await repo.buscarRentaConRelaciones(rentalId);
   if (!renta) throw new AppError("Renta no encontrada", 404);
 
-  const esCliente = renta.client.userId === requester.id;
-  const esDueno = renta.moto.owner?.userId === requester.id;
+  const esCliente = renta.renter.idUser === requester.id;
+  const esDueno = renta.moto.owner?.idUser === requester.id;
   if (!esCliente && !esDueno && requester.role !== "ADMIN") {
     throw new AppError("No tienes permiso sobre esta renta", 403);
   }
 
-  if (renta.status !== "PAID" && renta.status !== "ACTIVE") {
-    throw new Error("Solo se puede reportar un incidente en una renta pagada o activa");
+  if (renta.status !== "ACTIVE") {
+    throw new Error("Solo se puede reportar un incidente en una renta activa");
   }
 
   const tipoRaw = String(body?.type ?? "").toUpperCase();
