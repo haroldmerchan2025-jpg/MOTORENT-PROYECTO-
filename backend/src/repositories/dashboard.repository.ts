@@ -4,31 +4,31 @@ export const obtenerUsuarioConPerfiles = async (userId: string) => {
   return await prisma.user.findUnique({
     where: { id: userId },
     include: {
-      client: true,
+      renter: true,
       owner: true,
     },
   });
 };
 
-export const obtenerRentasCliente = async (clientId: string) => {
+export const obtenerRentasCliente = async (renterId: string) => {
   return await prisma.rental.count({
-    where: { clientId: clientId },
+    where: { renterId },
   });
-}
+};
 
-export const obtenerRentaActivaCliente = async (clientId: string) => {
-    return await prisma.rental.findFirst({
-      where: { clientId: clientId, status: "ACTIVE" },
-      include: { moto: true },
-      orderBy: { endDate: "asc" }
-    });
-  }
+export const obtenerRentaActivaCliente = async (renterId: string) => {
+  return await prisma.rental.findFirst({
+    where: { renterId, status: "ACTIVE" },
+    include: { moto: true },
+    orderBy: { endDate: "asc" },
+  });
+};
 
 export const obtenerMotosPublicadasPropietario = async (ownerId: string) => {
   return await prisma.moto.count({
     where: { ownerId: ownerId },
   });
-}
+};
 
 export const obtenerRentasDelMesPropietario = async (ownerId: string, inicioDeMes: Date) => {
   return await prisma.rental.findMany({

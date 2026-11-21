@@ -43,13 +43,18 @@ enum MotoStatus {
   MAINTENANCE
   INACTIVE
   REJECTED
+  STOLEN
+  ACCIDENTED
+  MISSING
 }
 
 enum RentalStatus {
   PENDING
   ACTIVE
+  RETURNED
   COMPLETED
   CANCELLED
+  INCIDENT
 }
 
 enum ContractStatus {
@@ -61,6 +66,19 @@ enum ContractStatus {
 enum HandoverType {
   PICKUP
   RETURN
+}
+
+enum IncidentType {
+  THEFT
+  ACCIDENT
+  DISAPPEARANCE
+}
+
+enum LegalDocType {
+  TRANSIT_LICENSE
+  SOAT
+  TECHNICAL_REVIEW
+  INSURANCE
 }
 
 // ----------------------------------------------------
@@ -98,37 +116,43 @@ model User {
 // ----------------------------------------------------
 
 model Renter {
-  id                 String   @id @default(uuid())
-  idUser             String   @unique
+  id                    String   @id @default(uuid())
+  idUser                String   @unique
 
   // Personal identification
-  cedulaNumero       String   @unique
-  cedulaFrontUrl     String
-  cedulaBackUrl      String
-  photo              String
+  cedulaNumero          String   @unique
+  cedulaFrontUrl        String?
+  cedulaBackUrl         String?
+  photo                 String?
 
   // Driving license
-  licenseNumber      String   @unique
-  licenseFrontUrl    String
-  licenseBackUrl     String
-  licenseCategory    String
+  licenseNumber         String   @unique
+  licenseFrontUrl       String?
+  licenseBackUrl        String?
+  licenseCategory       String
+  licenseExpirationDate DateTime?
 
   // Proof of address
-  billUrl            String
+  billUrl               String?
+
+  // Encrypted binary files (AES-256-GCM + gzip)
+  documentFrontEnc      Bytes?
+  documentBackEnc       Bytes?
+  licenseFrontEnc       Bytes?
+  licenseBackEnc        Bytes?
 
   // Verification
-  estadoVerificacion RenterVerificationStatus @default(PENDING)
-  motivoRechazo      String?
-  fechaVerificacion  DateTime?
+  estadoVerificacion    RenterVerificationStatus @default(PENDING)
+  motivoRechazo         String?
+  fechaVerificacion     DateTime?
 
   // Dates
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 
   // Relations
-  user               User     @relation(fields: [idUser], references: [id])
-
-  rentals       Rental[]
+  user                  User     @relation(fields: [idUser], references: [id])
+  rentals               Rental[]
 }
 
 // ----------------------------------------------------
@@ -139,12 +163,12 @@ model Owner {
   id                 String   @id @default(uuid())
   idUser             String   @unique
 
-  // Personal identification
-  cedulaNumero       String   @unique
-  cedulaFrontUrl     String
-  cedulaBackUrl      String
-  photo              String
-  billUrl            String
+  // Personal identification (optional when created as pending on first moto publish)
+  cedulaNumero       String?  @unique
+  cedulaFrontUrl     String?
+  cedulaBackUrl      String?
+  photo              String?
+  billUrl            String?
 
   // Verification
   estadoVerificacion OwnerVerificationStatus @default(PENDING)
@@ -165,32 +189,34 @@ model Owner {
 // ----------------------------------------------------
 
 model Moto {
-  id            String      @id @default(uuid())
+  id             String              @id @default(uuid())
 
   // If ownerId is null -> MotoRent company motorcycle
   // If ownerId has a value -> Private owner's motorcycle
-  ownerId       String?
-  owner         Owner?      @relation(fields: [ownerId], references: [id])
+  ownerId        String?
+  owner          Owner?              @relation(fields: [ownerId], references: [id])
 
-  brand         String
-  model         String
-  year          Int
-  licensePlate  String      @unique
-  displacement  String
-  KM            Int
-  color         String
-  dailyRate     Decimal     @db.Decimal(10, 2)
-  status        MotoStatus  @default(AVAILABLE)
+  brand          String
+  model          String
+  year           Int
+  licensePlate   String              @unique
+  displacement   String
+  KM             Int
+  color          String
+  dailyRate      Decimal             @db.Decimal(10, 2)
+  status         MotoStatus          @default(AVAILABLE)
 
-  document      MotoDocument?
-  rentals       Rental[]
+  document       MotoDocument?
+  legalDocuments MotoLegalDocument[]
+  images         MotoImage[]
+  rentals        Rental[]
 
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 }
 
 // ----------------------------------------------------
-// MOTO DOCUMENT
+// MOTO DOCUMENTS AND IMAGES
 // ----------------------------------------------------
 
 model MotoDocument {
@@ -207,12 +233,42 @@ model MotoDocument {
   updatedAt  DateTime @updatedAt
 }
 
+model MotoLegalDocument {
+  id                 String             @id @default(uuid())
+  motoId             String
+  type               LegalDocType
+  number             String?
+  expiresAt          DateTime?
+  fileEnc            Bytes
+  verificationStatus VerificationStatus @default(PENDING)
+  verifiedAt         DateTime?
+
+  moto Moto @relation(fields: [motoId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([motoId, type])
+}
+
+model MotoImage {
+  id        String   @id @default(uuid())
+  motoId    String
+  data      Bytes
+  mime      String
+  isPrimary Boolean  @default(false)
+
+  moto Moto @relation(fields: [motoId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
 // ----------------------------------------------------
-// RENTAL, CONTRACT AND HANDOVER MODELS
+// RENTAL, CONTRACT, CLAUSES AND HANDOVER MODELS
 // ----------------------------------------------------
 
 model Rental {
-  id            String       @id @default(uuid())
+  id            String        @id @default(uuid())
   renterId      String
   motoId        String
   startDate     DateTime
@@ -220,21 +276,26 @@ model Rental {
 
   // Payment breakdown and commissions
   subtotal      Decimal
-  platformFee   Decimal      @default(0)
-  ownerEarnings Decimal      @default(0)
+  platformFee   Decimal       @default(0)
+  ownerEarnings Decimal       @default(0)
   total         Decimal
 
-  status        RentalStatus @default(PENDING)
+  status        RentalStatus  @default(PENDING)
 
-  renter        Renter      @relation(fields: [renterId], references: [id])
-  moto          Moto         @relation(fields: [motoId], references: [id])
+  // Incidents (theft, accident, disappearance)
+  incidentType  IncidentType?
+  incidentNotes String?
+  incidentAt    DateTime?
+
+  renter        Renter        @relation(fields: [renterId], references: [id])
+  moto          Moto          @relation(fields: [motoId], references: [id])
 
   contract      Contract?
   handovers     VehicleHandover[]
+  clauses       RentalClause[]
 
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model Contract {
@@ -246,10 +307,41 @@ model Contract {
   acceptedAt     DateTime?
   observations   String?
 
+  // Digital signature & integrity
+  signatureEnc   Bytes?
+  signedAt       DateTime?
+  signedIp       String?
+  documentHash   String?
+
   rental     Rental   @relation(fields: [rentalId], references: [id])
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Clause {
+  id        String         @id @default(uuid())
+  title     String
+  body      String         @db.Text
+  version   Int            @default(1)
+  active    Boolean        @default(true)
+
+  rentals   RentalClause[]
+
+  createdAt DateTime       @default(now())
+}
+
+model RentalClause {
+  rentalId      String
+  clauseId      String
+  clauseVersion Int
+  bodySnapshot  String   @db.Text
+  acceptedAt    DateTime @default(now())
+
+  rental Rental @relation(fields: [rentalId], references: [id], onDelete: Cascade)
+  clause Clause @relation(fields: [clauseId], references: [id])
+
+  @@id([rentalId, clauseId])
 }
 
 model VehicleHandover {

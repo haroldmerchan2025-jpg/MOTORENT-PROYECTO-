@@ -67,7 +67,7 @@ export const findUserById = async (userId: string) => {
       id: userId,
     },
     include: {
-      client: true,
+      renter: true,
       owner: true,
     },
   });

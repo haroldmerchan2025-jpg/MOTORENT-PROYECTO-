@@ -2,24 +2,24 @@ import { prisma } from "../config/prisma.js";
 
 type TipoLegal = "TRANSIT_LICENSE" | "SOAT" | "TECHNICAL_REVIEW" | "INSURANCE";
 
-// ===== CLIENTE ===== //
+// ===== ARRENDATARIO / CLIENTE (RENTER) ===== //
 export const buscarClientePorUserId = async (userId: string) =>
-  prisma.client.findUnique({ where: { userId } });
+  prisma.renter.findUnique({ where: { idUser: userId } });
 
 export const upsertCliente = async (userId: string, data: any) =>
-  prisma.client.upsert({
-    where: { userId },
-    create: { userId, ...data },
+  prisma.renter.upsert({
+    where: { idUser: userId },
+    create: { idUser: userId, ...data },
     // al re-subir documentos, vuelve a quedar pendiente de verificación
-    update: { ...data, verificationStatus: "PENDING", verifiedAt: null },
-    select: { id: true, verificationStatus: true, licenseExpirationDate: true },
+    update: { ...data, estadoVerificacion: "PENDING", fechaVerificacion: null },
+    select: { id: true, estadoVerificacion: true, licenseExpirationDate: true },
   });
 
 // ===== MOTO ===== //
 export const buscarMotoConDueno = async (motoId: string) =>
   prisma.moto.findUnique({
     where: { id: motoId },
-    include: { owner: { select: { userId: true } } },
+    include: { owner: { select: { idUser: true } } },
   });
 
 export const upsertDocumentoLegal = async (motoId: string, type: TipoLegal, data: any) =>

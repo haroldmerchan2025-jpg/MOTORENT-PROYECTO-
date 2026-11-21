@@ -19,22 +19,17 @@ export const crearMoto = async (datosMoto: any) => {
 };
 
 // ====== MÉTODOS PARA OWNER (Dueño) ====== //
-// Nota: La lógica de la moto requiere validar y crear dueños, por eso están aquí.
-// Si tuvieras un owner.repository separado, irían allá, pero para empezar aquí está perfecto.
 
 export const buscarOwnerPorUserId = async (userId: string) => {
   return await prisma.owner.findUnique({
-    where: { userId },
+    where: { idUser: userId },
   });
 };
 
 export const crearOwnerPendiente = async (userId: string) => {
   return await prisma.owner.create({
     data: {
-      userId,
-      bankName: "Pendiente",
-      accountType: "Pendiente",
-      accountNumber: "Pendiente",
+      idUser: userId,
     },
   });
 };

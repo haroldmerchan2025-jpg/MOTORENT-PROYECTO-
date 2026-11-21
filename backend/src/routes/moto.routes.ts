@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getMotos, createMoto } from "../controllers/moto.controller.js";
 import { verificarToken } from "../middleware/auth.middleware.js";
+import { verificarPerfil } from "../middleware/validatePerfil.middleware.js";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const router = Router();
  *       200:
  *         description: Motos obtenidas correctamente
  *       500:
- *         description: Error interno del servidor
+ *        description: Error interno del servidor
  */
 
 router.get("/motos", getMotos);
@@ -85,6 +86,6 @@ router.get("/motos", getMotos);
  *         description: Error interno del servidor
  */
 
-router.post("/create/moto", verificarToken, createMoto);
+router.post("/create/moto", verificarToken, verificarPerfil('OWNER'), createMoto);
 
 export default router;
