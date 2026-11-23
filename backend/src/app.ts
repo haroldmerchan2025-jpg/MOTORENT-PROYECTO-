@@ -8,6 +8,7 @@ import dashboardRoutes from './routes/dashboard.routes.js';
 import documentoRoutes from './routes/documento.routes.js';
 import rentaRoutes from './routes/renta.routes.js';
 import swaggerUi from 'swagger-ui-express';
+import perfilroutes from './routes/Perfil.routes.js';
 import { swaggerSpec } from './config/swagger.js';
 
 // Cargar variables de entorno
@@ -33,10 +34,12 @@ app.get('/', (_req, res) => {
 
 app.use('/auth', authroutes);
 app.use('/dashboard', dashboardRoutes);
+app.use('/create/perfil', perfilroutes)
 
 // Rutas de la API
 app.use('/api', motoRoutes);
 app.use('/api', documentoRoutes);
 app.use('/api', rentaRoutes);
+
 
 export default app;
