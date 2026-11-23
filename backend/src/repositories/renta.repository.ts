@@ -7,7 +7,7 @@ export const hayRentasSolapadas = async (motoId: string, inicio: Date, fin: Date
   const n = await prisma.rental.count({
     where: {
       motoId,
-      status: { in: ["PENDING", "PAID", "ACTIVE"] },
+      status: { in: ["PENDING", "ACTIVE"] },
       startDate: { lt: fin },
       endDate: { gt: inicio },
     },
@@ -21,8 +21,8 @@ export const buscarRentaConRelaciones = async (rentalId: string) =>
   prisma.rental.findUnique({
     where: { id: rentalId },
     include: {
-      client: { select: { userId: true } },
-      moto: { select: { id: true, owner: { select: { userId: true } } } },
+      renter: { select: { idUser: true } },
+      moto: { select: { id: true, owner: { select: { idUser: true } } } },
       contract: { select: { id: true } },
     },
   });
@@ -40,17 +40,11 @@ export const crearContratoFirmado = async (
       select: { id: true, contractNumber: true, documentHash: true, signedAt: true },
     });
     await tx.rentalClause.createMany({ data: clauses });
-    return creado;
-  });
-
-export const registrarPago = async (rentalId: string, data: any) =>
-  prisma.$transaction(async (tx) => {
-    const pago = await tx.payment.create({
-      data: { rentalId, ...data },
-      select: { id: true, amount: true, method: true, reference: true, status: true, paidAt: true },
+    await tx.rental.update({
+      where: { id: contract.rentalId },
+      data: { status: "ACTIVE" },
     });
-    await tx.rental.update({ where: { id: rentalId }, data: { status: "PAID" } });
-    return pago;
+    return creado;
   });
 
 export const registrarIncidente = async (

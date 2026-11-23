@@ -18,15 +18,17 @@ type TipoLegal = (typeof TIPOS_LEGALES)[number];
 const REQUIEREN_VIGENCIA: TipoLegal[] = ["SOAT", "TECHNICAL_REVIEW", "INSURANCE"];
 const OBLIGATORIOS: TipoLegal[] = ["TRANSIT_LICENSE", "SOAT", "TECHNICAL_REVIEW"];
 
-// ===================== CLIENTE ===================== //
+// ===================== CLIENTE / RENTER ===================== //
 
 export const guardarDocumentosCliente = async (userId: string, body: any) => {
   const {
-    documentNumber, licenseNumber, licenseCategory, licenseExpirationDate,
+    documentNumber, cedulaNumero, licenseNumber, licenseCategory, licenseExpirationDate,
     documentFront, documentBack, licenseFront, licenseBack,
   } = body ?? {};
 
-  if (!documentNumber || !licenseNumber || !licenseCategory || !licenseExpirationDate) {
+  const numDoc = documentNumber || cedulaNumero;
+
+  if (!numDoc || !licenseNumber || !licenseCategory || !licenseExpirationDate) {
     throw new Error("Faltan datos del documento o de la licencia");
   }
 
@@ -36,7 +38,7 @@ export const guardarDocumentosCliente = async (userId: string, body: any) => {
   }
 
   return repo.upsertCliente(userId, {
-    documentNumber: String(documentNumber).trim(),
+    cedulaNumero: String(numDoc).trim(),
     licenseNumber: String(licenseNumber).trim(),
     licenseCategory: String(licenseCategory).trim().toUpperCase(),
     licenseExpirationDate: vence,
@@ -68,7 +70,7 @@ export const obtenerArchivoCliente = async (requester: Requester, userIdParam: s
 const verificarAccesoMoto = async (requester: Requester, motoId: string) => {
   const moto = await repo.buscarMotoConDueno(motoId);
   if (!moto) throw new AppError("Moto no encontrada", 404);
-  if (requester.role !== "ADMIN" && moto.owner?.userId !== requester.id) {
+  if (requester.role !== "ADMIN" && moto.owner?.idUser !== requester.id) {
     throw new AppError("No tienes permiso sobre esta moto", 403);
   }
   return moto;
@@ -114,7 +116,7 @@ export const motoCumpleDocumentos = async (motoId: string) => {
   const ahora = new Date();
 
   const faltantes = OBLIGATORIOS.filter((tipo) => {
-    const d = docs.find((x) => x.type === tipo);
+    const d = docs.find((x: { type: TipoLegal; expiresAt: Date | null }) => x.type === tipo);
     if (!d) return true;
     if (REQUIEREN_VIGENCIA.includes(tipo) && (!d.expiresAt || d.expiresAt <= ahora)) return true;
     return false;
