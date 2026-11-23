@@ -13,29 +13,29 @@
 
 ---
 
-## ✨ Características Principales
+## Características Principales
 
-- 🔐 **Autenticación y Seguridad:**
+- **Autenticación y Seguridad:**
   - Registro e inicio de sesión con **JWT (JSON Web Tokens)** y contraseñas encriptadas con **bcryptjs**.
   - Verificación de cuenta por correo electrónico y recuperación de contraseña mediante **Nodemailer**.
   - Gestión de roles diferenciados: `USER`, `RENTER`, `OWNER` y `ADMIN`.
-- 📄 **Gestión y Verificación Documental (KYC):**
+- **Gestión y Verificación Documental (KYC):**
   - Carga y consulta cifrada de documentos del cliente (cédula de ciudadanía, licencia de conducción, comprobante de domicilio).
   - Validación de documentos legales de la motocicleta (licencia de tránsito, SOAT/vigencia) y galería de imágenes públicas.
-- 🏍️ **Catálogo y Publicación de Motocicletas:**
+- **Catálogo y Publicación de Motocicletas:**
   - Registro de motocicletas con especificaciones técnicas (marca, modelo, año, placa, cilindraje, kilometraje, color y tarifa diaria).
   - Control de estados del vehículo (`PENDING_APPROVAL`, `AVAILABLE`, `RESERVED`, `RENTED`, `MAINTENANCE`, `INACTIVE`, `REJECTED`).
-- 📝 **Flujo de Renta, Contratos Digitales e Incidentes:**
+- **Flujo de Renta, Contratos Digitales e Incidentes:**
   - Consulta de cláusulas contractuales y firma digital de contratos de arrendamiento.
   - Desglose automático de costos: subtotal, comisión de la plataforma (`platformFee`), ganancias del propietario (`ownerEarnings`) y total.
   - Registro de entregas y devoluciones (`PICKUP` / `RETURN`) con kilometraje, nivel de combustible y evidencias fotográficas, además de reporte de incidentes.
-- 📊 **Dashboard y Documentación Interactiva:**
+- **Dashboard y Documentación Interactiva:**
   - Panel de estadísticas y métricas generales del sistema.
   - Documentación de API interactiva integrada con **Swagger UI** (`/doc_swagger`).
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 ### Frontend
 - **Framework:** React 19 + TypeScript
@@ -52,7 +52,7 @@
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 MOTORENT-PROYECTO-/
@@ -87,7 +87,7 @@ MOTORENT-PROYECTO-/
 
 ---
 
-## 🗄️ Modelo de Base de Datos (Prisma)
+## Modelo de Base de Datos (Prisma)
 
 El esquema en PostgreSQL (`backend/prisma/schema.prisma`) está compuesto por las siguientes entidades principales:
 
@@ -100,7 +100,7 @@ El esquema en PostgreSQL (`backend/prisma/schema.prisma`) está compuesto por la
 
 ---
 
-## 🚀 Instalación y Configuración Local
+## Instalación y Configuración Local
 
 ### Prerrequisitos
 - **Node.js** (v20 o superior recomendado)
@@ -171,7 +171,7 @@ npm run dev
 
 ---
 
-## 📡 Principales Endpoints de la API
+## Principales Endpoints de la API
 
 | Módulo | Método | Endpoint | Descripción | Auth |
 | :--- | :---: | :--- | :--- | :---: |
@@ -182,6 +182,8 @@ npm run dev
 | **Auth** | `POST` | `/auth/resend-verification` | Reenviar enlace de verificación | ❌ |
 | **Auth** | `POST` | `/auth/forgot-password` | Solicitar recuperación de contraseña | ❌ |
 | **Auth** | `POST` | `/auth/reset-password` | Restablecer contraseña con token | ❌ |
+| **Perfil** | `POST` | `/create/perfil/owner` | Crear solicitud de perfil propietario | ✅ |
+| **Perfil** | `POST` | `/create/perfil/renter` | Crear solicitud de perfil arrendatario | ✅ |
 | **Motos** | `GET` | `/api/motos` | Listar todas las motocicletas | ❌ |
 | **Motos** | `POST` | `/api/create/moto` | Publicar/registrar una nueva motocicleta | ✅ |
 | **Motos** | `GET` | `/api/motos/:motoId/disponibilidad` | Consultar disponibilidad de una moto | ❌ |
@@ -198,7 +200,7 @@ npm run dev
 
 ---
 
-## 📜 Scripts Disponibles
+## Scripts Disponibles
 
 ### Backend (`/backend`)
 - `npm run dev`: Ejecuta el servidor en modo desarrollo con recarga en caliente (`tsx watch`).
@@ -214,6 +216,8 @@ npm run dev
 
 ---
 
-## 👤 Autor
+## Autores
 
+- **Hainer Castellano** — [@K-vothe](https://github.com/K-vothe)
 - **Harold Merchan** — [@haroldmerchan2025-jpg](https://github.com/haroldmerchan2025-jpg)
+- **Alejandro** — [@Alej01121](https://github.com/Alej01121)
