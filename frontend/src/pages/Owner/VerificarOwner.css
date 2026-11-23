@@ -485,3 +485,42 @@
     margin-top: 30px;
   }
 }
+
+
+/* Estados de carga de archivo y mensajes de envío */
+.owner-upload-box--loaded {
+  border-color: #2e7d32;
+  background-color: #f3faf4;
+}
+
+.owner-upload-box--loaded .owner-upload-icon {
+  background-color: #2e7d32;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.owner-feedback {
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.owner-feedback--error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.owner-feedback--ok {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.owner-continue-button:disabled,
+.owner-back-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
