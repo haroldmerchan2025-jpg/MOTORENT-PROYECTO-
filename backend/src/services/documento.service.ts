@@ -23,13 +23,18 @@ const OBLIGATORIOS: TipoLegal[] = ["TRANSIT_LICENSE", "SOAT", "TECHNICAL_REVIEW"
 export const guardarDocumentosCliente = async (userId: string, body: any) => {
   const {
     documentNumber, cedulaNumero, licenseNumber, licenseCategory, licenseExpirationDate,
-    documentFront, documentBack, licenseFront, licenseBack,
+    documentFront, documentBack, licenseFront, licenseBack, photo, bill, billUrl,
   } = body ?? {};
 
   const numDoc = documentNumber || cedulaNumero;
+  const reciboDomicilio = billUrl || bill;
 
   if (!numDoc || !licenseNumber || !licenseCategory || !licenseExpirationDate) {
     throw new Error("Faltan datos del documento o de la licencia");
+  }
+
+  if (!photo || !reciboDomicilio) {
+    throw new Error("La fotografía personal y el comprobante de domicilio son obligatorios");
   }
 
   const vence = new Date(licenseExpirationDate);
@@ -37,11 +42,19 @@ export const guardarDocumentosCliente = async (userId: string, body: any) => {
     throw new Error("La licencia de conducción está vencida o la fecha es inválida");
   }
 
+  // Validamos formato y peso de foto personal (imagen) y comprobante de domicilio (imagen o PDF)
+  parseDataUrl(photo, { allowed: ["image/jpeg", "image/png", "image/webp"] });
+  parseDataUrl(reciboDomicilio, {
+    allowed: ["image/jpeg", "image/png", "image/webp", "application/pdf"],
+  });
+
   return repo.upsertCliente(userId, {
     cedulaNumero: String(numDoc).trim(),
     licenseNumber: String(licenseNumber).trim(),
     licenseCategory: String(licenseCategory).trim().toUpperCase(),
     licenseExpirationDate: vence,
+    photo: String(photo),
+    billUrl: String(reciboDomicilio),
     documentFrontEnc: encryptFile(parseDataUrl(documentFront)),
     documentBackEnc: encryptFile(parseDataUrl(documentBack)),
     licenseFrontEnc: encryptFile(parseDataUrl(licenseFront)),
