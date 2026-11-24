@@ -10,6 +10,7 @@ import rentaRoutes from './routes/renta.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import perfilroutes from './routes/perfil.routes.js';
 import { swaggerSpec } from './config/swagger.js';
+import perfilRoutes from "./routes/Perfil.routes.js";
 
 // Cargar variables de entorno
 dotenv.config();
@@ -40,6 +41,7 @@ app.use('/create/perfil', perfilroutes)
 app.use('/api', motoRoutes);
 app.use('/api', documentoRoutes);
 app.use('/api', rentaRoutes);
+app.use("/api/perfiles", perfilRoutes);
 
 
 export default app;
