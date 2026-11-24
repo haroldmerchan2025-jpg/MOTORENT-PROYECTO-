@@ -18,8 +18,6 @@ export const crearMoto = async (datosMoto: any) => {
   });
 };
 
-// ====== MÉTODOS PARA OWNER (Dueño) ====== //
-
 export const buscarOwnerPorUserId = async (userId: string) => {
   return await prisma.owner.findUnique({
     where: { idUser: userId },

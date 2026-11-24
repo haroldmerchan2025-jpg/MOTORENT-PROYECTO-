@@ -13,6 +13,12 @@ export const findRenterByUserId = async (userId: string) => {
   });
 };
 
+export const BuscarOwnerPorId = async (id: string) => {
+  return await prisma.owner.findUnique({
+    where: { id }
+  });
+};
+
 export type DatosOwner = Omit<
     Prisma.OwnerVerifyCreateInput,
     "id" | "idUser" | "estadoVerificacion" |
@@ -31,4 +37,58 @@ export const crearOwner = async (
             estadoVerificacion: "PENDING"
         }
     });
+};
+
+export const BuscarSolicitudOwner = async () => {
+  return await prisma.owner.findMany({
+    where: {
+      estadoVerificacion: "PENDING"
+    },
+    include: {
+      user: {
+        select: {
+          fullName: true,
+          email: true,
+          phone: true,
+          username: true
+        }
+      }
+    }
+  });
+};
+
+export const AprobarOwner = async (id: string) => {
+  return await prisma.$transaction(async (tx) => {
+    const owner = await tx.owner.update({
+      where: { id },
+      data: {
+        estadoVerificacion: "APPROVED",
+        motivoRechazo: null,
+        fechaVerificacion: new Date()
+      }
+    });
+
+    await tx.user.update({
+      where: { id: owner.idUser },
+      data: {
+        role: "OWNER"
+      }
+    });
+
+    return owner;
+  });
+};
+
+export const RechazarOwner = async (
+  id: string,
+  motivoRechazo: string
+) => {
+  return await prisma.owner.update({
+    where: { id },
+    data: {
+      estadoVerificacion: "REJECTED",
+      motivoRechazo,
+      fechaVerificacion: new Date()
+    }
+  });
 };
