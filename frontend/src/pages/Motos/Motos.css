@@ -1,5 +1,5 @@
 /* ====================================================================== */
-/* 1. CONTENEDOR GENERAL                                                  */
+/* 1. CONTENEDOR GENERAL Y ENCABEZADO                                     */
 /* ====================================================================== */
 .motos-page {
   background-color: var(--bg-main, #F4F7F6);
@@ -8,178 +8,221 @@
   flex-direction: column;
 }
 
-/* ====================================================================== */
-/* 2. NAVBAR SUPERIOR DEL CATÁLOGO                                        */
-/* ====================================================================== */
-.motos-navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 60px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E2E8F0;
-  gap: 24px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-.motos-navbar .logo {
-  font-size: 22px;
-  font-weight: 800;
-  text-decoration: none;
-  color: #0F2537;
-  white-space: nowrap;
-}
-
-.motos-navbar .logo span {
-  color: #FF6A3D;
-}
-
-/* Barra de búsqueda central */
-.search-bar {
-  flex: 1;
-  max-width: 500px;
-}
-
-.search-bar input {
-  width: 100%;
-  padding: 10px 18px;
-  border: 1.5px solid #CBD5E0;
-  border-radius: 25px;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.2s ease;
-  background-color: #F8FAFC;
-}
-
-.search-bar input:focus {
-  border-color: #FF6A3D;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.15);
-}
-
-.user-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.motos-nav-links {
-  display: flex;
-  gap: 20px;
-}
-
-.motos-nav-links a {
-  color: #2D3748;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.motos-nav-links a:hover {
-  color: #FF6A3D;
-}
-
-.logout-button {
-  background: none;
-  border: 1.5px solid #E2E8F0;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #718096;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.logout-button:hover {
-  border-color: #E53E3E;
-  color: #E53E3E;
-}
-
-.guest-nav-buttons {
-  display: flex;
-  gap: 12px;
-}
-
-.btn-login-nav {
-  text-decoration: none;
-  color: #0F2537;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 8px 14px;
-}
-
-.btn-register-nav {
-  text-decoration: none;
-  background-color: #FF6A3D;
-  color: #FFFFFF;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 8px 18px;
-  border-radius: 8px;
-}
-
-/* ====================================================================== */
-/* 3. CONTENIDO Y ENCABEZADOS DEL CATÁLOGO                                */
-/* ====================================================================== */
 .motos-content {
-  max-width: 1280px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 40px 60px 80px;
+  padding: 36px 40px 80px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .motos-heading {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 28px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .motos-heading h1 {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   color: #0F2537;
-  margin-bottom: 6px;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
 }
 
 .motos-heading p {
-  color: #718096;
-  font-size: 15px;
+  color: #64748B;
+  font-size: 14.5px;
+  margin: 0;
 }
 
 .count-badge {
-  background-color: #EDF2F7;
-  color: #4A5568;
-  padding: 6px 14px;
-  border-radius: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+  padding: 7px 14px;
+  border-radius: 999px;
   font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-/* Chips de filtro por categoría */
-.category-filters {
+/* ====================================================================== */
+/* 2. BARRA DE BÚSQUEDA Y PANEL DE FILTROS                                */
+/* ====================================================================== */
+.motos-toolbar {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
   display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(15, 37, 55, 0.03);
+}
+
+.motos-search-bar-row {
+  display: flex;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 32px;
+}
+
+.motos-search-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1.5px solid #CBD5E1;
+  background-color: #FFFFFF;
+  color: #64748B;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.motos-search-field:focus-within {
+  border-color: #FF6A3D;
+  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.14);
+}
+
+.motos-search-field input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #0F2537;
+}
+
+.motos-filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1.5px solid #0F2537;
+  background-color: #FFFFFF;
+  color: #0F2537;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.motos-filter-toggle:hover,
+.motos-filter-toggle.active {
+  background-color: #0F2537;
+  color: #FFFFFF;
+}
+
+.motos-filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.motos-filters-drawer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #E2E8F0;
+}
+
+.motos-drawer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.motos-cc-field,
+.motos-select-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.motos-cc-field span,
+.motos-select-field span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.motos-cc-field input,
+.motos-select-field select {
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1.5px solid #CBD5E1;
+  background-color: #FFFFFF;
+  font-size: 13.5px;
+  color: #0F2537;
+  outline: none;
+}
+
+.motos-cc-field input:focus,
+.motos-select-field select:focus {
+  border-color: #FF6A3D;
+}
+
+.motos-chips-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.category-filters,
+.motos-cc-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.motos-cc-chips-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #64748B;
+  margin-right: 4px;
 }
 
 .filter-chip {
   background-color: #FFFFFF;
-  border: 1px solid #CBD5E0;
-  color: #4A5568;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 14px;
+  border: 1px solid #CBD5E1;
+  color: #475569;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
+}
+
+.filter-chip--sm {
+  padding: 6px 13px;
+  font-size: 12.5px;
 }
 
 .filter-chip:hover {
   border-color: #0F2537;
+  color: #0F2537;
 }
 
 .filter-chip.active {
@@ -188,13 +231,67 @@
   border-color: #0F2537;
 }
 
+.motos-drawer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.motos-clear-all {
+  background: none;
+  border: none;
+  color: #FF6A3D;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.motos-drawer-done {
+  border: none;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.motos-drawer-done:hover {
+  background-color: #1E3A54;
+}
+
+.motos-nearest-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+
 /* ====================================================================== */
-/* 4. CUADRÍCULA DE TARJETAS DE MOTOS                                    */
+/* 3. CUADRÍCULA DE TARJETAS DE MOTOS                                     */
 /* ====================================================================== */
+.motos-loading-text {
+  text-align: center;
+  padding: 48px 16px;
+  color: #64748B;
+  font-size: 15px;
+}
+
 .motos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
 }
 
 .moto-card {
@@ -202,67 +299,113 @@
   border: 1px solid #E2E8F0;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(15, 37, 55, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .moto-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.08);
-  border-color: #CBD5E0;
+  box-shadow: 0 14px 26px rgba(15, 37, 55, 0.09);
+  border-color: #CBD5E1;
 }
 
-/* Espacio para la foto de la moto */
-.moto-image-placeholder {
-  height: 180px;
-  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+.moto-card-media {
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  padding: 16px;
+  aspect-ratio: 16 / 10;
+  background-color: #0F172A;
+  overflow: hidden;
 }
 
-.category-badge {
-  background-color: rgba(255, 106, 61, 0.9);
-  color: #FFFFFF;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.moto-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
 }
 
-.displacement-badge {
-  margin-left: auto;
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-  font-size: 11px;
+.moto-card:hover .moto-card-img {
+  transform: scale(1.03);
+}
+
+.card-pill-left,
+.card-pill-right {
+  position: absolute;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
   font-weight: 700;
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: #FFFFFF;
+  background-color: rgba(15, 37, 55, 0.78);
+  backdrop-filter: blur(6px);
+}
+
+.card-pill-left {
+  left: 12px;
+}
+
+.card-pill-right {
+  right: 12px;
 }
 
 .moto-card-body {
-  padding: 20px;
+  padding: 18px 20px 20px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex: 1;
 }
 
-.moto-card-body h3 {
-  font-size: 18px;
-  font-weight: 700;
+.moto-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.moto-title-row h3 {
+  font-size: 17px;
+  font-weight: 800;
   color: #0F2537;
-  margin-bottom: 4px;
+  margin: 0;
 }
 
-.moto-specs {
+.moto-year {
   font-size: 13px;
-  color: #718096;
-  margin-bottom: 20px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.moto-color {
+  font-size: 13px;
+  color: #64748B;
+  margin: 3px 0 14px;
+}
+
+.moto-spec-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 18px;
+}
+
+.spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .moto-card-footer {
@@ -270,103 +413,124 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
+  gap: 12px;
+  padding-top: 14px;
   border-top: 1px solid #F1F5F9;
 }
 
-.moto-price-box {
+.moto-price-line {
   display: flex;
-  flex-direction: column;
-}
-
-.price-label {
-  font-size: 11px;
-  color: #A0AEC0;
-  text-transform: uppercase;
-  font-weight: 600;
+  align-items: baseline;
+  gap: 4px;
 }
 
 .moto-price {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 800;
   color: #0F2537;
 }
 
 .day-text {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
-  color: #718096;
+  color: #64748B;
 }
 
-/* Botón Rentar de la tarjeta */
-.rent-button {
-  background-color: #FF6A3D;
+.details-button {
+  background-color: #0F2537;
   color: #FFFFFF;
   border: none;
-  padding: 10px 22px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(255, 106, 61, 0.3);
+  transition: background-color 0.15s ease;
 }
 
-.rent-button:hover {
-  background-color: #E5541F;
-  transform: translateY(-1px);
+.details-button:hover {
+  background-color: #FF6A3D;
+}
+
+.no-results-box {
+  text-align: center;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 40px 24px;
+}
+
+.no-results {
+  color: #475569;
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+
+.reset-filter-btn {
+  background-color: #0F2537;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 /* ====================================================================== */
-/* 5. MODAL DE DETALLES Y RESERVA (POP-UP)                                 */
+/* 4. MODAL DE DETALLE Y RESERVA                                          */
 /* ====================================================================== */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(15, 37, 55, 0.6); /* Fondo oscuro translúcido */
-  backdrop-filter: blur(4px);              /* Desenfoque de fondo */
+  inset: 0;
+  background-color: rgba(15, 37, 55, 0.58);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   z-index: 1000;
-  animation: fadeIn 0.2s ease-out;
+  animation: fadeIn 0.18s ease-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
   background-color: #FFFFFF;
   width: 100%;
-  max-width: 800px;
+  max-width: 1020px;
   border-radius: 20px;
-  padding: 36px;
+  padding: 28px 32px 32px;
   position: relative;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  max-height: 90vh;
+  box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.35);
+  max-height: 92vh;
   overflow-y: auto;
 }
 
 .modal-close {
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 22px;
   background: #F1F5F9;
-  border: none;
+  border: 1px solid #E2E8F0;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  font-size: 16px;
-  font-weight: bold;
-  color: #4A5568;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #475569;
   cursor: pointer;
-  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
 }
 
 .modal-close:hover {
@@ -375,137 +539,372 @@
 }
 
 .modal-header {
-  margin-bottom: 24px;
+  margin-bottom: 22px;
+  padding-right: 48px;
 }
 
-.modal-category {
-  display: inline-block;
-  background-color: rgba(255, 106, 61, 0.12);
-  color: #FF6A3D;
+.modal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #F1F5F9;
+  color: #475569;
   font-size: 12px;
   font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
+}
+
+.modal-badge--accent {
+  background-color: rgba(255, 106, 61, 0.12);
+  color: #E05327;
 }
 
 .modal-header h2 {
-  font-size: 26px;
+  font-size: 27px;
   font-weight: 800;
   color: #0F2537;
-  margin-bottom: 8px;
+  margin: 0 0 6px;
 }
 
-.modal-description {
-  color: #718096;
+.modal-title-year {
+  font-weight: 600;
+  color: #64748B;
+}
+
+.modal-subtitle {
+  color: #64748B;
   font-size: 14px;
-  line-height: 1.5;
+  margin: 0;
 }
 
 .modal-body-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 32px;
+  grid-template-columns: minmax(0, 1.45fr) 330px;
+  gap: 28px;
+  align-items: start;
 }
 
-/* Columna Izquierda: Ficha técnica */
-.modal-specs-section h3, .modal-rental-calculator h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #0F2537;
-  margin-bottom: 16px;
-}
-
-.specs-list {
-  background-color: #F8FAFC;
-  padding: 18px;
-  border-radius: 12px;
-  border: 1px solid #E2E8F0;
-}
-
-.spec-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #EDF2F7;
-  font-size: 14px;
-}
-
-.spec-row:last-child {
-  border-bottom: none;
-}
-
-.spec-name {
-  color: #718096;
-}
-
-.badge-valid {
-  color: #2E7D32;
-}
-
-/* Columna Derecha: Calculadora */
-.modal-rental-calculator {
-  background-color: #FFFFFF;
-  border: 1.5px solid #FF6A3D;
-  border-radius: 16px;
-  padding: 24px;
+/* Columna izquierda */
+.modal-left-col {
   display: flex;
   flex-direction: column;
+  gap: 22px;
+}
+
+.modal-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-photo-frame {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background-color: #0F172A;
+}
+
+.modal-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-photo-caption,
+.modal-photo-counter {
+  position: absolute;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background-color: rgba(15, 23, 42, 0.78);
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.modal-photo-caption {
+  left: 12px;
+}
+
+.modal-photo-counter {
+  right: 12px;
+}
+
+.modal-info-strip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.modal-info-strip svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #64748B;
+}
+
+.modal-section h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F2537;
+  margin: 0 0 12px;
+}
+
+.modal-description-quote {
+  margin: 0 0 12px;
+  padding: 14px 16px;
+  border-left: 3px solid #0F2537;
+  border-radius: 0 10px 10px 0;
+  background-color: #F8FAFC;
+  color: #1E293B;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.modal-description-text {
+  color: #475569;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+
+.modal-highlights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+}
+
+.modal-highlight-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #334155;
+}
+
+.modal-highlight-item svg {
+  color: #16A34A;
+  flex-shrink: 0;
+}
+
+/* Ficha técnica */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tech-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tech-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.tech-card strong {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #0F2537;
+}
+
+/* Tarjeta propietario */
+.modal-owner-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #E2E8F0;
+  background-color: #F8FAFC;
+}
+
+.modal-owner-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-owner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modal-owner-info strong {
+  font-size: 14px;
+  color: #0F2537;
+}
+
+.modal-owner-info span {
+  font-size: 12.5px;
+  color: #64748B;
+}
+
+.modal-owner-status {
+  margin-left: auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background-color: #DCFCE7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Columna derecha: tarjeta de reserva sticky */
+.modal-booking-card {
+  position: sticky;
+  top: 0;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(15, 37, 55, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-price-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.booking-price {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0F2537;
+}
+
+.booking-price-header span {
+  font-size: 13.5px;
+  color: #64748B;
+  font-weight: 600;
 }
 
 .date-inputs {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 20px;
 }
 
 .input-group label {
   display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #4A5568;
-  margin-bottom: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 5px;
 }
 
 .input-group input {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #CBD5E0;
-  border-radius: 8px;
-  font-size: 13px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: #0F2537;
   outline: none;
 }
 
+.input-group input:focus {
+  border-color: #FF6A3D;
+}
+
 .cost-summary {
-  background-color: #FFF7ED;
-  padding: 14px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+  border-top: 1px solid #F1F5F9;
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: #4A5568;
-  margin-bottom: 6px;
-}
-
-.summary-divider {
-  height: 1px;
-  background-color: #FFEDD5;
-  margin: 10px 0;
+  font-size: 13.5px;
+  color: #475569;
 }
 
 .total-row {
   font-size: 15px;
-  margin-bottom: 0;
+  font-weight: 700;
+  color: #0F2537;
 }
 
 .total-amount {
-  color: #FF6A3D;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0F2537;
+}
+
+.booking-feedback {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.booking-feedback p {
+  margin: 0;
+}
+
+.booking-feedback--ok {
+  background-color: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #065F46;
+}
+
+.booking-feedback--error {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+}
+
+.booking-feedback-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 700;
+  color: #0F2537;
+  text-decoration: underline;
 }
 
 .btn-confirm-rental {
@@ -513,16 +912,21 @@
   background-color: #FF6A3D;
   color: #FFFFFF;
   border: none;
-  padding: 14px;
-  border-radius: 10px;
+  padding: 13px 16px;
+  border-radius: 11px;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s ease;
 }
 
-.btn-confirm-rental:hover {
+.btn-confirm-rental:hover:not(:disabled) {
   background-color: #E5541F;
+}
+
+.btn-confirm-rental:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .guest-modal-action {
@@ -531,8 +935,8 @@
 
 .guest-modal-action p {
   font-size: 13px;
-  color: #718096;
-  margin-bottom: 10px;
+  color: #64748B;
+  margin: 0 0 10px;
 }
 
 .btn-modal-login {
@@ -541,38 +945,49 @@
   color: #FFFFFF;
   text-decoration: none;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 700;
   font-size: 14px;
 }
 
+.booking-footnote {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.45;
+}
+
 /* ====================================================================== */
-/* 6. RESPONSIVE                                                          */
+/* 5. RESPONSIVE                                                          */
 /* ====================================================================== */
-@media (max-width: 850px) {
+@media (max-width: 900px) {
   .modal-body-grid {
     grid-template-columns: 1fr;
   }
+
+  .modal-booking-card {
+    position: static;
+  }
 }
 
-@media (max-width: 600px) {
-  .motos-navbar {
-    padding: 14px 20px;
-    flex-direction: column;
-  }
-
+@media (max-width: 680px) {
   .motos-content {
-    padding: 24px 20px;
+    padding: 24px 18px 60px;
   }
 
   .motos-heading {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
   }
 
-  .category-filters {
-    overflow-x: auto;
-    padding-bottom: 8px;
+  .motos-drawer-grid,
+  .tech-grid,
+  .modal-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    padding: 22px 18px;
   }
 }
