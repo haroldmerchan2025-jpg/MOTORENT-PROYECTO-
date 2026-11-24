@@ -8,7 +8,7 @@ import dashboardRoutes from './routes/dashboard.routes.js';
 import documentoRoutes from './routes/documento.routes.js';
 import rentaRoutes from './routes/renta.routes.js';
 import swaggerUi from 'swagger-ui-express';
-import perfilroutes from './routes/Perfil.routes.js';
+import perfilroutes from './routes/perfil.routes.js';
 import { swaggerSpec } from './config/swagger.js';
 import perfilRoutes from "./routes/Perfil.routes.js";
 

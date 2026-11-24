@@ -6,8 +6,10 @@ import {
   AprobarOwner,
   RechazarOwner
 } from "../repositories/Perfil.repository.js";
+import {findOwnerByUserId, findRenterByUserId, crearOwner, crearRenter} from "../repositories/Perfil.repository.js";
 import { AppError } from "../utils/response.util.js";
-import type { DatosOwner } from "../repositories/Perfil.repository.js";
+import type { DatosOwner, DatosRenter} from "../repositories/Perfil.repository.js";
+
 
 export const solicitarOwner = async ( userId: string, datosOwner: DatosOwner) => {
 
@@ -36,6 +38,18 @@ export const AprobarSolicitudOwner = async (id: string) => {
     if (owner.estadoVerificacion !== "PENDING") {
     throw new AppError("Esta solicitud ya fue procesada", 409);
     }
+    }return await crearOwner(userId, datosOwner)
+};
+
+export const solicitarRenter = async (userId: string, datosRenter: DatosRenter) => {
+
+    const existingRenter = await findRenterByUserId(userId);
+    
+      if (existingRenter) {
+            throw new AppError("Ya tienes un perfil de arrendatario registrado", 409);
+        }
+
+    return await crearRenter(userId, datosRenter);
 
   return await AprobarOwner(id);
 };
