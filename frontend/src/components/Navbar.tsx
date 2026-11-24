@@ -194,14 +194,21 @@ function Navbar() {
                     </div>
                   </div>
                   <div className="dropdown-divider"></div>
-                  <Link to="/perfil" className="dropdown-link">
+                  <Link to="/perfil" className="dropdown-link" onClick={() => setMenuPerfil(false)}>
                     👤 Mi Perfil y Documentos
                   </Link>
-                  <Link to="/dashboard" className="dropdown-link">
+                  <Link to="/dashboard" className="dropdown-link" onClick={() => setMenuPerfil(false)}>
                     📊 Mi Panel de Control
                   </Link>
-                  <Link to="/publicarmoto" className="dropdown-link">
+                  <Link to="/publicarmoto" className="dropdown-link" onClick={() => setMenuPerfil(false)}>
                     🏍️ Publicar una moto
+                  </Link>
+                  <div className="dropdown-divider"></div>
+                  <Link to="/verificar-renter" className="dropdown-link" onClick={() => setMenuPerfil(false)}>
+                    🪪 Verificarme como Arrendatario
+                  </Link>
+                  <Link to="/verificar-owner" className="dropdown-link" onClick={() => setMenuPerfil(false)}>
+                    🔑 Verificarme como Propietario
                   </Link>
                   <div className="dropdown-divider"></div>
                   <button className="dropdown-link logout-link" onClick={handleLogout}>
