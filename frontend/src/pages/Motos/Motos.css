@@ -669,42 +669,91 @@
   margin: 0 0 12px;
 }
 
-.modal-description-quote {
-  margin: 0 0 12px;
-  padding: 14px 16px;
-  border-left: 3px solid #0F2537;
-  border-radius: 0 10px 10px 0;
-  background-color: #F8FAFC;
-  color: #1E293B;
-  font-size: 14px;
-  font-style: italic;
-  line-height: 1.55;
+.modal-editorial-lead {
+  margin: 0 0 10px;
+  color: #0F2537;
+  font-size: 14.5px;
+  line-height: 1.65;
+  font-weight: 500;
 }
 
 .modal-description-text {
   color: #475569;
   font-size: 13.5px;
-  line-height: 1.55;
+  line-height: 1.6;
   margin: 0 0 14px;
 }
 
-.modal-highlights {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 16px;
+.modal-use-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 
-.modal-highlight-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
+.modal-use-tags-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #64748B;
+}
+
+.modal-use-tag {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background-color: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #1E293B;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* Qué incluye y requisitos */
+.modal-value-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.modal-value-card {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.modal-value-card h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0F2537;
+}
+
+.modal-value-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.modal-value-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   font-size: 13px;
+  line-height: 1.4;
   color: #334155;
 }
 
-.modal-highlight-item svg {
-  color: #16A34A;
+.modal-value-list li svg {
   flex-shrink: 0;
+  margin-top: 2px;
+  color: #16A34A;
+}
+
+.modal-value-list--neutral li svg {
+  color: #475569;
 }
 
 /* Ficha técnica */
@@ -983,7 +1032,7 @@
 
   .motos-drawer-grid,
   .tech-grid,
-  .modal-highlights {
+  .modal-value-grid {
     grid-template-columns: 1fr;
   }
 

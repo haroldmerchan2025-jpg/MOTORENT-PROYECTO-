@@ -96,6 +96,66 @@ function obtenerEstadoKm(km?: number): string {
   return "Mantenimiento al día";
 }
 
+interface PerfilEditorialMoto {
+  resumen: string;
+  conduccion: string;
+  nivelRecomendado: string;
+  idealPara: string[];
+  combustibleSugerido: string;
+}
+
+function construirPerfilEditorial(moto: Moto, cc: number): PerfilEditorialMoto {
+  if (cc >= 600) {
+    return {
+      resumen:
+        moto.description?.trim() ||
+        `Una motocicleta de alto cilindraje pensada para disfrutar carretera abierta, pasos de montaña y adelantamientos con total solvencia. Ofrece postura firme, respuesta contundente desde bajas revoluciones y gran aplomo a velocidad crucero.`,
+      conduccion:
+        "Recomendada para escapadas de fin de semana o viajes largos donde la potencia y la estabilidad hacen la diferencia. Se entrega revisada en frenos, transmisión y presión de llantas.",
+      nivelRecomendado: "Piloto experimentado",
+      idealPara: ["Carretera y montaña", "Viajes de fin de semana", "Conducción deportiva"],
+      combustibleSugerido: "Gasolina Extra",
+    };
+  }
+
+  if (cc >= 300) {
+    return {
+      resumen:
+        moto.description?.trim() ||
+        `Equilibrio ideal entre agilidad en ciudad y desempeño sólido en carretera. Permite moverse con soltura entre el tráfico sin perder empuje al salir de la ciudad o afrontar ascensos exigentes.`,
+      conduccion:
+        "Muy versátil tanto para recorridos diarios como para rutas intermunicipales. Se entrega con revisión preventiva al día y lista para rodar desde el primer kilómetro.",
+      nivelRecomendado: "Intermedio o avanzado",
+      idealPara: ["Rutas intermunicipales", "Uso mixto ciudad/carretera", "Escapadas rápidas"],
+      combustibleSugerido: "Gasolina Extra o Corriente según manual",
+    };
+  }
+
+  if (cc > 125) {
+    return {
+      resumen:
+        moto.description?.trim() ||
+        `Opción ágil y equilibrada para desplazarte por la ciudad con respuesta rápida en semáforos y pendientes, manteniendo un consumo contenido y facilidad para parquear.`,
+      conduccion:
+        "Cómoda para trayectos diarios, diligencias o salidas cortas por los alrededores. Cuenta con revisión mecánica al día para un manejo suave y confiable.",
+      nivelRecomendado: "Principiante con práctica o intermedio",
+      idealPara: ["Tráfico urbano", "Trayectos diarios", "Salidas cortas de fin de semana"],
+      combustibleSugerido: "Gasolina Corriente",
+    };
+  }
+
+  return {
+    resumen:
+      moto.description?.trim() ||
+      `Motocicleta liviana, maniobrable y muy económica en consumo de combustible. Diseñada para moverte con rapidez por la ciudad, optimizar tiempos en hora pico y reducir gastos de traslado.`,
+    conduccion:
+      "Fácil de controlar y muy práctica para jornadas continuas, diligencias o trabajo urbano. Se entrega lista para usar y con mantenimiento preventivo verificado.",
+    nivelRecomendado: "Apta para principiantes",
+    idealPara: ["Máxima economía", "Tráfico urbano", "Jornadas de trabajo"],
+    combustibleSugerido: "Gasolina Corriente",
+  };
+}
+
 function formatearFechaISO(offsetDias = 0): string {
   const fecha = new Date();
   fecha.setDate(fecha.getDate() + offsetDias);
@@ -245,9 +305,6 @@ function Motos() {
           const motosFormateadas = lista.map((m: Moto) => ({
             ...m,
             category: obtenerCategoriaMoto(m),
-            description:
-              m.description ||
-              `Motocicleta ${m.brand} ${m.model} modelo ${m.year}, lista para rodar con documentos al día y revisión mecánica verificada.`,
           }));
           setMotos(motosFormateadas);
         } else {
@@ -433,6 +490,9 @@ function Motos() {
   const ccModal = motoSeleccionada ? obtenerCC(motoSeleccionada.displacement) : 0;
   const categoriaModal = motoSeleccionada ? obtenerCategoriaMoto(motoSeleccionada) : "Uso diario";
   const licenciaModal = obtenerLicencia(ccModal);
+  const perfilEditorial = motoSeleccionada
+    ? construirPerfilEditorial(motoSeleccionada, ccModal)
+    : null;
   const nombrePropietario =
     motoSeleccionada?.owner?.user?.fullName || "Flota MotoRent";
 
@@ -693,15 +753,10 @@ function Motos() {
                 {motoSeleccionada.brand} {motoSeleccionada.model}{" "}
                 <span className="modal-title-year">{motoSeleccionada.year}</span>
               </h2>
-              <p className="modal-subtitle">
-                {motoSeleccionada.brand} {motoSeleccionada.model} {motoSeleccionada.year},{" "}
-                {obtenerTipoUso(categoriaModal).toLowerCase()} de {ccModal} cc
-                {motoSeleccionada.color ? ` en color ${motoSeleccionada.color.toLowerCase()}.` : "."}
-              </p>
             </div>
 
             <div className="modal-body-grid">
-              {/* Columna izquierda: Foto + Descripción + Ficha técnica + Propietario */}
+              {/* Columna izquierda: Foto + Sobre esta moto + Ficha técnica + Incluye y requisitos + Propietario */}
               <div className="modal-left-col">
                 <div className="modal-gallery">
                   <div className="modal-photo-frame">
@@ -711,60 +766,31 @@ function Motos() {
                     />
                     <span className="modal-photo-caption">
                       <IconCamera />
-                      Foto principal de la motocicleta
+                      Foto principal
                     </span>
                     <span className="modal-photo-counter">1 / 1</span>
                   </div>
-
-                  <div className="modal-info-strip">
-                    <IconInfo />
-                    <span>
-                      Antes de cada entrega y en cada devolución se realiza una inspección con fotos
-                      para respaldar el estado del vehículo.
-                    </span>
-                  </div>
                 </div>
 
-                {/* Descripción */}
-                <section className="modal-section">
-                  <h3>Descripción</h3>
-                  <blockquote className="modal-description-quote">
-                    {motoSeleccionada.description}
-                  </blockquote>
-                  <p className="modal-description-text">
-                    Para conducirla necesitas licencia de conducción categoría {licenciaModal}{" "}
-                    vigente y tu perfil de arrendatario verificado en MotoRent.
-                  </p>
+                {/* Sobre esta motocicleta (valor real, sin repetir la ficha técnica) */}
+                {perfilEditorial && (
+                  <section className="modal-section">
+                    <h3>Sobre esta motocicleta</h3>
+                    <p className="modal-editorial-lead">{perfilEditorial.resumen}</p>
+                    <p className="modal-description-text">{perfilEditorial.conduccion}</p>
 
-                  <div className="modal-highlights">
-                    <span className="modal-highlight-item">
-                      <IconCheckCircle />
-                      {ccModal} cc · {obtenerTipoUso(categoriaModal)}
-                    </span>
-                    <span className="modal-highlight-item">
-                      <IconCheckCircle />
-                      {typeof motoSeleccionada.KM === "number"
-                        ? `${motoSeleccionada.KM.toLocaleString("es-CO")} km · ${obtenerEstadoKm(
-                            motoSeleccionada.KM
-                          )}`
-                        : "Kilometraje verificado"}
-                    </span>
-                    <span className="modal-highlight-item">
-                      <IconCheckCircle />
-                      Modelo {motoSeleccionada.year}
-                    </span>
-                    <span className="modal-highlight-item">
-                      <IconCheckCircle />
-                      Licencia {licenciaModal}
-                    </span>
-                    <span className="modal-highlight-item">
-                      <IconCheckCircle />
-                      SOAT y tecnomecánica al día
-                    </span>
-                  </div>
-                </section>
+                    <div className="modal-use-tags">
+                      <span className="modal-use-tags-label">Ideal para:</span>
+                      {perfilEditorial.idealPara.map((tag) => (
+                        <span key={tag} className="modal-use-tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+                )}
 
-                {/* Ficha técnica */}
+                {/* Ficha técnica (única fuente de datos numéricos/especificaciones) */}
                 <section className="modal-section">
                   <h3>Ficha técnica</h3>
                   <div className="tech-grid">
@@ -821,6 +847,57 @@ function Motos() {
                     </div>
                   </div>
                 </section>
+
+                {/* Qué incluye y requisitos prácticos (sin duplicar especificaciones) */}
+                {perfilEditorial && (
+                  <section className="modal-section">
+                    <div className="modal-value-grid">
+                      <div className="modal-value-card">
+                        <h4>Qué incluye tu renta</h4>
+                        <ul className="modal-value-list">
+                          <li>
+                            <IconCheckCircle />
+                            <span>SOAT y revisión tecnomecánica vigentes</span>
+                          </li>
+                          <li>
+                            <IconCheckCircle />
+                            <span>Contrato digital con cláusulas transparentes</span>
+                          </li>
+                          <li>
+                            <IconCheckCircle />
+                            <span>Acta fotográfica al entregar y devolver</span>
+                          </li>
+                          <li>
+                            <IconCheckCircle />
+                            <span>Tarifa diaria clara sin recargos ocultos</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="modal-value-card">
+                        <h4>Antes de reservar</h4>
+                        <ul className="modal-value-list modal-value-list--neutral">
+                          <li>
+                            <IconInfo />
+                            <span>Perfil de arrendatario aprobado en MotoRent</span>
+                          </li>
+                          <li>
+                            <IconInfo />
+                            <span>Nivel sugerido: {perfilEditorial.nivelRecomendado}</span>
+                          </li>
+                          <li>
+                            <IconInfo />
+                            <span>Combustible: {perfilEditorial.combustibleSugerido}</span>
+                          </li>
+                          <li>
+                            <IconInfo />
+                            <span>Devolver con el mismo nivel de combustible</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </section>
+                )}
 
                 {/* Propietario */}
                 <div className="modal-owner-card">
