@@ -1,26 +1,24 @@
 import { Router } from "express";
-
 import { verificarToken } from "../middleware/auth.middleware.js";
 import { verificarAdmin } from "../middleware/validateProfileAdmin.js";
-
 import {
   solicitarPerfilOwner,
   solicitarPerfilRenter,
   ObtenerSolicitudesOwnerController,
   AprobarSolicitudOwnerController,
-  RechazarSolicitudOwnerController
+  RechazarSolicitudOwnerController,
+  ObtenerSolicitudesRenterController,
+  AprobarSolicitudRenterController,
+  RechazarSolicitudRenterController,
 } from "../controllers/perfil.controller.js";
 
 const router = Router();
 
-// Solicitar perfil OWNER
-router.post(
-  "/owner",
-  verificarToken,
-  solicitarPerfilOwner
-);
+// Solicitar perfil OWNER y RENTER
+router.post("/owner", verificarToken, solicitarPerfilOwner);
+router.post("/renter", verificarToken, solicitarPerfilRenter);
 
-// Consultar solicitudes OWNER
+// Consultar solicitudes OWNER y RENTER (Admin)
 router.get(
   "/solicitudes/owner",
   verificarToken,
@@ -28,7 +26,14 @@ router.get(
   ObtenerSolicitudesOwnerController
 );
 
-// Aprobar solicitud OWNER
+router.get(
+  "/solicitudes/renter",
+  verificarToken,
+  verificarAdmin,
+  ObtenerSolicitudesRenterController
+);
+
+// Aprobar solicitud OWNER y RENTER (Admin)
 router.patch(
   "/aprobar/owner/:id",
   verificarToken,
@@ -36,18 +41,26 @@ router.patch(
   AprobarSolicitudOwnerController
 );
 
-// Rechazar solicitud OWNER
+router.patch(
+  "/aprobar/renter/:id",
+  verificarToken,
+  verificarAdmin,
+  AprobarSolicitudRenterController
+);
+
+// Rechazar solicitud OWNER y RENTER (Admin)
 router.patch(
   "/rechazar/owner/:id",
   verificarToken,
   verificarAdmin,
   RechazarSolicitudOwnerController
 );
-// Solicitar perfil RENTER
-router.post(
-  "/renter",
+
+router.patch(
+  "/rechazar/renter/:id",
   verificarToken,
-  solicitarPerfilRenter
+  verificarAdmin,
+  RechazarSolicitudRenterController
 );
 
 export default router;

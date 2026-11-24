@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-
-
 import ProtectedRoute from "./components/ProtectedRoute";
+import RoleRoute from "./components/RoleRoute";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -16,16 +15,14 @@ import PublicarMoto from "./pages/Publicarmoto/publicarmoto";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import VerificarCorreo from "./pages/VerificarCorreo/VerificarCorreo";
-import VerificarRenter from "./pages/Renter/VerificarRenter"; 
+import VerificarRenter from "./pages/Renter/VerificarRenter";
 import VerificarOwner from "./pages/Owner/VerificarOwner";
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
 
-     <Navbar />
-
-     
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -34,18 +31,37 @@ function App() {
         <Route path="/recuperar-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/verificar-correo/:token" element={<VerificarCorreo />} />
-        <Route path="/verificar-renter" element={<VerificarRenter />} />
-        <Route path="/verificar-owner" element={<VerificarOwner />} />
-
 
         <Route element={<ProtectedRoute />}>
-        <Route path="/perfil" element={<Perfil/>}/>
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/rentas" element={<Rentas />} />
-        <Route path="/contrato" element={<Contrato />} />
-        <Route path="/publicarmoto" element={<PublicarMoto />} />
-        </Route>
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/contrato" element={<Contrato />} />
+          <Route path="/verificar-renter" element={<VerificarRenter />} />
+          <Route path="/verificar-owner" element={<VerificarOwner />} />
 
+          {/* Rutas restringidas por rol verificado */}
+          <Route
+            element={
+              <RoleRoute
+                rolesPermitidos={["RENTER", "OWNER", "ADMIN"]}
+                tipoRequerido="renter"
+              />
+            }
+          >
+            <Route path="/rentas" element={<Rentas />} />
+          </Route>
+
+          <Route
+            element={
+              <RoleRoute
+                rolesPermitidos={["OWNER", "ADMIN"]}
+                tipoRequerido="owner"
+              />
+            }
+          >
+            <Route path="/publicarmoto" element={<PublicarMoto />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

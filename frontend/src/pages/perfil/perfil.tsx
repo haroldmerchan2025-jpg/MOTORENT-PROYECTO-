@@ -1,270 +1,245 @@
-// frontend/src/pages/perfil/perfil.tsx
-import "./perfil.css";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  IconAlertTriangle,
-  IconIdCard,
-  IconInfo,
-  IconLandmark,
+  IconAlert,
+  IconCheckCircle,
+  IconClock,
+  IconKey,
+  IconMoto,
+  IconShieldCheck,
   IconUser,
 } from "../../components/Icons";
+import {
+  limpiarEstadoRolTemporal,
+  notificarCambioRol,
+} from "../../utils/rolActivo.storage";
+import {
+  obtenerInfoBadgeEstado,
+  obtenerResumenRoles,
+  type UsuarioSesion,
+} from "../../utils/roles.utils";
+import "./perfil.css";
 
-// Si no existe variable de entorno, usa el puerto 3000 del backend
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-interface UsuarioData {
-  id?: string;
-  fullName: string;
-  username: string;
-  email: string;
-  phone: string;
-  role?: string;
-  client?: {
-    documentNumber?: string;
+interface PerfilExtendido extends UsuarioSesion {
+  fullName?: string;
+  username?: string;
+  email?: string;
+  phone?: string;
+  renter?: {
+    cedulaNumero?: string;
     licenseNumber?: string;
     licenseCategory?: string;
-  };
+    estadoVerificacion?: string;
+    motivoRechazo?: string | null;
+  } | null;
   owner?: {
-    bankName?: string;
-    accountType?: string;
-    accountNumber?: string;
-    accountHolderDoc?: string;
+    cedulaNumero?: string;
+    estadoVerificacion?: string;
+    motivoRechazo?: string | null;
+  } | null;
+}
+
+function leerUsuarioInicial(): PerfilExtendido {
+  try {
+    const raw = localStorage.getItem("user");
+    if (raw && raw !== "undefined" && raw !== "null") {
+      return JSON.parse(raw) as PerfilExtendido;
+    }
+  } catch {
+    // ignoramos JSON inválido
+  }
+  return {
+    fullName: "Cargando perfil...",
+    username: "",
+    email: "",
+    phone: "",
   };
 }
 
 function Perfil() {
   const navigate = useNavigate();
 
-  // 1. ESTADO DEL USUARIO
-  const [usuario, setUsuario] = useState<UsuarioData>({
-    fullName: "Cargando datos...",
-    username: "",
-    email: "",
-    phone: "",
-  });
-
-  const [, setCargando] = useState(true);
+  const [usuario, setUsuario] = useState<PerfilExtendido>(() =>
+    leerUsuarioInicial()
+  );
+  const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState("");
+  const [tabActiva, setTabActiva] = useState<"datos" | "renter" | "owner">(
+    "datos"
+  );
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
+    if (!token || token === "undefined" || token === "null") {
+      navigate("/login", { replace: true });
       return;
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        console.log("Respuesta de /auth/me, status:", res.status);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Datos recibidos de /auth/me:", data);
-        if (data.ok && data.user) {
-          setUsuario(data.user);
-          localStorage.setItem("user", JSON.stringify(data.user));
-        } else {
-          console.error("El backend dijo que ok es falso o no mandó usuario:", data);
-          if (data.mensaje === "Token invalido o expirado. Por favor vuelva a iniciar sesion") {
-             // Si el token falló, limpiar e ir al login
-             localStorage.removeItem("token");
-             localStorage.removeItem("user");
-             navigate("/login");
-          } else {
-             setUsuario((prev) => ({ ...prev, fullName: "Error al cargar perfil" }));
-          }
+    let activo = true;
+
+    async function cargarPerfil() {
+      try {
+        const res = await fetch(`${API_URL}/auth/me`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!activo) return;
+
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          limpiarEstadoRolTemporal();
+          navigate("/login", { replace: true });
+          return;
         }
-      })
-      .catch((err) => {
-        console.error("Error al cargar perfil:", err);
-        setUsuario((prev) => ({ ...prev, fullName: "Error de conexión" }));
-      });
-    }, [navigate]);
 
-  // 2. CONTROL DE PESTAÑAS (TABS)
-  const [tabActiva, setTabActiva] = useState<"datos" | "conductor" | "propietario">("datos");
-
-  // 3. ESTADOS DEL PERFIL DE CONDUCTOR (CLIENT)
-  const [documentNumber, setDocumentNumber] = useState("");
-  const [documentFront, setDocumentFront] = useState<File | null>(null);
-  const [documentBack, setDocumentBack] = useState<File | null>(null);
-  const [licenseNumber, setLicenseNumber] = useState("");
-  const [licenseCategory, setLicenseCategory] = useState("A2");
-  const [licenseExpiration, setLicenseExpiration] = useState("");
-  const [licenseFront, setLicenseFront] = useState<File | null>(null);
-  const [licenseBack, setLicenseBack] = useState<File | null>(null);
-  const [estadoConductor] = useState("PENDIENTE");
-  const [conductorGuardado, setConductorGuardado] = useState(false);
-
-  // 4. ESTADOS DEL PERFIL DE PROPIETARIO (OWNER)
-  const [bankName, setBankName] = useState("Bancolombia");
-  const [accountType, setAccountType] = useState("Ahorros");
-  const [accountNumber, setAccountNumber] = useState("");
-  const [accountHolderDoc, setAccountHolderDoc] = useState("");
-  const [propietarioGuardado, setPropietarioGuardado] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    fetch(`${API_URL}/auth/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(async (res) => {
-        const data = await res.json();
         if (!res.ok) {
-          // Si el token es inválido o expiró
-          if (res.status === 401 || res.status === 403) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            navigate("/login");
-            return;
-          }
-          throw new Error(data.mensaje || data.message || "Error al obtener perfil");
+          throw new Error(
+            data.mensaje || data.message || "No se pudo consultar tu perfil."
+          );
         }
-        return data;
-      })
-      .then((data) => {
-        if (data && (data.user || data.ok)) {
-          const userRecibido = data.user || data;
+
+        const userRecibido = (data.user || data.data?.user || null) as
+          | PerfilExtendido
+          | null;
+
+        if (userRecibido) {
           setUsuario(userRecibido);
           localStorage.setItem("user", JSON.stringify(userRecibido));
-
-          // Si ya tiene datos bancarios guardados, precargarlos
-          if (userRecibido.owner) {
-            if (userRecibido.owner.bankName) setBankName(userRecibido.owner.bankName);
-            if (userRecibido.owner.accountType) setAccountType(userRecibido.owner.accountType);
-            if (userRecibido.owner.accountNumber) setAccountNumber(userRecibido.owner.accountNumber);
-            if (userRecibido.owner.accountHolderDoc) setAccountHolderDoc(userRecibido.owner.accountHolderDoc);
-          }
-
-          // Si ya tiene datos de conductor, precargarlos
-          if (userRecibido.client) {
-            if (userRecibido.client.documentNumber) setDocumentNumber(userRecibido.client.documentNumber);
-            if (userRecibido.client.licenseNumber) setLicenseNumber(userRecibido.client.licenseNumber);
-            if (userRecibido.client.licenseCategory) setLicenseCategory(userRecibido.client.licenseCategory);
-          }
+          notificarCambioRol();
         }
-        setCargando(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error al cargar perfil:", err);
-        setErrorCarga("No se pudo conectar con el servidor backend.");
-        setCargando(false);
-      });
+        if (activo) {
+          setErrorCarga(
+            "No fue posible sincronizar con el servidor. Mostrando los datos guardados localmente."
+          );
+        }
+      } finally {
+        if (activo) {
+          setCargando(false);
+        }
+      }
+    }
+
+    cargarPerfil();
+
+    return () => {
+      activo = false;
+    };
   }, [navigate]);
 
-  function handleGuardarConductor(e: React.FormEvent) {
-    e.preventDefault();
-    setConductorGuardado(true);
-    setTimeout(() => setConductorGuardado(false), 4000);
-  }
+  const resumen = obtenerResumenRoles(usuario);
+  const badgeRenter = obtenerInfoBadgeEstado(resumen.estadoRenter);
+  const badgeOwner = obtenerInfoBadgeEstado(resumen.estadoOwner);
 
-  function handleGuardarPropietario(e: React.FormEvent) {
-    e.preventDefault();
-    setPropietarioGuardado(true);
-    setTimeout(() => setPropietarioGuardado(false), 4000);
-  }
+  const inicial =
+    usuario.fullName && usuario.fullName !== "Cargando perfil..."
+      ? usuario.fullName.charAt(0).toUpperCase()
+      : "U";
 
   return (
     <div className="perfil-page">
       <main className="perfil-content">
         <div className="perfil-header-box">
-          <div className="avatar-circle">
-            {usuario.fullName && usuario.fullName !== "Cargando datos..."
-              ? usuario.fullName.charAt(0).toUpperCase()
-              : "U"}
-          </div>
-          <div>
-            <h1>{usuario.fullName}</h1>
+          <div className="avatar-circle">{inicial}</div>
+          <div className="perfil-header-meta">
+            <div className="perfil-header-badges">
+              <span className="perfil-role-pill">{resumen.etiquetaRol}</span>
+              {cargando && (
+                <span className="perfil-sync-pill">Sincronizando...</span>
+              )}
+            </div>
+            <h1>{usuario.fullName || "Usuario MotoRent"}</h1>
             <p className="user-email">
-              {usuario.email} {usuario.username ? `• @${usuario.username}` : ""}
+              {usuario.email || "Sin correo registrado"}
+              {usuario.username ? ` · @${usuario.username}` : ""}
             </p>
           </div>
         </div>
 
         {errorCarga && (
-          <div
-            style={{
-              backgroundColor: "#FEE2E2",
-              color: "#B91C1C",
-              padding: "12px 16px",
-              borderRadius: "8px",
-              marginBottom: "16px",
-              fontWeight: 600,
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            <IconAlertTriangle size={17} />
+          <div className="perfil-warning-banner" role="status">
+            <IconAlert size={17} />
             <span>{errorCarga}</span>
           </div>
         )}
 
-        {/* NAVEGACIÓN ENTRE PESTAÑAS */}
-        <div className="perfil-tabs">
+        <div className="perfil-tabs" role="tablist">
           <button
+            type="button"
+            role="tab"
+            aria-selected={tabActiva === "datos"}
             className={tabActiva === "datos" ? "tab-btn active" : "tab-btn"}
             onClick={() => setTabActiva("datos")}
-            style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
           >
             <IconUser size={16} />
-            <span>Mis Datos Personales</span>
+            <span>Datos de la cuenta</span>
           </button>
+
           <button
-            className={tabActiva === "conductor" ? "tab-btn active" : "tab-btn"}
-            onClick={() => setTabActiva("conductor")}
-            style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+            type="button"
+            role="tab"
+            aria-selected={tabActiva === "renter"}
+            className={tabActiva === "renter" ? "tab-btn active" : "tab-btn"}
+            onClick={() => setTabActiva("renter")}
           >
-            <IconIdCard size={16} />
-            <span>Perfil Conductor (Cliente)</span>
+            <IconMoto size={16} />
+            <span>Verificación Arrendatario</span>
           </button>
+
           <button
-            className={tabActiva === "propietario" ? "tab-btn active" : "tab-btn"}
-            onClick={() => setTabActiva("propietario")}
-            style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+            type="button"
+            role="tab"
+            aria-selected={tabActiva === "owner"}
+            className={tabActiva === "owner" ? "tab-btn active" : "tab-btn"}
+            onClick={() => setTabActiva("owner")}
           >
-            <IconLandmark size={16} />
-            <span>Perfil Propietario (Dueño)</span>
+            <IconKey size={16} />
+            <span>Verificación Propietario</span>
           </button>
         </div>
 
-        {/* PESTAÑA 1: DATOS PERSONALES */}
         {tabActiva === "datos" && (
           <section className="perfil-card">
-            <h2>Información de tu cuenta</h2>
+            <div className="card-top-row">
+              <h2>Información de tu cuenta</h2>
+              <Link to="/dashboard" className="perfil-secondary-link">
+                Ir a mi panel →
+              </Link>
+            </div>
             <p className="perfil-card-subtitle">
-              Estos son los datos con los que te registraste en la plataforma.
+              Datos básicos asociados a tu registro en MotoRent y estado actual
+              de tu cuenta.
             </p>
 
             <div className="perfil-datos-grid">
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Nombre completo</span>
-                <span className="perfil-dato-valor">{usuario.fullName}</span>
+                <span className="perfil-dato-valor">
+                  {usuario.fullName || "No definido"}
+                </span>
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Nombre de usuario</span>
-                <span className="perfil-dato-valor">@{usuario.username || "No definido"}</span>
+                <span className="perfil-dato-valor">
+                  {usuario.username ? `@${usuario.username}` : "No definido"}
+                </span>
               </div>
               <div className="perfil-dato">
                 <span className="perfil-dato-label">Correo electrónico</span>
-                <span className="perfil-dato-valor">{usuario.email || "No definido"}</span>
+                <span className="perfil-dato-valor">
+                  {usuario.email || "No definido"}
+                </span>
               </div>
               <div className="perfil-dato">
-                <span className="perfil-dato-label">Número de celular</span>
+                <span className="perfil-dato-label">Teléfono de contacto</span>
                 <span className="perfil-dato-valor">
                   {usuario.phone ? `+57 ${usuario.phone}` : "No definido"}
                 </span>
@@ -273,211 +248,210 @@ function Perfil() {
           </section>
         )}
 
-        {/* PESTAÑA 2: CONDUCTOR */}
-        {tabActiva === "conductor" && (
+        {tabActiva === "renter" && (
           <section className="perfil-card">
             <div className="card-top-row">
-              <h2>Verificación de Conductor</h2>
-              <span className={`status-badge ${estadoConductor.toLowerCase()}`}>
-                Estado: {estadoConductor}
+              <h2>Perfil de Arrendatario (Renter)</h2>
+              <span
+                className={`perfil-status-pill perfil-status-pill--${badgeRenter.variante}`}
+              >
+                {badgeRenter.texto}
               </span>
             </div>
             <p className="perfil-card-subtitle">
-              Sube tu documento de identidad y licencia de conducción colombiana para poder rentar cualquier moto.
+              Para alquilar motocicletas en MotoRent validamos tu cédula,
+              licencia de conducción categoría A1/A2 y comprobante de domicilio.
             </p>
 
-            <form onSubmit={handleGuardarConductor}>
-              <h3 className="perfil-subsection">1. Cédula de Ciudadanía</h3>
-              <div className="perfil-form-field">
-                <label>Número de documento *</label>
-                <input
-                  type="text"
-                  placeholder="Ej. 1020304050"
-                  value={documentNumber}
-                  onChange={(e) => setDocumentNumber(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="perfil-upload-row">
-                <div className="perfil-upload-field">
-                  <label>Foto Cédula Frontal *</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setDocumentFront(e.target.files?.[0] ?? null)}
-                  />
-                  {documentFront && (
-                    <span className="file-indicator">✓ {documentFront.name}</span>
-                  )}
+            {resumen.estadoRenter === "APPROVED" ? (
+              <>
+                <div className="perfil-state-box perfil-state-box--approved">
+                  <IconCheckCircle size={19} />
+                  <div>
+                    <strong>Cuenta habilitada para alquilar</strong>
+                    <p>
+                      Tu documentación de arrendatario fue aprobada. Puedes
+                      explorar el catálogo y gestionar tus reservas activas.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="perfil-upload-field">
-                  <label>Foto Cédula Posterior *</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setDocumentBack(e.target.files?.[0] ?? null)}
-                  />
-                  {documentBack && (
-                    <span className="file-indicator">✓ {documentBack.name}</span>
-                  )}
-                </div>
-              </div>
-
-              <h3 className="perfil-subsection">2. Licencia de Conducción</h3>
-              <div className="form-two-cols">
-                <div className="perfil-form-field">
-                  <label>Número de licencia *</label>
-                  <input
-                    type="text"
-                    placeholder="Número de licencia"
-                    value={licenseNumber}
-                    onChange={(e) => setLicenseNumber(e.target.value)}
-                    required
-                  />
+                <div className="perfil-datos-grid">
+                  <div className="perfil-dato">
+                    <span className="perfil-dato-label">Número de cédula</span>
+                    <span className="perfil-dato-valor">
+                      {usuario.renter?.cedulaNumero || "Verificada"}
+                    </span>
+                  </div>
+                  <div className="perfil-dato">
+                    <span className="perfil-dato-label">
+                      Licencia de conducción
+                    </span>
+                    <span className="perfil-dato-valor">
+                      {usuario.renter?.licenseNumber
+                        ? `${usuario.renter.licenseNumber} (${usuario.renter.licenseCategory || "Moto"})`
+                        : "Verificada"}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="perfil-form-field">
-                  <label>Categoría *</label>
-                  <select
-                    value={licenseCategory}
-                    onChange={(e) => setLicenseCategory(e.target.value)}
-                  >
-                    <option value="A1">A1 (Hasta 125cc)</option>
-                    <option value="A2">A2 (Cualquier cilindraje - Recomendada)</option>
-                  </select>
+                <div className="perfil-cta-row">
+                  <Link to="/motos" className="perfil-primary-btn">
+                    Explorar catálogo
+                  </Link>
+                  <Link to="/rentas" className="perfil-outline-btn">
+                    Ver mis rentas
+                  </Link>
+                </div>
+              </>
+            ) : resumen.estadoRenter === "PENDING" ? (
+              <div className="perfil-state-box perfil-state-box--pending">
+                <IconClock size={19} />
+                <div>
+                  <strong>Documentación en revisión</strong>
+                  <p>
+                    Recibimos tu solicitud de arrendatario. Nuestro equipo
+                    administrador está validando tus soportes y te notificará
+                    apenas quede aprobada.
+                  </p>
                 </div>
               </div>
+            ) : (
+              <>
+                {resumen.estadoRenter === "REJECTED" && (
+                  <div className="perfil-state-box perfil-state-box--rejected">
+                    <IconAlert size={19} />
+                    <div>
+                      <strong>Solicitud rechazada</strong>
+                      <p>
+                        {resumen.motivoRechazoRenter ||
+                          "Algunos documentos no pudieron validarse. Corrige los datos y vuelve a enviar tu solicitud."}
+                      </p>
+                    </div>
+                  </div>
+                )}
 
-              <div className="perfil-form-field">
-                <label>Fecha de vencimiento *</label>
-                <input
-                  type="date"
-                  value={licenseExpiration}
-                  onChange={(e) => setLicenseExpiration(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="perfil-upload-row">
-                <div className="perfil-upload-field">
-                  <label>Foto Licencia Frontal *</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setLicenseFront(e.target.files?.[0] ?? null)}
-                  />
-                  {licenseFront && (
-                    <span className="file-indicator">✓ {licenseFront.name}</span>
-                  )}
+                <div className="perfil-state-box perfil-state-box--neutral">
+                  <IconShieldCheck size={19} />
+                  <div>
+                    <strong>Completa tu verificación oficial en 3 pasos</strong>
+                    <p>
+                      Prepara tu cédula, tu licencia A1 o A2 y un recibo de
+                      servicio público reciente (imagen o PDF).
+                    </p>
+                  </div>
                 </div>
 
-                <div className="perfil-upload-field">
-                  <label>Foto Licencia Posterior *</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setLicenseBack(e.target.files?.[0] ?? null)}
-                  />
-                  {licenseBack && (
-                    <span className="file-indicator">✓ {licenseBack.name}</span>
-                  )}
+                <div className="perfil-cta-row">
+                  <Link to="/verificar-renter" className="perfil-primary-btn">
+                    {resumen.estadoRenter === "REJECTED"
+                      ? "Reenviar verificación de Arrendatario"
+                      : "Iniciar verificación de Arrendatario"}
+                  </Link>
                 </div>
-              </div>
-
-              <button type="submit" className="perfil-submit-button">
-                Guardar y solicitar verificación
-              </button>
-
-              {conductorGuardado && (
-                <p className="perfil-success-message">
-                  ✓ Documentos guardados exitosamente. El administrador los revisará en breve.
-                </p>
-              )}
-            </form>
+              </>
+            )}
           </section>
         )}
 
-        {/* PESTAÑA 3: PROPIETARIO */}
-        {tabActiva === "propietario" && (
+        {tabActiva === "owner" && (
           <section className="perfil-card">
             <div className="card-top-row">
-              <h2>Cuenta de Cobro y Propietario</h2>
-              <Link to="/publicarmoto" className="btn-small-cta">
-                + Publicar una moto
-              </Link>
+              <h2>Perfil de Propietario (Owner)</h2>
+              <span
+                className={`perfil-status-pill perfil-status-pill--${badgeOwner.variante}`}
+              >
+                {badgeOwner.texto}
+              </span>
             </div>
             <p className="perfil-card-subtitle">
-              Aquí es donde MotoRent te transferirá las ganancias (el 85% del valor de cada alquiler) a tu cuenta bancaria.
+              Como propietario verificado puedes publicar tus motocicletas y
+              recibir el 85% de cada alquiler completado.
             </p>
 
-            <form onSubmit={handleGuardarPropietario}>
-              <div className="form-two-cols">
-                <div className="perfil-form-field">
-                  <label>Entidad Bancaria *</label>
-                  <select value={bankName} onChange={(e) => setBankName(e.target.value)}>
-                    <option value="Bancolombia">Bancolombia</option>
-                    <option value="Nequi">Nequi</option>
-                    <option value="Daviplata">Daviplata</option>
-                    <option value="Davivienda">Davivienda</option>
-                    <option value="BBVA">BBVA Colombia</option>
-                    <option value="Banco de Bogotá">Banco de Bogotá</option>
-                  </select>
+            {resumen.estadoOwner === "APPROVED" ? (
+              <>
+                <div className="perfil-state-box perfil-state-box--approved">
+                  <IconCheckCircle size={19} />
+                  <div>
+                    <strong>Cuenta habilitada como Propietario</strong>
+                    <p>
+                      Tu identidad fue verificada correctamente. Ya tienes
+                      acceso a la publicación de vehículos en MotoRent.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="perfil-form-field">
-                  <label>Tipo de Cuenta *</label>
-                  <select value={accountType} onChange={(e) => setAccountType(e.target.value)}>
-                    <option value="Ahorros">Cuenta de Ahorros</option>
-                    <option value="Corriente">Cuenta Corriente</option>
-                  </select>
+                <div className="perfil-datos-grid">
+                  <div className="perfil-dato">
+                    <span className="perfil-dato-label">Número de cédula</span>
+                    <span className="perfil-dato-valor">
+                      {usuario.owner?.cedulaNumero || "Verificada"}
+                    </span>
+                  </div>
+                  <div className="perfil-dato">
+                    <span className="perfil-dato-label">Esquema de ingresos</span>
+                    <span className="perfil-dato-valor">
+                      85% neto para propietario
+                    </span>
+                  </div>
+                </div>
+
+                <div className="perfil-cta-row">
+                  <Link to="/publicarmoto" className="perfil-primary-btn">
+                    Publicar motocicleta
+                  </Link>
+                  <Link to="/dashboard" className="perfil-outline-btn">
+                    Ver métricas del panel
+                  </Link>
+                </div>
+              </>
+            ) : resumen.estadoOwner === "PENDING" ? (
+              <div className="perfil-state-box perfil-state-box--pending">
+                <IconClock size={19} />
+                <div>
+                  <strong>Solicitud de propietario en revisión</strong>
+                  <p>
+                    Tus documentos de identidad y domicilio están siendo
+                    validados por el equipo administrador.
+                  </p>
                 </div>
               </div>
+            ) : (
+              <>
+                {resumen.estadoOwner === "REJECTED" && (
+                  <div className="perfil-state-box perfil-state-box--rejected">
+                    <IconAlert size={19} />
+                    <div>
+                      <strong>Solicitud rechazada</strong>
+                      <p>
+                        {resumen.motivoRechazoOwner ||
+                          "No pudimos aprobar tu documentación. Revisa los requisitos y vuelve a enviarla."}
+                      </p>
+                    </div>
+                  </div>
+                )}
 
-              <div className="form-two-cols">
-                <div className="perfil-form-field">
-                  <label>Número de Cuenta o Celular (Nequi/Daviplata) *</label>
-                  <input
-                    type="text"
-                    placeholder="Ej. 1234567890"
-                    value={accountNumber}
-                    onChange={(e) => setAccountNumber(e.target.value)}
-                    required
-                  />
+                <div className="perfil-state-box perfil-state-box--neutral">
+                  <IconShieldCheck size={19} />
+                  <div>
+                    <strong>Completa tu verificación oficial en 2 pasos</strong>
+                    <p>
+                      Necesitarás tu cédula (frontal y posterior), una foto de
+                      rostro reciente y tu comprobante de domicilio.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="perfil-form-field">
-                  <label>Cédula del titular de la cuenta *</label>
-                  <input
-                    type="text"
-                    placeholder="Cédula asociada a la cuenta"
-                    value={accountHolderDoc}
-                    onChange={(e) => setAccountHolderDoc(e.target.value)}
-                    required
-                  />
+                <div className="perfil-cta-row">
+                  <Link to="/verificar-owner" className="perfil-primary-btn">
+                    {resumen.estadoOwner === "REJECTED"
+                      ? "Reenviar verificación de Propietario"
+                      : "Iniciar verificación de Propietario"}
+                  </Link>
                 </div>
-              </div>
-
-              <div className="info-box-payout">
-                <span style={{ display: "inline-flex", color: "#0F2537", marginTop: "2px" }}>
-                  <IconInfo size={18} />
-                </span>
-                <p>
-                  Los pagos de tus alquileres se liquidan automáticamente a tu cuenta cada semana o al finalizar cada contrato de renta.
-                </p>
-              </div>
-
-              <button type="submit" className="perfil-submit-button">
-                Guardar datos bancarios
-              </button>
-
-              {propietarioGuardado && (
-                <p className="perfil-success-message">
-                  ✓ Cuenta bancaria actualizada. Ya puedes recibir ingresos de tus motos.
-                </p>
-              )}
-            </form>
+              </>
+            )}
           </section>
         )}
       </main>

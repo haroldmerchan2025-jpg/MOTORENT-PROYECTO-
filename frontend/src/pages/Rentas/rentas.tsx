@@ -1,5 +1,4 @@
-import "./Rentas.css";
-import { useNavigate, Link } from "react-router-dom";
+import "./rentas.css";
 
 // Datos de ejemplo — luego los traemos del backend real (modelo Rental)
 const rentasEjemplo = [
@@ -45,37 +44,11 @@ function formatearFecha(fecha: string) {
 }
 
 function Rentas() {
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    localStorage.removeItem("token");
-    window.history.pushState(null, "", "/login");
-    navigate("/login", { replace: true });
-  }
-
   const rentaActiva = rentasEjemplo.find((r) => r.status === "ACTIVE");
   const historial = rentasEjemplo.filter((r) => r.status !== "ACTIVE");
 
   return (
     <div className="rentas-page">
-
-      <header className="rentas-navbar">
-        <div className="logo">
-          <span>MOTO</span>RENT
-        </div>
-
-        <nav className="rentas-nav-links">
-          <Link to="/dashboard">Inicio</Link>
-          <Link to="/motos">Motos</Link>
-          <Link to="/rentas">Mis rentas</Link>
-          <Link to="/perfil">Mi perfil</Link>
-        </nav>
-
-        <button className="logout-button" onClick={handleLogout}>
-          Cerrar sesión
-        </button>
-      </header>
-
       <main className="rentas-content">
 
         <h1>Mis rentas</h1>

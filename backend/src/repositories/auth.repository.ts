@@ -57,6 +57,10 @@ export const findUserByIdentifier = async (identifier: string) => {
         { email: identifier },
       ],
     },
+    include: {
+      renter: true,
+      owner: true,
+    },
   });
 };
 

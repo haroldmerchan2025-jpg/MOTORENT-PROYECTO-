@@ -384,6 +384,189 @@
 }
 
 /* ====================================================================== */
+/* ESTILOS SOBRIOS DE PERFIL Y VERIFICACIONES (FASE 4)                    */
+/* ====================================================================== */
+.perfil-header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.perfil-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.perfil-role-pill {
+  display: inline-block;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+.perfil-sync-pill {
+  font-size: 11.5px;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.perfil-warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.perfil-secondary-link {
+  color: #FF6A3D;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.perfil-secondary-link:hover {
+  text-decoration: underline;
+}
+
+.perfil-status-pill {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.perfil-status-pill--neutral {
+  background-color: #F1F5F9;
+  color: #475569;
+}
+
+.perfil-status-pill--pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.perfil-status-pill--approved {
+  background-color: #DCFCE7;
+  color: #166534;
+}
+
+.perfil-status-pill--rejected {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+.perfil-state-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  margin-bottom: 22px;
+}
+
+.perfil-state-box svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.perfil-state-box strong {
+  display: block;
+  font-size: 14.5px;
+  margin-bottom: 4px;
+}
+
+.perfil-state-box p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.perfil-state-box--approved {
+  background-color: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #065F46;
+}
+
+.perfil-state-box--pending {
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+}
+
+.perfil-state-box--rejected {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+}
+
+.perfil-state-box--neutral {
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #334155;
+}
+
+.perfil-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.perfil-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 20px;
+  border-radius: 9px;
+  transition: background-color 0.2s ease;
+}
+
+.perfil-primary-btn:hover {
+  background-color: #163752;
+}
+
+.perfil-outline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  color: #334155;
+  border: 1px solid #CBD5E1;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 9px;
+  transition: all 0.2s ease;
+}
+
+.perfil-outline-btn:hover {
+  border-color: #0F2537;
+  color: #0F2537;
+}
+
+/* ====================================================================== */
 /* ADAPTABILIDAD RESPONSIVE (MÓVIL Y TABLET)                               */
 /* ====================================================================== */
 @media (max-width: 768px) {

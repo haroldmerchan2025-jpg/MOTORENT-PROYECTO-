@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
-import { IconEye, IconEyeOff } from "../../components/Icons";
+import { limpiarEstadoRolTemporal } from "../../utils/rolActivo.storage";
 import "./Login.css";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function Login() {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ function Login() {
     setCargando(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,6 +70,7 @@ function Login() {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+      limpiarEstadoRolTemporal();
       navigate("/dashboard", { replace: true });
     } catch (error) {
       console.error(error);
@@ -120,7 +123,6 @@ function Login() {
             />
             <button
               type="button"
-              aria-label={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               onClick={() => setMostrarPassword(!mostrarPassword)}
               style={{
                 position: "absolute",
@@ -130,14 +132,10 @@ function Login() {
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "#64748B",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "4px",
+                fontSize: "18px"
               }}
             >
-              {mostrarPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
+              {mostrarPassword ? "👁️" : "🙈"} 
             </button>
           </div>
           {errorPassword && <p className="field-error">{errorPassword}</p>}

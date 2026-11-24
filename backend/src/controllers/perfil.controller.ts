@@ -5,7 +5,10 @@ import {
   solicitarRenter,
   ObtenerSolicitudesOwner,
   AprobarSolicitudOwner,
-  RechazarSolicitudOwner
+  RechazarSolicitudOwner,
+  ObtenerSolicitudesRenter,
+  AprobarSolicitudRenter,
+  RechazarSolicitudRenter,
 } from "../services/perfil.service.js";
 import { AppError } from "../utils/response.util.js";
 
@@ -15,35 +18,31 @@ export const solicitarPerfilOwner = async (req: AuthRequest, res: Response) => {
 
     if (!userId) {
       return res.status(401).json({
-        message: "No autorizado"
+        message: "No autorizado",
       });
     }
 
-    const nuevoOwner = await solicitarOwner(
-      userId,
-      req.body
-    );
+    const nuevoOwner = await solicitarOwner(userId, req.body);
 
     return res.status(201).json({
       message: "Solicitud de perfil Owner creada correctamente",
-      data: nuevoOwner
+      data: nuevoOwner,
     });
-
   } catch (error) {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json({
-        message: error.message
+        message: error.message,
       });
     }
 
     return res.status(500).json({
-      message: "Error interno del servidor"
+      message: "Error interno del servidor",
     });
   }
 };
 
 export const ObtenerSolicitudesOwnerController = async (
-  req: Request,
+  _req: Request,
   res: Response
 ) => {
   try {
@@ -51,11 +50,11 @@ export const ObtenerSolicitudesOwnerController = async (
 
     return res.status(200).json({
       message: "Solicitudes OWNER obtenidas correctamente",
-      data: solicitudes
+      data: solicitudes,
     });
-  } catch (error) {
+  } catch {
     return res.status(500).json({
-      message: "Error al obtener las solicitudes OWNER"
+      message: "Error al obtener las solicitudes OWNER",
     });
   }
 };
@@ -65,24 +64,23 @@ export const AprobarSolicitudOwnerController = async (
   res: Response
 ) => {
   try {
-    const id = String(req.params.id ?? "");
+    const id = String(req.params.id);
 
     const ownerAprobado = await AprobarSolicitudOwner(id);
 
     return res.status(200).json({
       message: "Solicitud OWNER aprobada correctamente",
-      data: ownerAprobado
+      data: ownerAprobado,
     });
-
   } catch (error) {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json({
-        message: error.message
+        message: error.message,
       });
     }
 
     return res.status(500).json({
-      message: "Error interno del servidor"
+      message: "Error interno del servidor",
     });
   }
 };
@@ -92,37 +90,32 @@ export const RechazarSolicitudOwnerController = async (
   res: Response
 ) => {
   try {
-    const id = String(req.params.id ?? "");
+    const id = String(req.params.id);
     const { motivoRechazo } = req.body;
 
-    const ownerRechazado = await RechazarSolicitudOwner(
-      id,
-      motivoRechazo
-    );
+    const ownerRechazado = await RechazarSolicitudOwner(id, motivoRechazo);
 
     return res.status(200).json({
       message: "Solicitud OWNER rechazada correctamente",
-      data: ownerRechazado
+      data: ownerRechazado,
     });
-
   } catch (error) {
     if (error instanceof AppError) {
       return res.status(error.statusCode).json({
-        message: error.message
+        message: error.message,
       });
     }
 
     return res.status(500).json({
-      message: "Error interno del servidor"
+      message: "Error interno del servidor",
     });
   }
 };
-//nuevo endpoint para solicitar perfil de renter 23/11/26
 
 export const solicitarPerfilRenter = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.usuario?.id;
-    
+
     if (!userId) {
       return res.status(401).json({ message: "No autorizado" });
     }
@@ -131,7 +124,7 @@ export const solicitarPerfilRenter = async (req: AuthRequest, res: Response) => 
 
     return res.status(201).json({
       message: "Solicitud de perfil Renter creada correctamente",
-      data: nuevoRenter
+      data: nuevoRenter,
     });
   } catch (error) {
     if (error instanceof AppError) {
@@ -140,4 +133,74 @@ export const solicitarPerfilRenter = async (req: AuthRequest, res: Response) => 
 
     return res.status(500).json({ message: "Error interno del servidor" });
   }
-  };
+};
+
+export const ObtenerSolicitudesRenterController = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const solicitudes = await ObtenerSolicitudesRenter();
+
+    return res.status(200).json({
+      message: "Solicitudes RENTER obtenidas correctamente",
+      data: solicitudes,
+    });
+  } catch {
+    return res.status(500).json({
+      message: "Error al obtener las solicitudes RENTER",
+    });
+  }
+};
+
+export const AprobarSolicitudRenterController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const id = String(req.params.id);
+    const renterAprobado = await AprobarSolicitudRenter(id);
+
+    return res.status(200).json({
+      message: "Solicitud RENTER aprobada correctamente",
+      data: renterAprobado,
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({
+        message: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: "Error interno del servidor",
+    });
+  }
+};
+
+export const RechazarSolicitudRenterController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const id = String(req.params.id);
+    const { motivoRechazo } = req.body;
+
+    const renterRechazado = await RechazarSolicitudRenter(id, motivoRechazo);
+
+    return res.status(200).json({
+      message: "Solicitud RENTER rechazada correctamente",
+      data: renterRechazado,
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      return res.status(error.statusCode).json({
+        message: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: "Error interno del servidor",
+    });
+  }
+};

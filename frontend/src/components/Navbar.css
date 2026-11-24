@@ -1,25 +1,27 @@
 /* frontend/src/components/Navbar.css */
 
+/* ====================================================================== */
+/* CONTENEDOR GLOBAL DE LA BARRA (ALTURA FIJA PARA QUE NUNCA SE MUEVA)     */
+/* ====================================================================== */
 .global-navbar {
   height: 70px;
-  background-color: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(10px);
+  background-color: #FFFFFF;
   border-bottom: 1px solid #E2E8F0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 44px;
+  padding: 0 48px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 1px 6px rgba(15, 37, 55, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
 /* LOGO */
 .navbar-logo {
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
   text-decoration: none;
   color: #0F2537;
   white-space: nowrap;
@@ -29,11 +31,11 @@
   color: #FF6A3D;
 }
 
-/* ENLACES PRINCIPALES */
+/* ENLACES DEL CENTRO */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
 }
 
 .navbar-links a {
@@ -46,7 +48,7 @@
   font-weight: 600;
   padding: 6px 2px;
   border-bottom: 2px solid transparent;
-  transition: color 0.18s ease, border-color 0.18s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .navbar-links a:hover,
@@ -55,32 +57,22 @@
   border-bottom-color: #FF6A3D;
 }
 
-/* Botón destacado sobrio para publicar moto (solo Propietarios aprobados) */
+/* Botón especial sobrio para publicar moto (solo visible para Propietarios) */
 .nav-btn-publish {
   background-color: #0F2537;
   color: #FFFFFF !important;
   padding: 8px 14px !important;
-  border-radius: 9px;
+  border-radius: 8px;
   border-bottom: none !important;
-  box-shadow: 0 2px 8px rgba(15, 37, 55, 0.14);
-  transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
 .nav-btn-publish:hover,
 .nav-btn-publish.active {
   background-color: #163752;
   color: #FFFFFF !important;
-  transform: translateY(-1px);
 }
 
-/* LADO DERECHO */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* INSIGNIA DE ROL ACTIVO */
+/* Insignia discreta del rol activo en la Navbar */
 .navbar-role-pill {
   display: inline-flex;
   align-items: center;
@@ -90,19 +82,12 @@
   font-weight: 700;
   letter-spacing: 0.2px;
   border: 1px solid transparent;
-  white-space: nowrap;
 }
 
 .navbar-role-pill--user {
   background-color: #F1F5F9;
-  border-color: #E2E8F0;
-  color: #475569;
-}
-
-.navbar-role-pill--pending {
-  background-color: #FFFBEB;
-  border-color: #FDE68A;
-  color: #B45309;
+  border-color: #CBD5E1;
+  color: #334155;
 }
 
 .navbar-role-pill--renter {
@@ -123,7 +108,16 @@
   color: #3730A3;
 }
 
-/* BOTONES DE NOTIFICACIÓN Y AVATAR */
+/* LADO DERECHO */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ====================================================================== */
+/* BOTONES DE NOTIFICACIÓN Y AVATAR                                       */
+/* ====================================================================== */
 .dropdown-container {
   position: relative;
 }
@@ -140,82 +134,75 @@
   justify-content: center;
   cursor: pointer;
   position: relative;
-  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  transition: all 0.2s ease;
 }
 
 .icon-button:hover {
-  background-color: #F1F5F9;
-  border-color: #CBD5E1;
-  color: #0F2537;
+  background-color: #EDF2F7;
+  border-color: #CBD5E0;
 }
 
+/* Punto rojo de notificaciones no leídas */
 .notif-badge {
   position: absolute;
   top: -2px;
   right: -2px;
-  background-color: #FF6A3D;
+  background-color: #EF4444;
   color: #FFFFFF;
   font-size: 10px;
   font-weight: 800;
-  min-width: 18px;
+  width: 18px;
   height: 18px;
-  padding: 0 4px;
-  border-radius: 999px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid #FFFFFF;
 }
 
+/* Avatar con la letra del usuario */
 .avatar-button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0F2537 0%, #1C3F5E 100%);
+  background-color: #0F2537;
   color: #FFFFFF;
   border: 2px solid #E2E8F0;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  transition: all 0.2s ease;
 }
 
 .avatar-button:hover {
   border-color: #FF6A3D;
-  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.14);
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
-/* MENÚS DESPLEGABLES */
+/* ====================================================================== */
+/* MENÚS DESPLEGABLES (DROPDOWNS)                                         */
+/* ====================================================================== */
 .dropdown-menu {
   position: absolute;
   top: 52px;
   right: 0;
   background-color: #FFFFFF;
   border: 1px solid #E2E8F0;
-  border-radius: 16px;
-  box-shadow:
-    0 18px 40px -10px rgba(15, 37, 55, 0.16),
-    0 4px 12px -2px rgba(15, 37, 55, 0.06);
-  animation: navSlideDown 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  animation: slideDown 0.15s ease-out;
   z-index: 1001;
 }
 
-@keyframes navSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-6px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* NOTIFICACIONES */
+/* Menú de Notificaciones */
 .notif-dropdown {
   width: 320px;
   padding: 12px 0;
@@ -233,15 +220,14 @@
   font-size: 14px;
   font-weight: 700;
   color: #0F2537;
-  margin: 0;
 }
 
 .btn-mark-read {
   background: none;
   border: none;
   color: #FF6A3D;
-  font-size: 11.5px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -268,57 +254,56 @@
   font-size: 13px;
   font-weight: 700;
   color: #0F2537;
-  margin: 0 0 2px;
+  margin-bottom: 2px;
 }
 
 .notif-desc {
   font-size: 12px;
   color: #64748B;
   line-height: 1.4;
-  margin: 0 0 4px;
+  margin-bottom: 4px;
 }
 
 .notif-time {
-  font-size: 10.5px;
+  font-size: 10px;
   color: #94A3B8;
 }
 
-/* MENÚ DE PERFIL */
+/* Menú de Perfil */
 .profile-dropdown {
-  width: 280px;
-  padding: 10px 8px;
+  width: 268px;
+  padding: 12px 0;
 }
 
 .profile-dropdown-user {
   display: flex;
-  gap: 11px;
+  gap: 12px;
   align-items: center;
-  padding: 8px 10px 12px;
+  padding: 4px 16px 12px;
+}
+
+.profile-dropdown-meta {
+  min-width: 0;
 }
 
 .avatar-small {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
-  background: linear-gradient(135deg, #0F2537 0%, #1C3F5E 100%);
+  background-color: #0F2537;
   color: #FFFFFF;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 15px;
-}
-
-.profile-meta {
-  min-width: 0;
+  font-size: 14px;
 }
 
 .profile-name {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
   color: #0F2537;
-  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -327,7 +312,6 @@
 .profile-role {
   font-size: 11.5px;
   color: #64748B;
-  margin: 2px 0 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -336,17 +320,7 @@
 .dropdown-divider {
   height: 1px;
   background-color: #F1F5F9;
-  margin: 6px 8px;
-}
-
-.dropdown-section-label {
-  display: block;
-  padding: 6px 10px 4px;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.7px;
-  text-transform: uppercase;
-  color: #94A3B8;
+  margin: 6px 0;
 }
 
 .dropdown-link {
@@ -355,8 +329,7 @@
   gap: 10px;
   width: 100%;
   text-align: left;
-  padding: 9px 10px;
-  border-radius: 10px;
+  padding: 10px 16px;
   font-size: 13px;
   font-weight: 600;
   color: #334155;
@@ -364,13 +337,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.dropdown-link svg {
-  flex-shrink: 0;
-  color: #64748B;
-  transition: color 0.15s ease;
+  transition: background 0.15s, color 0.15s;
 }
 
 .dropdown-link:hover {
@@ -378,37 +345,17 @@
   color: #0F2537;
 }
 
-.dropdown-link:hover svg {
+.dropdown-link--switch {
+  color: #0F2537;
+  background-color: #F8FAFC;
+}
+
+.dropdown-link--switch:hover {
+  background-color: #F1F5F9;
   color: #FF6A3D;
 }
 
-.dropdown-link-text {
-  flex: 1;
-}
-
-.nav-status-pill {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-.nav-status-pill--pending {
-  background-color: #FEF3C7;
-  color: #92400E;
-}
-
-.nav-status-pill--rejected {
-  background-color: #FEE2E2;
-  color: #991B1B;
-}
-
 .logout-link {
-  color: #DC2626 !important;
-}
-
-.logout-link svg {
   color: #DC2626 !important;
 }
 
@@ -416,11 +363,10 @@
   background-color: #FEF2F2 !important;
 }
 
-/* INVITADOS */
+/* BOTONES PARA INVITADOS (GUEST) */
 .guest-buttons {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .btn-nav-login {
@@ -429,36 +375,220 @@
   font-weight: 600;
   font-size: 14px;
   padding: 8px 14px;
-  border-radius: 8px;
-  transition: background-color 0.18s ease;
-}
-
-.btn-nav-login:hover {
-  background-color: #F1F5F9;
 }
 
 .btn-nav-register {
   background-color: #FF6A3D;
   color: #FFFFFF;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
   padding: 8px 18px;
-  border-radius: 9px;
-  transition: background-color 0.18s ease;
+  border-radius: 8px;
+  transition: background-color 0.2s;
 }
 
 .btn-nav-register:hover {
   background-color: #E5541F;
 }
 
-/* RESPONSIVE */
+/* ====================================================================== */
+/* RESPONSIVE + MENÚ MÓVIL ACCESIBLE (FASE 11 · H1)                       */
+/* ====================================================================== */
+.mobile-menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color, #E2E8F0);
+  background-color: var(--bg-elevated, #F8FAFC);
+  color: var(--text-main, #0F2537);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mobile-nav-drawer {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-surface, #FFFFFF);
+  border-bottom: 1px solid var(--border-color, #E2E8F0);
+  box-shadow: 0 12px 24px rgba(15, 37, 55, 0.14);
+  padding: 12px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 999;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text-main, #0F2537);
+  background-color: var(--bg-elevated, #F8FAFC);
+}
+
+.mobile-nav-link.active {
+  border-left: 4px solid #FF6A3D;
+}
+
+.mobile-nav-link--accent {
+  background-color: #FF6A3D;
+  color: #FFFFFF;
+}
+
+.mobile-guest-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color, #E2E8F0);
+}
+
 @media (max-width: 768px) {
   .global-navbar {
-    padding: 0 18px;
+    padding: 0 16px;
   }
   .navbar-links,
+  .guest-buttons,
   .navbar-role-pill {
     display: none;
   }
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+}
+
+
+/* ====================================================================== */
+/* DIÁLOGO DE CONFIRMACIÓN DE CAMBIO DE PERFIL DUAL (FASE 13)             */
+/* ====================================================================== */
+.switch-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  background-color: rgba(11, 20, 29, 0.62);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.switch-confirm-dialog {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--bg-surface, #FFFFFF);
+  color: var(--text-main, #0F2537);
+  border: 1px solid var(--border-color, #E2E8F0);
+  border-top: 4px solid var(--accent, #FF6A3D);
+  border-radius: 18px;
+  padding: 24px 24px 22px;
+  box-shadow: 0 22px 50px rgba(15, 37, 55, 0.28);
+  text-align: center;
+}
+
+.switch-confirm-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+  background-color: rgba(255, 106, 61, 0.14);
+  color: var(--accent, #FF6A3D);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-confirm-dialog h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main, #0F2537);
+}
+
+.switch-confirm-text {
+  margin: 0 0 16px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-body, #475569);
+}
+
+.switch-confirm-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.switch-pill {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 999px;
+}
+
+.switch-pill--from {
+  background-color: var(--bg-elevated, #F1F5F9);
+  color: var(--text-muted, #64748B);
+  border: 1px solid var(--border-color, #E2E8F0);
+}
+
+.switch-pill--to {
+  background-color: rgba(255, 106, 61, 0.14);
+  color: var(--accent, #FF6A3D);
+  border: 1px solid rgba(255, 106, 61, 0.35);
+}
+
+.switch-pill-arrow {
+  font-weight: 700;
+  color: var(--text-muted, #64748B);
+}
+
+.switch-confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.switch-btn {
+  flex: 1;
+  min-height: 42px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.switch-btn--cancel {
+  background-color: transparent;
+  border: 1px solid var(--border-strong, #CBD5E1);
+  color: var(--text-body, #334155);
+}
+
+.switch-btn--cancel:hover {
+  background-color: var(--bg-elevated, #F8FAFC);
+}
+
+.switch-btn--confirm {
+  background-color: var(--accent, #FF6A3D);
+  border: 1px solid transparent;
+  color: #FFFFFF;
+}
+
+.switch-btn--confirm:hover {
+  background-color: var(--accent-hover, #E5541F);
 }

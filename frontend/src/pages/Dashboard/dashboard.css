@@ -137,15 +137,7 @@
 }
 
 .active-rental-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: rgba(255, 106, 61, 0.16);
-  color: #FF8A65;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  font-size: 36px;
 }
 
 .active-rental-info {
@@ -218,20 +210,8 @@
 }
 
 .stat-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: #F1F5F9;
-  color: #0F2537;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14px;
-}
-
-.stat-card.highlight .stat-icon {
-  background-color: #DCFCE7;
-  color: #15803D;
+  font-size: 24px;
+  margin-bottom: 12px;
 }
 
 .stat-number {
@@ -252,42 +232,48 @@
 }
 
 /* ====================================================================== */
-/* BANNER INVITACIÓN PROPIETARIOS                                         */
+/* BANNER INVITACIÓN PROPIETARIOS (ESTILO SOBRIO Y EMPRESARIAL)           */
 /* ====================================================================== */
 .owner-promo-card {
-  background: linear-gradient(135deg, #FF6A3D 0%, #E5541F 100%);
-  color: #FFFFFF;
-  border-radius: 16px;
-  padding: 28px 32px;
+  background-color: #FFFFFF;
+  color: #0F2537;
+  border: 1px solid #E2E8F0;
+  border-left: 4px solid #0F2537;
+  border-radius: 14px;
+  padding: 24px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 44px;
-  box-shadow: 0 10px 20px -5px rgba(255, 106, 61, 0.3);
+  margin-bottom: 36px;
+  box-shadow: 0 2px 6px rgba(15, 37, 55, 0.04);
 }
 
 .owner-promo-text h3 {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F2537;
   margin-bottom: 6px;
 }
 
 .owner-promo-text p {
   font-size: 14px;
-  color: #FFF7ED;
+  color: #556470;
   max-width: 650px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .btn-promo-publish {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background-color: #0F2537;
   color: #FFFFFF;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-  padding: 12px 24px;
-  border-radius: 10px;
+  padding: 11px 20px;
+  border-radius: 9px;
   white-space: nowrap;
   transition: background-color 0.2s ease;
 }
@@ -367,10 +353,830 @@
   color: #FF6A3D;
 }
 
+.action-card--static {
+  cursor: default;
+}
+
+.action-card--static:hover {
+  transform: none;
+  border-color: #E2E8F0;
+  box-shadow: none;
+}
+
+.action-badge-pending {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #FEF3C7;
+  color: #92400E;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ====================================================================== */
+/* DASHBOARD POR ROLES (FASE 2)                                           */
+/* ====================================================================== */
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.welcome-banner--flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.welcome-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.welcome-badges .welcome-tag {
+  margin-bottom: 0;
+}
+
+.role-header-badge {
+  display: inline-block;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 999px;
+  letter-spacing: 0.4px;
+}
+
+/* Switch de modo dual (Arrendatario / Propietario) */
+.dual-role-switch {
+  display: inline-flex;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.dual-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  background: transparent;
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dual-switch-btn:hover {
+  color: #0F2537;
+  background-color: #F4F7F6;
+}
+
+.dual-switch-btn.active {
+  background-color: #0F2537;
+  color: #FFFFFF;
+}
+
+/* Contenedor sobrio para íconos vectoriales SVG */
+.icon-chip {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.role-card-top .icon-chip {
+  margin-bottom: 0;
+}
+
+.icon-chip--primary {
+  background-color: #EFF4F8;
+  color: #0F2537;
+}
+
+.icon-chip--accent {
+  background-color: #FFF4F0;
+  color: #D94E22;
+}
+
+.icon-chip--success {
+  background-color: #ECFDF5;
+  color: #065F46;
+}
+
+.icon-chip--neutral {
+  background-color: #F1F5F9;
+  color: #334155;
+}
+
+.icon-chip--dark-surface {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+  margin-bottom: 0;
+}
+
+.dashboard-loading-text {
+  color: #475569;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Barra de vista previa de roles (solo DEV — diseño neutro y discreto) */
+.dev-role-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background-color: #F8FAFC;
+  border: 1px dashed #CBD5E1;
+  border-radius: 10px;
+  padding: 9px 14px;
+  margin-bottom: 24px;
+}
+
+.dev-role-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.dev-role-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dev-role-btn {
+  border: 1px solid #CBD5E1;
+  background-color: #FFFFFF;
+  color: #334155;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dev-role-btn:hover {
+  border-color: #0F2537;
+  color: #0F2537;
+}
+
+.dev-role-btn.active {
+  background-color: #0F2537;
+  border-color: #0F2537;
+  color: #FFFFFF;
+}
+
+/* Advertencia suave de conexión parcial */
+.dashboard-warning-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Tarjetas de Onboarding para rol USER */
+.onboarding-section {
+  margin-bottom: 40px;
+}
+
+.role-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.role-onboarding-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.role-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.role-card-icon {
+  font-size: 30px;
+}
+
+.role-onboarding-card h3 {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0F2537;
+  margin: 0;
+}
+
+.role-card-desc {
+  color: #556470;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 0 8px;
+  flex-grow: 1;
+}
+
+.role-status-pill {
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.role-status-pill--neutral {
+  background-color: #F1F5F9;
+  color: #475569;
+}
+
+.role-status-pill--pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.role-status-pill--approved {
+  background-color: #DCFCE7;
+  color: #166534;
+}
+
+.role-status-pill--rejected {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+.role-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  transition: background-color 0.2s ease;
+}
+
+.role-cta-button--accent {
+  background-color: #FF6A3D;
+}
+
+.role-cta-button--accent:hover {
+  background-color: #E5541F;
+}
+
+.role-cta-button--primary {
+  background-color: #0F2537;
+}
+
+.role-cta-button--primary:hover {
+  background-color: #163752;
+}
+
+.role-pending-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  background-color: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #92400E;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.role-pending-box svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.role-rejection-note {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* Banners secundarios para Renter / Owner / Admin */
+.empty-rental-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-left: 4px solid #0F2537;
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-bottom: 28px;
+}
+
+.empty-rental-banner h3 {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0F2537;
+  margin: 0 0 4px;
+}
+
+.empty-rental-banner p {
+  font-size: 14px;
+  color: #556470;
+  margin: 0;
+}
+
+.secondary-role-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 36px;
+}
+
+.secondary-role-banner strong {
+  display: block;
+  color: #0F2537;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.secondary-role-banner p {
+  margin: 0;
+  color: #556470;
+  font-size: 13.5px;
+}
+
+.secondary-role-link {
+  color: #FF6A3D;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.secondary-role-link:hover {
+  text-decoration: underline;
+}
+
+.admin-notice-banner {
+  background-color: #F0F6FB;
+  border: 1px solid #BFDBFE;
+  border-left: 4px solid #0F2537;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 28px;
+}
+
+.admin-notice-banner strong {
+  display: block;
+  color: #0F2537;
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.admin-notice-banner p {
+  margin: 0;
+  color: #334155;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.admin-notice-banner--flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.admin-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background-color: #FFFFFF;
+  color: #0F2537;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-refresh-btn:hover:not(:disabled) {
+  border-color: #0F2537;
+  background-color: #F8FAFC;
+}
+
+.admin-refresh-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.admin-feedback-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.admin-feedback-banner--info {
+  background-color: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  color: #334155;
+}
+
+.admin-feedback-banner--error {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+}
+
+.admin-feedback-banner--success {
+  background-color: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #065F46;
+}
+
+.admin-queue-section {
+  margin-bottom: 40px;
+}
+
+.admin-queue-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.admin-queue-title {
+  margin-bottom: 0;
+}
+
+.admin-tabs {
+  display: inline-flex;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.admin-tab-btn {
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-tab-btn:hover {
+  color: #0F2537;
+  background-color: #F8FAFC;
+}
+
+.admin-tab-btn.active {
+  background-color: #0F2537;
+  color: #FFFFFF;
+}
+
+.admin-queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-empty-queue {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 22px 24px;
+  color: #065F46;
+}
+
+.admin-empty-queue strong {
+  display: block;
+  color: #0F2537;
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.admin-empty-queue p {
+  margin: 0;
+  color: #64748B;
+  font-size: 13.5px;
+}
+
+.admin-request-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 2px 5px rgba(15, 37, 55, 0.04);
+}
+
+.admin-request-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.admin-request-top h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0F2537;
+}
+
+.admin-request-meta {
+  margin: 0;
+  font-size: 13px;
+  color: #64748B;
+}
+
+.admin-request-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.admin-request-grid span {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748B;
+  margin-bottom: 2px;
+}
+
+.admin-request-grid strong {
+  font-size: 13.5px;
+  color: #0F2537;
+}
+
+.admin-request-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-btn-approve {
+  border: none;
+  background-color: #0F2537;
+  color: #FFFFFF;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.admin-btn-approve:hover:not(:disabled) {
+  background-color: #163752;
+}
+
+.admin-btn-reject {
+  border: 1px solid #CBD5E1;
+  background-color: #FFFFFF;
+  color: #991B1B;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-btn-reject:hover:not(:disabled) {
+  border-color: #DC2626;
+  background-color: #FEF2F2;
+}
+
+.admin-btn-danger {
+  border: none;
+  background-color: #B91C1C;
+  color: #FFFFFF;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-btn-danger:hover:not(:disabled) {
+  background-color: #991B1B;
+}
+
+.admin-btn-secondary {
+  border: 1px solid #CBD5E1;
+  background-color: #FFFFFF;
+  color: #475569;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-reject-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid #E2E8F0;
+}
+
+.admin-reject-box label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.admin-reject-box textarea {
+  width: 100%;
+  border: 1px solid #CBD5E1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #0F2537;
+  resize: vertical;
+}
+
+.admin-reject-box textarea:focus {
+  outline: none;
+  border-color: #0F2537;
+}
+
+/* Módulos avanzados del Panel ADMIN (Fase 7) */
+.admin-main-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color, #E2E8F0);
+}
+
+.admin-docs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.admin-doc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong, #CBD5E1);
+  background-color: var(--bg-elevated, #F8FAFC);
+  color: var(--text-main, #0F2537);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-doc-chip:hover {
+  border-color: var(--accent, #FF6A3D);
+}
+
+.admin-doc-preview {
+  background-color: var(--bg-surface, #FFFFFF);
+  border: 1px solid var(--border-strong, #CBD5E1);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.admin-doc-preview-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.admin-doc-img {
+  max-width: 100%;
+  max-height: 420px;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+.admin-doc-iframe {
+  width: 100%;
+  height: 420px;
+  border: 1px solid var(--border-color, #E2E8F0);
+  border-radius: 8px;
+}
+
+.admin-users-filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.admin-role-select {
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1.5px solid #CBD5E1;
+  background-color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0F2537;
+}
+
 /* ====================================================================== */
 /* RESPONSIVE                                                             */
 /* ====================================================================== */
 @media (max-width: 800px) {
+  .empty-rental-banner,
+  .secondary-role-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dual-role-switch {
+    width: 100%;
+  }
+
+  .dual-switch-btn {
+    flex: 1;
+    text-align: center;
+  }
   .dashboard-navbar {
     padding: 16px 20px;
     flex-direction: column;
