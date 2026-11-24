@@ -1,13 +1,12 @@
 import type { Request, Response } from "express";
+import type { AuthRequest } from "../middleware/auth.middleware.js";
 import {
   solicitarOwner,
+  solicitarRenter,
   ObtenerSolicitudesOwner,
   AprobarSolicitudOwner,
   RechazarSolicitudOwner
 } from "../services/perfil.service.js";
-import type { Response } from "express";
-import type { AuthRequest } from "../middleware/auth.middleware.js";
-import { solicitarOwner, solicitarRenter } from "../services/perfil.service.js";
 import { AppError } from "../utils/response.util.js";
 
 export const solicitarPerfilOwner = async (req: AuthRequest, res: Response) => {
@@ -66,7 +65,7 @@ export const AprobarSolicitudOwnerController = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id ?? "");
 
     const ownerAprobado = await AprobarSolicitudOwner(id);
 
@@ -93,7 +92,7 @@ export const RechazarSolicitudOwnerController = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params;
+    const id = String(req.params.id ?? "");
     const { motivoRechazo } = req.body;
 
     const ownerRechazado = await RechazarSolicitudOwner(

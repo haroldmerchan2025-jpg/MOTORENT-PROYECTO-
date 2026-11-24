@@ -94,11 +94,6 @@ export const RechazarOwner = async (
       estadoVerificacion: "REJECTED",
       motivoRechazo,
       fechaVerificacion: new Date()
-  return await prisma.owner.create({
-    data: {
-      ...datosOwner,
-      idUser: userId,
-      estadoVerificacion: "PENDING"
     }
   });
 };
