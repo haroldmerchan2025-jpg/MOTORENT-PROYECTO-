@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
+import {
+  IconCalendar,
+  IconCompass,
+  IconKey,
+  IconShieldCheck,
+  IconWallet,
+} from "../../components/Icons";
 
 function Dashboard() {
   // Leer el nombre del usuario desde localStorage
@@ -78,7 +85,7 @@ function Dashboard() {
         <section className="welcome-banner">
           <div>
             <span className="welcome-tag">PANEL DE CONTROL</span>
-            <h1>¡Hola de nuevo{nombre ? `, ${nombre}` : ""}! 👋</h1>
+            <h1>Hola de nuevo{nombre ? `, ${nombre}` : ""}</h1>
             <p className="welcome-description">
               Revisa tus alquileres activos, tus ganancias como propietario y el estado de tu cuenta.
             </p>
@@ -90,7 +97,9 @@ function Dashboard() {
         {/* ================================================================ */}
         {rentaActiva && (
           <section className="active-rental-banner">
-            <div className="active-rental-icon">🏍️</div>
+            <div className="active-rental-icon">
+              <IconShieldCheck size={24} />
+            </div>
             <div className="active-rental-info">
               <div className="active-rental-badge">EN CURSO</div>
               <p className="active-rental-title">Tienes una {rentaActiva.moto} rentada</p>
@@ -110,28 +119,36 @@ function Dashboard() {
         <section className="stats-row">
           {/* Métrica 1: Alquileres hechos como cliente */}
           <div className="stat-card">
-            <span className="stat-icon">🛵</span>
+            <span className="stat-icon">
+              <IconCompass size={20} />
+            </span>
             <p className="stat-number">{estadisticas.rentasComoCliente}</p>
             <p className="stat-label">Viajes realizados</p>
           </div>
 
           {/* Métrica 2: Motos que el usuario tiene publicadas (Dueño) */}
           <div className="stat-card">
-            <span className="stat-icon">🔑</span>
+            <span className="stat-icon">
+              <IconKey size={20} />
+            </span>
             <p className="stat-number">{estadisticas.motosPublicadas}</p>
             <p className="stat-label">Motos publicadas</p>
           </div>
 
           {/* Métrica 3: Ganancias generadas en el mes (Dueño) */}
           <div className="stat-card highlight">
-            <span className="stat-icon">💰</span>
+            <span className="stat-icon">
+              <IconWallet size={20} />
+            </span>
             <p className="stat-number">${estadisticas.gananciasDelMes.toLocaleString("es-CO")}</p>
             <p className="stat-label">Ganancias este mes (COP)</p>
           </div>
 
           {/* Métrica 4: Próxima devolución */}
           <div className="stat-card">
-            <span className="stat-icon">📅</span>
+            <span className="stat-icon">
+              <IconCalendar size={20} />
+            </span>
             <p className="stat-number">{estadisticas.proximaDevolucion}</p>
             <p className="stat-label">Próxima entrega</p>
           </div>

@@ -389,7 +389,15 @@
 }
 
 .perk-icon {
-  font-size: 28px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: rgba(255, 106, 61, 0.16);
+  color: #FF8A65;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .perk h4 {

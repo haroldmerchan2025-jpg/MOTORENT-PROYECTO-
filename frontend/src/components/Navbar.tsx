@@ -200,6 +200,9 @@ function Navbar() {
   const mostrarLinkOwner = !esAdmin && !esOwnerAprobado;
   const mostrarSeccionVerificacion = mostrarLinkRenter || mostrarLinkOwner;
 
+  const tieneSolicitudPendiente =
+    estadoRenter === "PENDING" || estadoOwner === "PENDING";
+
   const etiquetaRol = esAdmin
     ? "Administrador"
     : esRenterAprobado && esOwnerAprobado
@@ -208,6 +211,8 @@ function Navbar() {
     ? "Propietario"
     : esRenterAprobado
     ? "Arrendatario"
+    : tieneSolicitudPendiente
+    ? "En verificación"
     : "Cuenta base";
 
   const varianteRol = esAdmin
@@ -216,6 +221,8 @@ function Navbar() {
     ? "owner"
     : esRenterAprobado
     ? "renter"
+    : tieneSolicitudPendiente
+    ? "pending"
     : "user";
 
   const inicial = usuarioActual?.fullName
@@ -253,12 +260,11 @@ function Navbar() {
 
       {/* ENLACES PRINCIPALES ADAPTADOS AL ROL */}
       <nav className="navbar-links" aria-label="Navegación principal">
-        <Link to="/" className={location.pathname === "/" ? "active" : ""}>
-          Inicio
-        </Link>
-        <Link to="/motos" className={location.pathname === "/motos" ? "active" : ""}>
-          Catálogo
-        </Link>
+        {!haySesion && (
+          <Link to="/" className={location.pathname === "/" ? "active" : ""}>
+            Inicio
+          </Link>
+        )}
         {haySesion && (
           <Link
             to="/dashboard"
@@ -267,6 +273,9 @@ function Navbar() {
             Mi Panel
           </Link>
         )}
+        <Link to="/motos" className={location.pathname === "/motos" ? "active" : ""}>
+          Catálogo
+        </Link>
         {haySesion && esRenterAprobado && (
           <Link to="/rentas" className={location.pathname === "/rentas" ? "active" : ""}>
             Mis Rentas

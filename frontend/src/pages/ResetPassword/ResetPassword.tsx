@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
+import { IconCheckCircle, IconEye, IconEyeOff } from "../../components/Icons";
 import "../Register/Register.css";
 
 function ResetPassword() {
@@ -101,7 +102,21 @@ function ResetPassword() {
 
         {exito ? (
           <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <div style={{ fontSize: "52px", marginBottom: "16px" }}>🎉</div>
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                margin: "0 auto 16px",
+                borderRadius: "16px",
+                backgroundColor: "rgba(52, 211, 153, 0.14)",
+                color: "#10B981",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconCheckCircle size={28} />
+            </div>
             <div
               style={{
                 backgroundColor: "rgba(52, 211, 153, 0.12)",
@@ -144,6 +159,7 @@ function ResetPassword() {
                 />
                 <button
                   type="button"
+                  aria-label={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   onClick={() => setMostrarPassword(!mostrarPassword)}
                   style={{
                     position: "absolute",
@@ -153,10 +169,14 @@ function ResetPassword() {
                     background: "none",
                     border: "none",
                     cursor: "pointer",
-                    fontSize: "18px",
+                    color: "#64748B",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "4px",
                   }}
                 >
-                  {mostrarPassword ? "👁️" : "🙈"}
+                  {mostrarPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
                 </button>
               </div>
               {errorPassword && <p className="field-error">{errorPassword}</p>}

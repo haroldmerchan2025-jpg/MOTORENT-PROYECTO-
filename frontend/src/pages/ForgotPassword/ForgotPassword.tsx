@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
+import { IconMail } from "../../components/Icons";
 import "../Login/Login.css";
 
 function ForgotPassword() {
@@ -72,7 +73,21 @@ function ForgotPassword() {
 
         {mensajeExito ? (
           <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <div style={{ fontSize: "48px", marginBottom: "16px" }}>✉️</div>
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                margin: "0 auto 16px",
+                borderRadius: "16px",
+                backgroundColor: "rgba(52, 211, 153, 0.14)",
+                color: "#10B981",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconMail size={26} />
+            </div>
             <div
               style={{
                 backgroundColor: "rgba(52, 211, 153, 0.12)",
@@ -88,7 +103,7 @@ function ForgotPassword() {
               {mensajeExito}
             </div>
             <p style={{ color: "#7A8E9F", fontSize: "13px", marginBottom: "24px" }}>
-              💡 Revisa tu bandeja de entrada o carpeta de spam. (Si estás probando en desarrollo, mira la terminal del backend).
+              Revisa tu bandeja de entrada o carpeta de spam. (Si estás probando en desarrollo, mira la terminal del backend).
             </p>
             <Link to="/login" className="auth-button" style={{ display: "block", textDecoration: "none", textAlign: "center" }}>
               Volver a Iniciar Sesión

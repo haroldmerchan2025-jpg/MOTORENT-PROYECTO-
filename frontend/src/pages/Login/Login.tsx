@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
+import { IconEye, IconEyeOff } from "../../components/Icons";
 import "./Login.css";
 
 function Login() {
@@ -119,6 +120,7 @@ function Login() {
             />
             <button
               type="button"
+              aria-label={mostrarPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
               onClick={() => setMostrarPassword(!mostrarPassword)}
               style={{
                 position: "absolute",
@@ -128,10 +130,14 @@ function Login() {
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                fontSize: "18px"
+                color: "#64748B",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "4px",
               }}
             >
-              {mostrarPassword ? "👁️" : "🙈"} 
+              {mostrarPassword ? <IconEyeOff size={18} /> : <IconEye size={18} />}
             </button>
           </div>
           {errorPassword && <p className="field-error">{errorPassword}</p>}

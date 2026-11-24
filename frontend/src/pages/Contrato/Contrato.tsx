@@ -1,5 +1,6 @@
 // frontend/src/pages/Contrato/Contrato.tsx
 import { useNavigate } from "react-router-dom";
+import { IconFileText, IconMail } from "../../components/Icons";
 import "./Contrato.css";
 
 export default function Contrato() {
@@ -50,7 +51,9 @@ export default function Contrato() {
             
             {/* Aquí puedes reemplazar este bloque cuando tengas el contrato listo */}
             <div className="contrato-placeholder">
-              <div className="placeholder-icon">📄</div>
+              <div className="placeholder-icon" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 52, height: 52, borderRadius: 14, backgroundColor: "#F1F5F9", color: "#0F2537" }}>
+                <IconFileText size={24} />
+              </div>
               <h4>Espacio para el Contrato</h4>
               <p>
                 Aquí se renderizará el contenido del contrato oficial antes de formalizar la renta.
@@ -63,7 +66,9 @@ export default function Contrato() {
           {/* Barra inferior de acciones */}
           <div className="contrato-footer-actions">
             <div className="delivery-notice">
-              <span>📩</span>
+              <span style={{ display: "inline-flex", color: "#0F2537" }}>
+                <IconMail size={18} />
+              </span>
               <p>
                 Al formalizar, el contrato firmado se enviará automáticamente al arrendador y al arrendatario.
               </p>

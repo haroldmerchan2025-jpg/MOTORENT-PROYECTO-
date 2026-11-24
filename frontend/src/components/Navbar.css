@@ -99,6 +99,12 @@
   color: #475569;
 }
 
+.navbar-role-pill--pending {
+  background-color: #FFFBEB;
+  border-color: #FDE68A;
+  color: #B45309;
+}
+
 .navbar-role-pill--renter {
   background-color: #ECFDF5;
   border-color: #A7F3D0;

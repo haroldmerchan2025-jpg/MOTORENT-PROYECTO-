@@ -1,6 +1,7 @@
 // frontend/src/pages/Publicarmoto/publicarmoto.tsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { IconAlertTriangle, IconCheckCircle } from "../../components/Icons";
 import "./publicarmoto.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -195,7 +196,22 @@ function PublicarMoto() {
       <main className="publish-container">
         {publicadoExitoso ? (
           <div className="success-card">
-            <div className="success-icon">🎉</div>
+            <div
+              className="success-icon"
+              style={{
+                width: "60px",
+                height: "60px",
+                margin: "0 auto 16px",
+                borderRadius: "16px",
+                backgroundColor: "#DCFCE7",
+                color: "#15803D",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconCheckCircle size={30} />
+            </div>
             <h2>¡Tu moto ha sido registrada con éxito!</h2>
             <p>
               Registramos tu <strong>{formData.brand} {formData.model}</strong> ({formData.licensePlate.toUpperCase()}).
@@ -234,9 +250,13 @@ function PublicarMoto() {
                   marginBottom: "24px",
                   fontSize: "14px",
                   fontWeight: "600",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
                 }}
               >
-                ⚠️ {apiError}
+                <IconAlertTriangle size={17} />
+                <span>{apiError}</span>
               </div>
             )}
 

@@ -2,6 +2,13 @@
 import "./perfil.css";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  IconAlertTriangle,
+  IconIdCard,
+  IconInfo,
+  IconLandmark,
+  IconUser,
+} from "../../components/Icons";
 
 // Si no existe variable de entorno, usa el puerto 3000 del backend
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -197,9 +204,13 @@ function Perfil() {
               borderRadius: "8px",
               marginBottom: "16px",
               fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
-            ⚠️ {errorCarga}
+            <IconAlertTriangle size={17} />
+            <span>{errorCarga}</span>
           </div>
         )}
 
@@ -208,20 +219,26 @@ function Perfil() {
           <button
             className={tabActiva === "datos" ? "tab-btn active" : "tab-btn"}
             onClick={() => setTabActiva("datos")}
+            style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
           >
-            👤 Mis Datos Personales
+            <IconUser size={16} />
+            <span>Mis Datos Personales</span>
           </button>
           <button
             className={tabActiva === "conductor" ? "tab-btn active" : "tab-btn"}
             onClick={() => setTabActiva("conductor")}
+            style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
           >
-            🪪 Perfil Conductor (Cliente)
+            <IconIdCard size={16} />
+            <span>Perfil Conductor (Cliente)</span>
           </button>
           <button
             className={tabActiva === "propietario" ? "tab-btn active" : "tab-btn"}
             onClick={() => setTabActiva("propietario")}
+            style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
           >
-            🏦 Perfil Propietario (Dueño)
+            <IconLandmark size={16} />
+            <span>Perfil Propietario (Dueño)</span>
           </button>
         </div>
 
@@ -443,7 +460,9 @@ function Perfil() {
               </div>
 
               <div className="info-box-payout">
-                <span>💡</span>
+                <span style={{ display: "inline-flex", color: "#0F2537", marginTop: "2px" }}>
+                  <IconInfo size={18} />
+                </span>
                 <p>
                   Los pagos de tus alquileres se liquidan automáticamente a tu cuenta cada semana o al finalizar cada contrato de renta.
                 </p>

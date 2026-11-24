@@ -137,7 +137,15 @@
 }
 
 .active-rental-icon {
-  font-size: 36px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: rgba(255, 106, 61, 0.16);
+  color: #FF8A65;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .active-rental-info {
@@ -210,8 +218,20 @@
 }
 
 .stat-icon {
-  font-size: 24px;
-  margin-bottom: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #F1F5F9;
+  color: #0F2537;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.stat-card.highlight .stat-icon {
+  background-color: #DCFCE7;
+  color: #15803D;
 }
 
 .stat-number {

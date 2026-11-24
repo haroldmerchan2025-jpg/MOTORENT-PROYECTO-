@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import logo from "../../assets/logo/logo.png";
+import { IconAlertTriangle, IconCheckCircle, IconClock } from "../../components/Icons";
 import "../Login/Login.css";
 
 function VerificarCorreo() {
@@ -49,7 +50,21 @@ function VerificarCorreo() {
         {/* 1. ESTADO: CARGANDO */}
         {estado === "cargando" && (
           <div style={{ padding: "20px 0" }}>
-            <div style={{ fontSize: "52px", marginBottom: "16px" }}>⏳</div>
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                margin: "0 auto 16px",
+                borderRadius: "16px",
+                backgroundColor: "rgba(255, 106, 61, 0.14)",
+                color: "#FF6A3D",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconClock size={26} />
+            </div>
             <h2>Verificando tu correo...</h2>
             <p style={{ color: "#7A8E9F", fontSize: "14px", marginTop: "8px" }}>
               Espera un momento mientras confirmamos tu cuenta en MotoRent.
@@ -60,8 +75,22 @@ function VerificarCorreo() {
         {/* 2. ESTADO: ÉXITO */}
         {estado === "exito" && (
           <div style={{ padding: "20px 0" }}>
-            <div style={{ fontSize: "52px", marginBottom: "16px" }}>✅</div>
-            <h2 style={{ color: "#34D399" }}>¡Correo Verificado!</h2>
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                margin: "0 auto 16px",
+                borderRadius: "16px",
+                backgroundColor: "rgba(52, 211, 153, 0.14)",
+                color: "#10B981",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconCheckCircle size={28} />
+            </div>
+            <h2 style={{ color: "#34D399" }}>Correo verificado</h2>
             <div
               style={{
                 backgroundColor: "rgba(52, 211, 153, 0.12)",
@@ -91,7 +120,21 @@ function VerificarCorreo() {
         {/* 3. ESTADO: ERROR O EXPIRADO */}
         {estado === "error" && (
           <div style={{ padding: "20px 0" }}>
-            <div style={{ fontSize: "52px", marginBottom: "16px" }}>⚠️</div>
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                margin: "0 auto 16px",
+                borderRadius: "16px",
+                backgroundColor: "rgba(239, 68, 68, 0.14)",
+                color: "#EF4444",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IconAlertTriangle size={26} />
+            </div>
             <h2 style={{ color: "#EF4444" }}>No pudimos verificar tu correo</h2>
             <div
               style={{

@@ -1,6 +1,7 @@
 import "./Home.css";
 import moto1 from "../../assets/imagenes/moto1.jpeg";
 import { Link } from "react-router-dom";
+import { IconClock, IconCreditCard, IconShieldCheck } from "../../components/Icons";
 
 function Home() {
 
@@ -98,7 +99,9 @@ function Home() {
 
               <div className="owner-perks">
                 <div className="perk">
-                  <span className="perk-icon">🛡️</span>
+                  <span className="perk-icon">
+                    <IconShieldCheck size={20} />
+                  </span>
                   <div>
                     <h4>Conductores verificados</h4>
                     <p>Revisamos antecedentes, cédula y licencia de cada cliente.</p>
@@ -106,7 +109,9 @@ function Home() {
                 </div>
 
                 <div className="perk">
-                  <span className="perk-icon">💳</span>
+                  <span className="perk-icon">
+                    <IconCreditCard size={20} />
+                  </span>
                   <div>
                     <h4>Pagos seguros a tu cuenta</h4>
                     <p>Recibe tus ganancias directamente en Bancolombia, Nequi o Daviplata.</p>
@@ -114,7 +119,9 @@ function Home() {
                 </div>
 
                 <div className="perk">
-                  <span className="perk-icon">⏱️</span>
+                  <span className="perk-icon">
+                    <IconClock size={20} />
+                  </span>
                   <div>
                     <h4>Control total de calendario</h4>
                     <p>Bloquea fechas cuando tú quieras usar tu propia moto.</p>
