@@ -1,27 +1,25 @@
 /* frontend/src/components/Navbar.css */
 
-/* ====================================================================== */
-/* CONTENEDOR GLOBAL DE LA BARRA (ALTURA FIJA PARA QUE NUNCA SE MUEVA)     */
-/* ====================================================================== */
 .global-navbar {
   height: 70px;
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid #E2E8F0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 48px;
+  padding: 0 44px;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 6px rgba(15, 37, 55, 0.04);
 }
 
 /* LOGO */
 .navbar-logo {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   text-decoration: none;
   color: #0F2537;
   white-space: nowrap;
@@ -31,49 +29,95 @@
   color: #FF6A3D;
 }
 
-/* ENLACES DEL CENTRO */
+/* ENLACES PRINCIPALES */
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
 }
 
 .navbar-links a {
-  color: #4A5568;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #475569;
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
-  transition: color 0.2s ease;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s ease, border-color 0.18s ease;
 }
 
 .navbar-links a:hover,
 .navbar-links a.active {
-  color: #FF6A3D;
+  color: #0F2537;
+  border-bottom-color: #FF6A3D;
 }
 
-/* Botón especial para publicar moto */
+/* Botón destacado sobrio para publicar moto (solo Propietarios aprobados) */
 .nav-btn-publish {
-  background-color: rgba(255, 106, 61, 0.12);
-  color: #FF6A3D !important;
-  padding: 8px 14px;
-  border-radius: 8px;
+  background-color: #0F2537;
+  color: #FFFFFF !important;
+  padding: 8px 14px !important;
+  border-radius: 9px;
+  border-bottom: none !important;
+  box-shadow: 0 2px 8px rgba(15, 37, 55, 0.14);
+  transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
-.nav-btn-publish:hover {
-  background-color: #FF6A3D;
+.nav-btn-publish:hover,
+.nav-btn-publish.active {
+  background-color: #163752;
   color: #FFFFFF !important;
+  transform: translateY(-1px);
 }
 
 /* LADO DERECHO */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-/* ====================================================================== */
-/* BOTONES DE NOTIFICACIÓN Y AVATAR                                       */
-/* ====================================================================== */
+/* INSIGNIA DE ROL ACTIVO */
+.navbar-role-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.navbar-role-pill--user {
+  background-color: #F1F5F9;
+  border-color: #E2E8F0;
+  color: #475569;
+}
+
+.navbar-role-pill--renter {
+  background-color: #ECFDF5;
+  border-color: #A7F3D0;
+  color: #065F46;
+}
+
+.navbar-role-pill--owner {
+  background-color: #FFF7ED;
+  border-color: #FED7AA;
+  color: #9A3412;
+}
+
+.navbar-role-pill--admin {
+  background-color: #EEF2FF;
+  border-color: #C7D2FE;
+  color: #3730A3;
+}
+
+/* BOTONES DE NOTIFICACIÓN Y AVATAR */
 .dropdown-container {
   position: relative;
 }
@@ -81,84 +125,91 @@
 .icon-button {
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
+  color: #334155;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   position: relative;
-  transition: all 0.2s ease;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .icon-button:hover {
-  background-color: #EDF2F7;
-  border-color: #CBD5E0;
+  background-color: #F1F5F9;
+  border-color: #CBD5E1;
+  color: #0F2537;
 }
 
-/* Punto rojo de notificaciones no leídas */
 .notif-badge {
   position: absolute;
   top: -2px;
   right: -2px;
-  background-color: #EF4444;
+  background-color: #FF6A3D;
   color: #FFFFFF;
   font-size: 10px;
   font-weight: 800;
-  width: 18px;
+  min-width: 18px;
   height: 18px;
-  border-radius: 50%;
+  padding: 0 4px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid #FFFFFF;
 }
 
-/* Avatar con la letra del usuario */
 .avatar-button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #0F2537;
+  background: linear-gradient(135deg, #0F2537 0%, #1C3F5E 100%);
   color: #FFFFFF;
   border: 2px solid #E2E8F0;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .avatar-button:hover {
   border-color: #FF6A3D;
-  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(255, 106, 61, 0.14);
+  transform: scale(1.03);
 }
 
-/* ====================================================================== */
-/* MENÚS DESPLEGABLES (DROPDOWNS)                                         */
-/* ====================================================================== */
+/* MENÚS DESPLEGABLES */
 .dropdown-menu {
   position: absolute;
   top: 52px;
   right: 0;
   background-color: #FFFFFF;
   border: 1px solid #E2E8F0;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  animation: slideDown 0.15s ease-out;
+  border-radius: 16px;
+  box-shadow:
+    0 18px 40px -10px rgba(15, 37, 55, 0.16),
+    0 4px 12px -2px rgba(15, 37, 55, 0.06);
+  animation: navSlideDown 0.16s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1001;
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes navSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-/* Menú de Notificaciones */
+/* NOTIFICACIONES */
 .notif-dropdown {
   width: 320px;
   padding: 12px 0;
@@ -176,14 +227,15 @@
   font-size: 14px;
   font-weight: 700;
   color: #0F2537;
+  margin: 0;
 }
 
 .btn-mark-read {
   background: none;
   border: none;
   color: #FF6A3D;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -210,85 +262,147 @@
   font-size: 13px;
   font-weight: 700;
   color: #0F2537;
-  margin-bottom: 2px;
+  margin: 0 0 2px;
 }
 
 .notif-desc {
   font-size: 12px;
   color: #64748B;
   line-height: 1.4;
-  margin-bottom: 4px;
+  margin: 0 0 4px;
 }
 
 .notif-time {
-  font-size: 10px;
+  font-size: 10.5px;
   color: #94A3B8;
 }
 
-/* Menú de Perfil */
+/* MENÚ DE PERFIL */
 .profile-dropdown {
-  width: 240px;
-  padding: 12px 0;
+  width: 280px;
+  padding: 10px 8px;
 }
 
 .profile-dropdown-user {
   display: flex;
-  gap: 12px;
+  gap: 11px;
   align-items: center;
-  padding: 4px 16px 12px;
+  padding: 8px 10px 12px;
 }
 
 .avatar-small {
-  width: 36px;
-  height: 36px;
-  background-color: #0F2537;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #0F2537 0%, #1C3F5E 100%);
   color: #FFFFFF;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
+}
+
+.profile-meta {
+  min-width: 0;
 }
 
 .profile-name {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #0F2537;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .profile-role {
-  font-size: 11px;
-  color: #718096;
+  font-size: 11.5px;
+  color: #64748B;
+  margin: 2px 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-divider {
   height: 1px;
   background-color: #F1F5F9;
-  margin: 6px 0;
+  margin: 6px 8px;
+}
+
+.dropdown-section-label {
+  display: block;
+  padding: 6px 10px 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: #94A3B8;
 }
 
 .dropdown-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   text-align: left;
-  padding: 10px 16px;
+  padding: 9px 10px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 600;
-  color: #2D3748;
+  color: #334155;
   text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-link svg {
+  flex-shrink: 0;
+  color: #64748B;
+  transition: color 0.15s ease;
 }
 
 .dropdown-link:hover {
   background-color: #F8FAFC;
+  color: #0F2537;
+}
+
+.dropdown-link:hover svg {
   color: #FF6A3D;
 }
 
+.dropdown-link-text {
+  flex: 1;
+}
+
+.nav-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.nav-status-pill--pending {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.nav-status-pill--rejected {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
 .logout-link {
+  color: #DC2626 !important;
+}
+
+.logout-link svg {
   color: #DC2626 !important;
 }
 
@@ -296,10 +410,11 @@
   background-color: #FEF2F2 !important;
 }
 
-/* BOTONES PARA INVITADOS (GUEST) */
+/* INVITADOS */
 .guest-buttons {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
 }
 
 .btn-nav-login {
@@ -308,31 +423,36 @@
   font-weight: 600;
   font-size: 14px;
   padding: 8px 14px;
+  border-radius: 8px;
+  transition: background-color 0.18s ease;
+}
+
+.btn-nav-login:hover {
+  background-color: #F1F5F9;
 }
 
 .btn-nav-register {
   background-color: #FF6A3D;
   color: #FFFFFF;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   padding: 8px 18px;
-  border-radius: 8px;
-  transition: background-color 0.2s;
+  border-radius: 9px;
+  transition: background-color 0.18s ease;
 }
 
 .btn-nav-register:hover {
   background-color: #E5541F;
 }
 
-/* ====================================================================== */
-/* RESPONSIVE                                                             */
-/* ====================================================================== */
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .global-navbar {
-    padding: 0 20px;
+    padding: 0 18px;
   }
-  .navbar-links {
-    display: none; /* En móvil se puede desplegar menú hamburguesa */
+  .navbar-links,
+  .navbar-role-pill {
+    display: none;
   }
 }
