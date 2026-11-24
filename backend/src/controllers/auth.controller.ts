@@ -7,12 +7,14 @@ export const newUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
 
-    const newUser = await registerUser(userData);
+    const { token, user } = await registerUser(userData);
 
     return res.status(201).json({
       ok: true,
       message: "Usuario creado",
-      data: newUser,
+      token,
+      user,
+      data: user,
     });
   } catch (error) {
     console.error(error);

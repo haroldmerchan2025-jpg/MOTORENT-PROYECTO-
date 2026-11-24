@@ -2,6 +2,7 @@
 import { findEmail, findNumber, findUserName,createUser } from "../repositories/auth.repository.js";
 import { AppError} from "../utils/response.util.js"
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 interface createUserData {
   username: string;
@@ -43,6 +44,25 @@ export const registerUser = async (newUser: createUserData) => {
 
 const { password: ignorePassword, ...userWithoutPassword } = creationUser;
 
+const jwtSecret = process.env.JWT_SECRET;
 
-return userWithoutPassword;
+if (!jwtSecret) {
+  throw new AppError("Error de configuración del servidor", 500);
+}
+
+const token = jwt.sign(
+  {
+    id: creationUser.id,
+    role: creationUser.role,
+  },
+  jwtSecret,
+  {
+    expiresIn: "1d",
+  }
+);
+
+return {
+  token,
+  user: userWithoutPassword,
+};
 };

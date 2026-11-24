@@ -117,9 +117,40 @@ function Register() {
         return;
       }
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      navigate("/motos", { replace: true });
+      let token: string | undefined = data.token || data.data?.token;
+      let user = data.user || data.data?.user || data.data;
+
+      // Respaldo: si el registro no devolviera token, iniciamos sesión automáticamente
+      if (!token) {
+        const loginResponse = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identifier: usuario,
+            password: password,
+          }),
+        });
+
+        const loginData = await loginResponse.json();
+        if (loginResponse.ok) {
+          token = loginData.data?.token || loginData.token;
+          user = loginData.data?.user || loginData.user || user;
+        }
+      }
+
+      if (!token) {
+        setApiError("Cuenta creada, pero no se pudo iniciar sesión automáticamente. Ingresa desde Iniciar sesión.");
+        setCargando(false);
+        return;
+      }
+
+      localStorage.setItem("token", token);
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       console.error(error);
       setApiError("No se pudo conectar con el servidor backend.");
